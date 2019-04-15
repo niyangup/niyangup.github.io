@@ -6,21 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Android中Xml的生成 | Hexo</title>
+  <title>Android中Xml的生成 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在Android中有两种方式1.使用StringBuffer拼接不说了2.使用Xml下的序列化器进行创建代码如下:    try {            // 通过Xml.newSerializer实例化一个对象            XmlSerializer serializer = Xml.newSerializer();            // 为serializer设置参数getF">
+  <meta name="description" content="在Android中有两种方式1.使用StringBuffer拼接不说了2.使用Xml下的序列化器进行创建代码如下:1234567891011121314151617181920212223242526272829303132333435363738394041try &amp;#123;		// 通过Xml.newSerializer实例化一个对象		XmlSerializer serializer =">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android中Xml的生成">
 <meta property="og:url" content="http://yoursite.com/2019/04/15/Android中Xml的生成和解析/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="在Android中有两种方式1.使用StringBuffer拼接不说了2.使用Xml下的序列化器进行创建代码如下:    try {            // 通过Xml.newSerializer实例化一个对象            XmlSerializer serializer = Xml.newSerializer();            // 为serializer设置参数getF">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="在Android中有两种方式1.使用StringBuffer拼接不说了2.使用Xml下的序列化器进行创建代码如下:1234567891011121314151617181920212223242526272829303132333435363738394041try &amp;#123;		// 通过Xml.newSerializer实例化一个对象		XmlSerializer serializer =">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-15T12:25:22.130Z">
+<meta property="og:image" content="http://yoursite.com/2019/04/15/Android中Xml的生成和解析/img/xml.png">
+<meta property="og:updated_time" content="2019-04-15T13:15:17.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android中Xml的生成">
-<meta name="twitter:description" content="在Android中有两种方式1.使用StringBuffer拼接不说了2.使用Xml下的序列化器进行创建代码如下:    try {            // 通过Xml.newSerializer实例化一个对象            XmlSerializer serializer = Xml.newSerializer();            // 为serializer设置参数getF">
+<meta name="twitter:description" content="在Android中有两种方式1.使用StringBuffer拼接不说了2.使用Xml下的序列化器进行创建代码如下:1234567891011121314151617181920212223242526272829303132333435363738394041try &amp;#123;		// 通过Xml.newSerializer实例化一个对象		XmlSerializer serializer =">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/15/Android中Xml的生成和解析/img/xml.png">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -50,7 +52,7 @@
 			<img src class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		  <h1 class="header-author"><a href="/">NiYang</a></h1>
 		</hgroup>
 		
 
@@ -108,7 +110,7 @@
 				<img src class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">John Doe</h1>
+			  <h1 class="header-author js-header-author">NiYang</h1>
 			</hgroup>
 			
 			
@@ -174,7 +176,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <body><br>在Android中有两种方式<br><h3>1.使用StringBuffer拼接</h3><br><p>不说了</p><br><h3>2.使用Xml下的序列化器进行创建</h3><br>代码如下:<br>    try {<br>            // 通过Xml.newSerializer实例化一个对象<br>            XmlSerializer serializer = Xml.newSerializer();<br>            // 为serializer设置参数getFilesDir().getPath()<br>            File file = new File(getFilesDir().getPath(), “MyXml.xml”);<br>            FileOutputStream fos = new FileOutputStream(file);<br>            serializer.setOutput(fos, “UTF-8”);<br>            // 写XML的开头<br>            serializer.startDocument(“UTF-8”, true);<br>            // 开始标签 参数1 命名空间 一般为null, 参数2 标签名<br>            serializer.startTag(null, “smss”);<br><br>            for (int i = 0; i &lt; 3; i++) {<br>                serializer.startTag(null, “sms”);<br><br>                // address节点<br>                serializer.startTag(null, “address”);<br>                serializer.text(“地点” + i);<br>                serializer.endTag(null, “address”);<br><br>                // date节点<br>                serializer.startTag(null, “date”);<br>                serializer.text(“时间” + i);<br>                serializer.endTag(null, “date”);<br><br>                // phone节点<br>                serializer.startTag(null, “phone”);<br>                serializer.text(“138” + i);<br>                serializer.endTag(null, “phone”);<br><br>                serializer.endTag(null, “sms”);<br>            }<br>            // 结束标签,对应开始标签<br>            serializer.endTag(null, “smss”);<br>            fos.close();<br>            // 文档的结尾<br>            serializer.endDocument();<br>        } catch (Exception e) {<br>            // TODO Auto-generated catch block<br>            e.printStackTrace();<br>        }<br></body>
+        <body><br>在Android中有两种方式<br><h3>1.使用StringBuffer拼接</h3><br><p>不说了</p><br><h3>2.使用Xml下的序列化器进行创建</h3><br>代码如下:<br><pre><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="comment">// 通过Xml.newSerializer实例化一个对象</span></span><br><span class="line">		XmlSerializer serializer = Xml.newSerializer();</span><br><span class="line">		<span class="comment">// 为serializer设置参数getFilesDir().getPath()</span></span><br><span class="line">		File file = <span class="keyword">new</span> File(getFilesDir().getPath(), <span class="string">"MyXml.xml"</span>);</span><br><span class="line">		FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">		serializer.setOutput(fos, <span class="string">"UTF-8"</span>);</span><br><span class="line">		<span class="comment">// 写XML的开头</span></span><br><span class="line">		serializer.startDocument(<span class="string">"UTF-8"</span>, <span class="keyword">true</span>);</span><br><span class="line">		<span class="comment">// 开始标签 参数1 命名空间 一般为null, 参数2 标签名</span></span><br><span class="line">		serializer.startTag(<span class="keyword">null</span>, <span class="string">"smss"</span>);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">			serializer.startTag(<span class="keyword">null</span>, <span class="string">"sms"</span>);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// address节点</span></span><br><span class="line">			serializer.startTag(<span class="keyword">null</span>, <span class="string">"address"</span>);</span><br><span class="line">			serializer.text(<span class="string">"地点"</span> + i);</span><br><span class="line">			serializer.endTag(<span class="keyword">null</span>, <span class="string">"address"</span>);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// date节点</span></span><br><span class="line">			serializer.startTag(<span class="keyword">null</span>, <span class="string">"date"</span>);</span><br><span class="line">			serializer.text(<span class="string">"时间"</span> + i);</span><br><span class="line">			serializer.endTag(<span class="keyword">null</span>, <span class="string">"date"</span>);</span><br><span class="line"></span><br><span class="line">			<span class="comment">// phone节点</span></span><br><span class="line">			serializer.startTag(<span class="keyword">null</span>, <span class="string">"phone"</span>);</span><br><span class="line">			serializer.text(<span class="string">"138"</span> + i);</span><br><span class="line">			serializer.endTag(<span class="keyword">null</span>, <span class="string">"phone"</span>);</span><br><span class="line"></span><br><span class="line">			serializer.endTag(<span class="keyword">null</span>, <span class="string">"sms"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 结束标签,对应开始标签</span></span><br><span class="line">		serializer.endTag(<span class="keyword">null</span>, <span class="string">"smss"</span>);</span><br><span class="line">		<span class="comment">// 文档的结尾</span></span><br><span class="line">		serializer.endDocument();</span><br><span class="line">		fos.close();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure><br><br></pre><br>Xml截图如下:<br><img src="img\xml.png"><br></body>
       
 
       
@@ -312,7 +314,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 John Doe
+    		&copy; 2019 NiYang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
