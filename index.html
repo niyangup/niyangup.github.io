@@ -152,6 +152,68 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Android中Xml的生成和解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/15/Android中Xml的生成和解析/">Android中Xml的生成</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/15/Android中Xml的生成和解析/" class="archive-article-date">
+  	<time datetime="2019-04-15T11:51:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <body><br>在Android中有两种方式<br><h3>1.使用StringBuffer拼接</h3><br><p>不说了</p><br><h3>2.使用Xml下的序列化器进行创建</h3><br>代码如下:<br>    try {<br>            // 通过Xml.newSerializer实例化一个对象<br>            XmlSerializer serializer = Xml.newSerializer();<br>            // 为serializer设置参数getFilesDir().getPath()<br>            File file = new File(getFilesDir().getPath(), “MyXml.xml”);<br>            FileOutputStream fos = new FileOutputStream(file);<br>            serializer.setOutput(fos, “UTF-8”);<br>            // 写XML的开头<br>            serializer.startDocument(“UTF-8”, true);<br>            // 开始标签 参数1 命名空间 一般为null, 参数2 标签名<br>            serializer.startTag(null, “smss”);<br><br>            for (int i = 0; i &lt; 3; i++) {<br>                serializer.startTag(null, “sms”);<br><br>                // address节点<br>                serializer.startTag(null, “address”);<br>                serializer.text(“地点” + i);<br>                serializer.endTag(null, “address”);<br><br>                // date节点<br>                serializer.startTag(null, “date”);<br>                serializer.text(“时间” + i);<br>                serializer.endTag(null, “date”);<br><br>                // phone节点<br>                serializer.startTag(null, “phone”);<br>                serializer.text(“138” + i);<br>                serializer.endTag(null, “phone”);<br><br>                serializer.endTag(null, “sms”);<br>            }<br>            // 结束标签,对应开始标签<br>            serializer.endTag(null, “smss”);<br>            fos.close();<br>            // 文档的结尾<br>            serializer.endDocument();<br>        } catch (Exception e) {<br>            // TODO Auto-generated catch block<br>            e.printStackTrace();<br>        }<br></body>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/15/Android中Xml的生成和解析/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
