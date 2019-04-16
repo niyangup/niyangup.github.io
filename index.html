@@ -150,534 +150,1070 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Android中ListView的使用-2-SimpleAdapter" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中ListView的使用-2-SimpleAdapter/">Android中ListView的使用(2)SimpleAdapter</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中ListView的使用-2-SimpleAdapter/" class="archive-article-date">
-  	<time datetime="2019-04-16T11:21:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>上一篇采用了ArrayAdapter,本篇将采用SimpleAdapter来演示较复杂的ListView<br>1.item.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"wrap_content"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:<span class="keyword">id</span>=<span class="string">"@+id/kind"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_weight=<span class="string">"1"</span></span><br><span class="line">        android:text=<span class="string">"kind"</span></span><br><span class="line">        android:textSize=<span class="string">"20sp"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:<span class="keyword">id</span>=<span class="string">"@+id/price"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_weight=<span class="string">"1"</span></span><br><span class="line">        android:text=<span class="string">"price"</span></span><br><span class="line">        android:textSize=<span class="string">"20sp"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>2.MainActivity.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.c;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.Menu;</span><br><span class="line"><span class="keyword">import</span> android.view.MenuItem;</span><br><span class="line"><span class="keyword">import</span> android.widget.ListView;</span><br><span class="line"><span class="keyword">import</span> android.widget.SimpleAdapter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ListView listView = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">private</span> List&lt;Map&lt;String, Object&gt;&gt; data;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line">		listView = (ListView) findViewById(R.id.list);</span><br><span class="line">		<span class="comment">// 数据源</span></span><br><span class="line">		<span class="comment">// simpleAdapter的数据源使用的是List&lt;Map&lt;String, Object&gt;&gt;存储Map对象</span></span><br><span class="line">		<span class="comment">// Map则存储ListView上的数据</span></span><br><span class="line">		Map&lt;String, Object&gt; item1 = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">		item1.put(<span class="string">"kind"</span>, <span class="string">"牛仔"</span>);</span><br><span class="line">		item1.put(<span class="string">"price"</span>, <span class="string">"100"</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 步骤1：一个列表项的内容，就是一个item，即一个Map</span></span><br><span class="line">		Map&lt;String, Object&gt; item2 = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">		item2.put(<span class="string">"kind"</span>, <span class="string">"短袖"</span>);</span><br><span class="line">		item2.put(<span class="string">"price"</span>, <span class="string">"30"</span>);</span><br><span class="line">		Map&lt;String, Object&gt; item3 = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">		item3.put(<span class="string">"kind"</span>, <span class="string">"短裤"</span>);</span><br><span class="line">		item3.put(<span class="string">"price"</span>, <span class="string">"50"</span>);</span><br><span class="line">		<span class="comment">// 步骤2：把这些Map放到List当中</span></span><br><span class="line">		List&lt;Map&lt;String, Object&gt;&gt; data = <span class="keyword">new</span> ArrayList&lt;Map&lt;String, Object&gt;&gt;();</span><br><span class="line">		data.add(item1);</span><br><span class="line">		data.add(item2);</span><br><span class="line">		data.add(item3);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 适配器</span></span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 参数1:上下文 参数2:ListView上item的布局 参数3:用字符串数组表示的数据源Map的key</span></span><br><span class="line"><span class="comment">		 * 参数4:用int数组表示的item布局上对应的id 最后将Map中key对应的value映射到对应的id,所以String[] int[]应对应好</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		SimpleAdapter simpleAdapter = <span class="keyword">new</span> SimpleAdapter(<span class="keyword">this</span>, data, R.layout.item, <span class="keyword">new</span> String[] &#123; <span class="string">"kind"</span>, <span class="string">"price"</span> &#125;,<span class="keyword">new</span> <span class="keyword">int</span>[] &#123; R.id.kind, R.id.price &#125;);</span><br><span class="line">		<span class="comment">// 适配</span></span><br><span class="line">		listView.setAdapter(simpleAdapter);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>运行后截图如下:<br><img src="img\simpleadapter截图.png"><br></body>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中ListView的使用-2-SimpleAdapter/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
 
   
-    <article id="post-Android中ListView的使用-1-ArrayAdapter" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中ListView的使用-1-ArrayAdapter/">Android中ListView的使用(1)ArrayAdapter</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中ListView的使用-1-ArrayAdapter/" class="archive-article-date">
-  	<time datetime="2019-04-16T11:05:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>ListView是Android中最常用的控件,可以说几乎每个APP里面都又ListView的应用,现在用最简单的ArrayAdapter来演示ListView的使用<br>ListView中最主要的3个步骤是(1)数据源 (2)适配器 (3)适配<br><br><br>1.item.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"80dp"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id=<span class="string">"@+id/tv_content"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:text=<span class="string">"123"</span></span><br><span class="line">        android:textColor=<span class="string">"#000000"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>2.ContentActivity.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.conn;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.widget.AdapterView;</span><br><span class="line"><span class="keyword">import</span> android.widget.AdapterView.OnItemClickListener;</span><br><span class="line"><span class="keyword">import</span> com.example.intentp.R;</span><br><span class="line"><span class="keyword">import</span> android.widget.ArrayAdapter;</span><br><span class="line"><span class="keyword">import</span> android.widget.ListView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContentActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ListView mLvContent;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_content);</span><br><span class="line">		mLvContent = (ListView) findViewById(R.id.lv_content);</span><br><span class="line">		<span class="comment">//数据源,用字符串数组表示</span></span><br><span class="line">		<span class="keyword">final</span> String[] objects = &#123; <span class="string">"心中若无烦恼事，便是人生好时节，愿您晨有清逸暮有悠闲，春有百花秋望月，夏有凉风冬听雪，梦随心动心随梦求，祝春节愉快！"</span>,</span><br><span class="line">				<span class="string">"当我翻看口袋，发现里面空空的；当我翻看钱包，里面一分钱都没有；当我回味生活，我发现你的存在是我最大的财富！"</span>,</span><br><span class="line">				<span class="string">"阳光，送给你温暖；星星，许给你温馨；短信，传给你祝福；春节，送给你祝愿。愿你在新的一年里快乐连连，笑容甜甜，钱包圆圆！"</span>,</span><br><span class="line">				<span class="string">"今夕是何夕？原来是除夕。欢欢喜喜在今夕，甜甜蜜蜜在瞬息，想念之情在旦夕，祝福之情在朝夕，愿你开心心悠夕!"</span> &#125;;</span><br><span class="line">		<span class="comment">//适配器,这里使用ArrayAdapter</span></span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 参数1:上下文</span></span><br><span class="line"><span class="comment">		 * 参数2:item的布局</span></span><br><span class="line"><span class="comment">		 * 参数3:item里控件的id</span></span><br><span class="line"><span class="comment">		 * 参数4:数据源</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		ArrayAdapter&lt;String&gt; adapter = <span class="keyword">new</span> ArrayAdapter&lt;String&gt;(getApplicationContext(), </span><br><span class="line">		R.layout.item_content,</span><br><span class="line">		R.id.tv_content, objects);</span><br><span class="line">		<span class="comment">//适配</span></span><br><span class="line">		mLvContent.setAdapter(adapter);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>运行后截图如下:<br><img src="img\ArrayAdapter截图.png"><br></body>
-      
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中ListView的使用-1-ArrayAdapter/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
 
   
-    <article id="post-Android中数据库的事务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中数据库的事务/">Android中数据库的事务</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中数据库的事务/" class="archive-article-date">
-  	<time datetime="2019-04-16T09:52:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>简答来说,我们想让几条业务逻辑要么都完成,要么都失败(参考银行转账) 这时就可以用事务来操作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MySqliteOpenHelper mySqliteOpenHelper = <span class="keyword">new</span> MySqliteOpenHelper(MainActivity.<span class="keyword">this</span>);</span><br><span class="line"><span class="comment">//调用getReadableDatabase方法,来初始化数据库的创建</span></span><br><span class="line">SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();</span><br><span class="line">db.beginTransaction();<span class="comment">//开启事务</span></span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line"><span class="comment">//数据库增删改查等业务</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">//给当前事务设置一个成功的标记,若未成功则会回滚</span></span><br><span class="line">db.setTransactionSuccessful();</span><br><span class="line"><span class="comment">//关闭事务</span></span><br><span class="line">db.endTransaction();</span><br></pre></td></tr></table></figure><br><br></body>
-      
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中数据库的事务/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
 
   
-    <article id="post-Android中数据库的创建和使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中数据库的创建和使用/">Android中数据库的创建和使用</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中数据库的创建和使用/" class="archive-article-date">
-  	<time datetime="2019-04-16T08:54:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>创建一个类继承SQLiteOpenHelper<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.dbHelp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.database.sqlite.SQLiteDatabase;</span><br><span class="line"><span class="keyword">import</span> android.database.sqlite.SQLiteOpenHelper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDbHelp</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span></span>&#123;</span><br><span class="line">	<span class="comment">//context :上下文   ， name：数据库文件的名称    factory：用来创建cursor对象，默认为null </span></span><br><span class="line">	<span class="comment">//version:数据库的版本号，从1开始，如果发生改变，onUpgrade方法将会调用,4.0之后只能升不能将</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyDbHelp</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(context, <span class="string">"mdb.db"</span>, <span class="keyword">null</span>, <span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//oncreate方法是数据库第一次创建的时候会被调用,特别适合做表结构的初始化,需要执行sql语句</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabase db)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//通过SQLiteDatabase执行一个创建表的sql语句</span></span><br><span class="line">		String sql=<span class="string">"create table info (_id integer primary key autoincrement,name varchar(20),phone varchar(20))"</span>;	</span><br><span class="line">		db.execSQL(sql);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//onUpgrade数据库版本号发生改变时才会执行； 特别适合做表结构的修改</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>在MainActivity中使用SQLiteOpenHelper创建数据库对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MySqliteOpenHelper mySqliteOpenHelper = <span class="keyword">new</span> MySqliteOpenHelper(MainActivity.<span class="keyword">this</span>);</span><br><span class="line"><span class="comment">//调用getReadableDatabase方法,来初始化数据库的创建</span></span><br><span class="line">SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();</span><br></pre></td></tr></table></figure><br><br>    <h3>1.使用Sql语句进行操作</h3><br> 增删改差不多<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.execSQL(<span class="string">"insert into ...."</span>);</span><br></pre></td></tr></table></figure><br><br>    查<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Cursor c = db.rawQuery(<span class="string">"SELECT * FROM person"</span>, <span class="keyword">null</span>);</span><br><span class="line"><span class="keyword">while</span>(c.moveToNext())&#123;</span><br><span class="line">	Person p = <span class="keyword">new</span> Person();</span><br><span class="line">	p.set_id(c.getInt(c.getColumnIndex(<span class="string">"_id"</span>)));</span><br><span class="line">	p.setName(c.getString(c.getColumnIndex(<span class="string">"name"</span>)));</span><br><span class="line">	p.setAge(c.getInt(c.getColumnIndex(<span class="string">"age"</span>)));</span><br><span class="line">	p.setInfo(c.getString(c.getColumnIndex(<span class="string">"info"</span>)));</span><br><span class="line">	persons.add(p);</span><br><span class="line">   &#125;</span><br><span class="line">	c.close();</span><br></pre></td></tr></table></figure><br><br><h3>2.使用谷歌封装好的api进行操作 </h3><br>增 使用ContentValues进行封装数据<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ContentValues values=<span class="keyword">new</span> ContentValues();</span><br><span class="line">values.put(<span class="string">"name"</span>,<span class="string">"张三"</span>);</span><br><span class="line">values.put(<span class="string">"phone"</span>,<span class="string">"1234"</span>);</span><br><span class="line"><span class="comment">//insert为返回的插入新行的id</span></span><br><span class="line"><span class="keyword">long</span> insert=db.insert(<span class="string">"info"</span>,<span class="keyword">null</span>,values);</span><br><span class="line"><span class="keyword">if</span>(insert&gt;<span class="number">0</span>)&#123;</span><br><span class="line">	Toast.makeText(<span class="keyword">this</span>,<span class="string">"添加成功"</span>,<span class="number">1</span>).show();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure><br><br>删<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回值delete为影响的行数</span></span><br><span class="line"><span class="keyword">int</span> delete=db.delete(<span class="string">"info"</span>,<span class="string">"name=?"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"张三"</span>&#125;);</span><br></pre></td></tr></table></figure><br><br>改<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ContentValues values=<span class="keyword">new</span> ContentValues();</span><br><span class="line">values.put(<span class="string">"phone"</span>,<span class="string">"114"</span>);</span><br><span class="line"><span class="comment">//返回值update为更新的行数</span></span><br><span class="line"><span class="keyword">int</span> update=db.update(<span class="string">"info"</span>,values,<span class="string">"name=?"</span>,<span class="keyword">new</span> String[<span class="string">"张三"</span>]);</span><br></pre></td></tr></table></figure><br><br>查<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//参数1为表名，参数2为你想查询的列（查询所有可填null),参数3为查询的条件,参数4为查询的参数</span></span><br><span class="line"><span class="comment">//参数5为是否分组 一般为null,参数6为过滤条件，一般为null, 参数7为是否排序 这里不用排序使用null</span></span><br><span class="line">Cursor curosr=db.query(<span class="string">"info"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"phone"</span>&#125;,<span class="string">"name=?"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"张三"</span>&#125;，<span class="keyword">null</span>,<span class="keyword">null</span>);</span><br><span class="line"><span class="keyword">while</span>(c.moveToNext())&#123;</span><br><span class="line">	<span class="comment">//只查询phone所有phone为第0列</span></span><br><span class="line">	String phone=cursor.getString(<span class="number">0</span>);</span><br><span class="line">	Log.v(<span class="string">"TAG"</span>,phone);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>优点:使用谷歌封装好的api是在底层组拼Sql语句，不用自己写容易出错的Sql语句<br>缺点:不够灵活<br></body>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中数据库的创建和使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
 
   
-    <article id="post-Android中Xml文件的解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中Xml文件的解析/">Android中Xml文件的解析</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中Xml文件的解析/" class="archive-article-date">
-  	<time datetime="2019-04-16T08:15:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>Xml文件有多种解析方式，这里使用Pull解析器进行解析<br>Weather.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;weather&gt;</span><br><span class="line">    &lt;channel <span class="keyword">id</span>=<span class="string">"1"</span>&gt;</span><br><span class="line">        &lt;city&gt;北京&lt;/city&gt;</span><br><span class="line">        &lt;temp&gt;25℃&lt;/temp&gt;</span><br><span class="line">        &lt;wind&gt;3&lt;/wind&gt;</span><br><span class="line">        &lt;pm250&gt;300&lt;/pm250&gt;</span><br><span class="line">    &lt;/channel&gt;</span><br><span class="line">    &lt;channel <span class="keyword">id</span>=<span class="string">"2"</span>&gt;</span><br><span class="line">        &lt;city&gt;江西&lt;/city&gt;</span><br><span class="line">        &lt;temp&gt;30℃&lt;/temp&gt;</span><br><span class="line">        &lt;wind&gt;4&lt;/wind&gt;</span><br><span class="line">        &lt;pm250&gt;200&lt;/pm250&gt;</span><br><span class="line">    &lt;/channel&gt;</span><br><span class="line">    &lt;channel <span class="keyword">id</span>=<span class="string">"3"</span>&gt;</span><br><span class="line">        &lt;city&gt;湖北&lt;/city&gt;</span><br><span class="line">        &lt;temp&gt;30℃&lt;/temp&gt;</span><br><span class="line">        &lt;wind&gt;2&lt;/wind&gt;</span><br><span class="line">        &lt;pm250&gt;300&lt;/pm250&gt;</span><br><span class="line">    &lt;/channel&gt;</span><br><span class="line">    &lt;channel <span class="keyword">id</span>=<span class="string">"4"</span>&gt;</span><br><span class="line">        &lt;city&gt;杭州&lt;/city&gt;</span><br><span class="line">        &lt;temp&gt;30℃&lt;/temp&gt;</span><br><span class="line">        &lt;wind&gt;4&lt;/wind&gt;</span><br><span class="line">        &lt;pm250&gt;200&lt;/pm250&gt;</span><br><span class="line">    &lt;/channel&gt;</span><br><span class="line">&lt;/weather&gt;</span><br></pre></td></tr></table></figure><br><br>Channel.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Channel</span></span>&#123;</span><br><span class="line">   <span class="keyword">private</span> String id;</span><br><span class="line">   <span class="keyword">private</span> String city;</span><br><span class="line">   <span class="keyword">private</span> String temp;</span><br><span class="line">   <span class="keyword">private</span> String wind;</span><br><span class="line">   <span class="keyword">private</span> String pm250;</span><br><span class="line"></span><br><span class="line">    省略get(),set()方法...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>WeatherParser.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> bean;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> org.xmlpull.v1.XmlPullParser;</span><br><span class="line"><span class="keyword">import</span> android.util.Xml;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeatherParser</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Channel&gt; <span class="title">parserXML</span><span class="params">(InputStream in)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		List&lt;Channel&gt; list = <span class="keyword">null</span>;</span><br><span class="line">		Channel channel = <span class="keyword">null</span>;</span><br><span class="line">		XmlPullParser parser = Xml.newPullParser();</span><br><span class="line">		parser.setInput(in, <span class="string">"UTF-8"</span>);</span><br><span class="line">		<span class="keyword">int</span> type = parser.getEventType();</span><br><span class="line">		<span class="keyword">while</span> (type != XmlPullParser.END_DOCUMENT) &#123;</span><br><span class="line">			<span class="keyword">switch</span> (type) &#123;</span><br><span class="line">			<span class="keyword">case</span> XmlPullParser.START_TAG:</span><br><span class="line">				<span class="keyword">if</span> (<span class="string">"weather"</span>.equals(parser.getName())) &#123;</span><br><span class="line">					<span class="comment">//开始标签创建集合</span></span><br><span class="line">					list = <span class="keyword">new</span> ArrayList&lt;Channel&gt;();</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"channel"</span>.equals(parser.getName())) &#123;</span><br><span class="line">					<span class="comment">//创建实体</span></span><br><span class="line">					channel = <span class="keyword">new</span> Channel();</span><br><span class="line">					<span class="comment">//id为属性 使用parser.getAttributeName()方法获取,0表示第一个属性</span></span><br><span class="line">					String id = parser.getAttributeName(<span class="number">0</span>);</span><br><span class="line">					channel.setId(id);</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"city"</span>.equals(parser.getName())) &#123;</span><br><span class="line">					String city = parser.nextText();</span><br><span class="line">					channel.setCity(city);</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"wind"</span>.equals(parser.getName())) &#123;</span><br><span class="line">					String wind = parser.nextText();</span><br><span class="line">					channel.setWind(wind);</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"pm250"</span>.equals(parser.getName())) &#123;</span><br><span class="line">					String pm250 = parser.nextText();</span><br><span class="line">					channel.setPm250(pm250);</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"temp"</span>.equals(parser.getName())) &#123;</span><br><span class="line">					String temp = parser.nextText();</span><br><span class="line">					channel.setTemp(temp);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> XmlPullParser.END_TAG:</span><br><span class="line">				<span class="keyword">if</span> (<span class="string">"channel"</span>.equals(parser.getName())) &#123;</span><br><span class="line">					<span class="comment">//遇到结束标签则将channel添加进集合</span></span><br><span class="line">					list.add(channel);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//走完一次指针向下移动一次</span></span><br><span class="line">			type = parser.next();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> list;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>XMLParserAciticity.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.test_practice;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> ParserUtil.Parser;</span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"><span class="keyword">import</span> bean.Channel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">XMLParserAciticity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> TextView mTv;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.parser);</span><br><span class="line">		mTv = (TextView) findViewById(R.id.tv);</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			InputStream in = getResources().getAssets().open(<span class="string">"weather.xml"</span>);</span><br><span class="line">			List&lt;Channel&gt; list = Parser.WeatherParser(in);</span><br><span class="line">			StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">			<span class="keyword">for</span> (Channel channel : list) &#123;</span><br><span class="line">				sb.append(channel.toString());</span><br><span class="line">			&#125;</span><br><span class="line">			mTv.setText(sb);</span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>运行后截图如下:<br><img src="img\xml解析截图.png"><br></body>
-      
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中Xml文件的解析/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
 
   
-    <article id="post-Android中Xml文件的生成" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/15/Android中Xml文件的生成/">Android中Xml文件的生成</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/15/Android中Xml文件的生成/" class="archive-article-date">
-  	<time datetime="2019-04-15T11:51:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-15</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>在Android中有两种方式<br><h3>1.使用StringBuffer拼接</h3><br>不说了<br><h3>2.使用Xml下的序列化器进行创建</h3><br>代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="comment">// 通过Xml.newSerializer实例化一个对象</span></span><br><span class="line">	XmlSerializer serializer = Xml.newSerializer();</span><br><span class="line">	<span class="comment">// 为serializer设置参数getFilesDir().getPath()</span></span><br><span class="line">	File file = <span class="keyword">new</span> File(getFilesDir().getPath(), <span class="string">"MyXml.xml"</span>);</span><br><span class="line">	FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">	serializer.setOutput(fos, <span class="string">"UTF-8"</span>);</span><br><span class="line">	<span class="comment">// 写XML的开头</span></span><br><span class="line">	serializer.startDocument(<span class="string">"UTF-8"</span>, <span class="keyword">true</span>);</span><br><span class="line">	<span class="comment">// 开始标签 参数1 命名空间 一般为null, 参数2 标签名</span></span><br><span class="line">	serializer.startTag(<span class="keyword">null</span>, <span class="string">"smss"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">		serializer.startTag(<span class="keyword">null</span>, <span class="string">"sms"</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// address节点</span></span><br><span class="line">		serializer.startTag(<span class="keyword">null</span>, <span class="string">"address"</span>);</span><br><span class="line">		serializer.text(<span class="string">"地点"</span> + i);</span><br><span class="line">		serializer.endTag(<span class="keyword">null</span>, <span class="string">"address"</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// date节点</span></span><br><span class="line">		serializer.startTag(<span class="keyword">null</span>, <span class="string">"date"</span>);</span><br><span class="line">		serializer.text(<span class="string">"时间"</span> + i);</span><br><span class="line">		serializer.endTag(<span class="keyword">null</span>, <span class="string">"date"</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// phone节点</span></span><br><span class="line">		serializer.startTag(<span class="keyword">null</span>, <span class="string">"phone"</span>);</span><br><span class="line">		serializer.text(<span class="string">"138"</span> + i);</span><br><span class="line">		serializer.endTag(<span class="keyword">null</span>, <span class="string">"phone"</span>);</span><br><span class="line"></span><br><span class="line">		serializer.endTag(<span class="keyword">null</span>, <span class="string">"sms"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 结束标签,对应开始标签</span></span><br><span class="line">	serializer.endTag(<span class="keyword">null</span>, <span class="string">"smss"</span>);</span><br><span class="line">	<span class="comment">// 文档的结尾</span></span><br><span class="line">	serializer.endDocument();</span><br><span class="line">	fos.close();</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">	e.printStackTrace();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure><br><br>Xml截图如下:<br><img src="img\xml.png"><br></body>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/15/Android中Xml文件的生成/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
 
   
-    <article id="post-我的第一篇博客文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/15/我的第一篇博客文章/">我的第一篇博客文章</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/15/我的第一篇博客文章/" class="archive-article-date">
-  	<time datetime="2019-04-15T07:21:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-15</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <p>##第一章</p>
-<p>内容</p>
-<p></p><h1>吴燕!小沙雕!!</h1><p></p>
-<!--<p>爱您!</p> --> 
-<hr>
-<p>##第二章</p>
-<p>内容</p>
-<hr>
-<p>##第三章</p>
-<p>内容</p>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/15/我的第一篇博客文章/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
 
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/15/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/15/hello-world/" class="archive-article-date">
-  	<time datetime="2019-04-15T07:16:29.333Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-15</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/15/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+
+  
+    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    <% if (post.link || post.title){ %>
+      <header class="article-header">
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
+    <div class="article-entry" itemprop="articleBody">
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
+
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <div class="reward-box">
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
+    <div class="article-info article-info-index">
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
+
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
+      <div class="clearfix"></div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
+</article>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
+
+
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
+
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
 
   
   
-
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
 
           </div>
         </div>

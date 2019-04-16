@@ -6,21 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Android中Xml文件的解析 | Blog</title>
+  <title>Android中ListView的使用(3)BaseAdapter | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Xml文件有多种解析方式，这里使用Pull解析器进行解析Weather.xml12345678910111213141516171819202122232425262728&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;weather&amp;gt;    &amp;lt;cha">
+  <meta name="description" content="本篇将采用自定义适配器来自定义更复杂的item1.item.xml12345678910111213141516171819202122232425&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    and">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android中Xml文件的解析">
-<meta property="og:url" content="http://yoursite.com/2019/04/16/Android中Xml文件的解析/index.html">
+<meta property="og:title" content="Android中ListView的使用(3)BaseAdapter">
+<meta property="og:url" content="http://yoursite.com/2019/04/16/Android中ListView的使用-3-BaseAdapter/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="Xml文件有多种解析方式，这里使用Pull解析器进行解析Weather.xml12345678910111213141516171819202122232425262728&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;weather&amp;gt;    &amp;lt;cha">
+<meta property="og:description" content="本篇将采用自定义适配器来自定义更复杂的item1.item.xml12345678910111213141516171819202122232425&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    and">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/04/16/Android中Xml文件的解析/img/xml解析截图.png">
-<meta property="og:updated_time" content="2019-04-16T10:17:55.463Z">
+<meta property="og:image" content="http://yoursite.com/2019/04/16/Android中ListView的使用-3-BaseAdapter/img/baseAdapter截图.png">
+<meta property="og:updated_time" content="2019-04-16T11:56:52.338Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android中Xml文件的解析">
-<meta name="twitter:description" content="Xml文件有多种解析方式，这里使用Pull解析器进行解析Weather.xml12345678910111213141516171819202122232425262728&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;weather&amp;gt;    &amp;lt;cha">
-<meta name="twitter:image" content="http://yoursite.com/2019/04/16/Android中Xml文件的解析/img/xml解析截图.png">
+<meta name="twitter:title" content="Android中ListView的使用(3)BaseAdapter">
+<meta name="twitter:description" content="本篇将采用自定义适配器来自定义更复杂的item1.item.xml12345678910111213141516171819202122232425&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    and">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/16/Android中ListView的使用-3-BaseAdapter/img/baseAdapter截图.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
