@@ -8,14 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Android中数据库的事务 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="简答来说,我们想让几条业务逻辑要么都完成,要么都失败(参考银行转账) 这时就可以用事务来操作123456789101112MySqliteOpenHelper mySqliteOpenHelper = new MySqliteOpenHelper(MainActivity.this);//调用getReadableDatabase方法,来初始化数据库的创建SQLiteDatabase db = m">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Android中数据库的事务">
 <meta property="og:url" content="http://yoursite.com/2019/04/16/Android中数据库的事务/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="简答来说,我们想让几条业务逻辑要么都完成,要么都失败(参考银行转账) 这时就可以用事务来操作123456789101112MySqliteOpenHelper mySqliteOpenHelper = new MySqliteOpenHelper(MainActivity.this);//调用getReadableDatabase方法,来初始化数据库的创建SQLiteDatabase db = m">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-16T09:52:00.525Z">
+<meta property="og:updated_time" content="2019-04-16T10:17:33.400Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android中数据库的事务">
+<meta name="twitter:description" content="简答来说,我们想让几条业务逻辑要么都完成,要么都失败(参考银行转账) 这时就可以用事务来操作123456789101112MySqliteOpenHelper mySqliteOpenHelper = new MySqliteOpenHelper(MainActivity.this);//调用getReadableDatabase方法,来初始化数据库的创建SQLiteDatabase db = m">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -170,7 +173,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <body><br>简答来说,我们想让几条业务逻辑要么都完成,要么都失败(参考银行转账) 这时就可以用事务来操作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MySqliteOpenHelper mySqliteOpenHelper = <span class="keyword">new</span> MySqliteOpenHelper(MainActivity.<span class="keyword">this</span>);</span><br><span class="line"><span class="comment">//调用getReadableDatabase方法,来初始化数据库的创建</span></span><br><span class="line">SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();</span><br><span class="line">db.beginTransaction();<span class="comment">//开启事务</span></span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line"><span class="comment">//数据库增删改查等业务</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">//给当前事务设置一个成功的标记,若未成功则会回滚</span></span><br><span class="line">db.setTransactionSuccessful();</span><br><span class="line"><span class="comment">//关闭事务</span></span><br><span class="line">db.endTransaction();</span><br></pre></td></tr></table></figure><br><br></body>
       
 
       
