@@ -152,32 +152,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android中数据库的创建和使用" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android中数据库的创建和使用
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中数据库的创建和使用/" class="archive-article-date">
-  	<time datetime="2019-04-16T08:54:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>创建一个类继承SQLiteOpenHelper<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.dbHelp;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.database.sqlite.SQLiteDatabase;</span><br><span class="line"><span class="keyword">import</span> android.database.sqlite.SQLiteOpenHelper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDbHelp</span> <span class="keyword">extends</span> <span class="title">SQLiteOpenHelper</span></span>&#123;</span><br><span class="line">	<span class="comment">//context :上下文   ， name：数据库文件的名称    factory：用来创建cursor对象，默认为null </span></span><br><span class="line">	<span class="comment">//version:数据库的版本号，从1开始，如果发生改变，onUpgrade方法将会调用,4.0之后只能升不能将</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyDbHelp</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(context, <span class="string">"mdb.db"</span>, <span class="keyword">null</span>, <span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//oncreate方法是数据库第一次创建的时候会被调用,特别适合做表结构的初始化,需要执行sql语句</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(SQLiteDatabase db)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//通过SQLiteDatabase执行一个创建表的sql语句</span></span><br><span class="line">		String sql=<span class="string">"create table info (_id integer primary key autoincrement,name varchar(20),phone varchar(20))"</span>;	</span><br><span class="line">		db.execSQL(sql);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//onUpgrade数据库版本号发生改变时才会执行； 特别适合做表结构的修改</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onUpgrade</span><span class="params">(SQLiteDatabase db, <span class="keyword">int</span> oldVersion, <span class="keyword">int</span> newVersion)</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>在MainActivity中使用SQLiteOpenHelper创建数据库对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MySqliteOpenHelper mySqliteOpenHelper = <span class="keyword">new</span> MySqliteOpenHelper(MainActivity.<span class="keyword">this</span>);</span><br><span class="line"><span class="comment">//调用getReadableDatabase方法,来初始化数据库的创建</span></span><br><span class="line">SQLiteDatabase db = mySqliteOpenHelper.getReadableDatabase();</span><br></pre></td></tr></table></figure><br><br>    <h3>1.使用Sql语句进行操作</h3><br> 增删改差不多<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.execSQL(<span class="string">"insert into ...."</span>);</span><br></pre></td></tr></table></figure><br><br>    查<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Cursor c = db.rawQuery(<span class="string">"SELECT * FROM person"</span>, <span class="keyword">null</span>);</span><br><span class="line"><span class="keyword">while</span>(c.moveToNext())&#123;</span><br><span class="line">	Person p = <span class="keyword">new</span> Person();</span><br><span class="line">	p.set_id(c.getInt(c.getColumnIndex(<span class="string">"_id"</span>)));</span><br><span class="line">	p.setName(c.getString(c.getColumnIndex(<span class="string">"name"</span>)));</span><br><span class="line">	p.setAge(c.getInt(c.getColumnIndex(<span class="string">"age"</span>)));</span><br><span class="line">	p.setInfo(c.getString(c.getColumnIndex(<span class="string">"info"</span>)));</span><br><span class="line">	persons.add(p);</span><br><span class="line">   &#125;</span><br><span class="line">	c.close();</span><br></pre></td></tr></table></figure><br><br><h3>2.使用谷歌封装好的api进行操作 </h3><br>增 使用ContentValues进行封装数据<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ContentValues values=<span class="keyword">new</span> ContentValues();</span><br><span class="line">values.put(<span class="string">"name"</span>,<span class="string">"张三"</span>);</span><br><span class="line">values.put(<span class="string">"phone"</span>,<span class="string">"1234"</span>);</span><br><span class="line"><span class="comment">//insert为返回的插入新行的id</span></span><br><span class="line"><span class="keyword">long</span> insert=db.insert(<span class="string">"info"</span>,<span class="keyword">null</span>,values);</span><br><span class="line"><span class="keyword">if</span>(insert&gt;<span class="number">0</span>)&#123;</span><br><span class="line">	Toast.makeText(<span class="keyword">this</span>,<span class="string">"添加成功"</span>,<span class="number">1</span>).show();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure><br><br>删<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回值delete为影响的行数</span></span><br><span class="line"><span class="keyword">int</span> delete=db.delete(<span class="string">"info"</span>,<span class="string">"name=?"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"张三"</span>&#125;);</span><br></pre></td></tr></table></figure><br><br>改<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ContentValues values=<span class="keyword">new</span> ContentValues();</span><br><span class="line">values.put(<span class="string">"phone"</span>,<span class="string">"114"</span>);</span><br><span class="line"><span class="comment">//返回值update为更新的行数</span></span><br><span class="line"><span class="keyword">int</span> update=db.update(<span class="string">"info"</span>,values,<span class="string">"name=?"</span>,<span class="keyword">new</span> String[<span class="string">"张三"</span>]);</span><br></pre></td></tr></table></figure><br><br>查<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//参数1为表名，参数2为你想查询的列（查询所有可填null),参数3为查询的条件,参数4为查询的参数</span></span><br><span class="line"><span class="comment">//参数5为是否分组 一般为null,参数6为过滤条件，一般为null, 参数7为是否排序 这里不用排序使用null</span></span><br><span class="line">Cursor curosr=db.query(<span class="string">"info"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"phone"</span>&#125;,<span class="string">"name=?"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"张三"</span>&#125;，<span class="keyword">null</span>,<span class="keyword">null</span>);</span><br><span class="line"><span class="keyword">while</span>(c.moveToNext())&#123;</span><br><span class="line">	<span class="comment">//只查询phone所有phone为第0列</span></span><br><span class="line">	String phone=cursor.getString(<span class="number">0</span>);</span><br><span class="line">	Log.v(<span class="string">"TAG"</span>,phone);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>优点:使用谷歌封装好的api是在底层组拼Sql语句，不用自己写容易出错的Sql语句<br>缺点:不够灵活<br></body>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -187,133 +182,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/04/16/Android中数据库的创建和使用/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/04/16/Android中数据库的事务/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android中数据库的事务
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/04/16/Android中Xml文件的解析/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android中Xml文件的解析</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>
