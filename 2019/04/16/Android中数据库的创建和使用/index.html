@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="创建一个类继承SQLiteOpenHelper 12345678910111213141516171819202122232425package com.example.dbHelp;import android.content.Context;import android.database.sqlite.SQLiteDatabase;import android.database.sqlite.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-16T09:22:18.005Z">
+<meta property="og:updated_time" content="2019-04-16T09:30:42.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android中数据库的创建和使用">
 <meta name="twitter:description" content="创建一个类继承SQLiteOpenHelper 12345678910111213141516171819202122232425package com.example.dbHelp;import android.content.Context;import android.database.sqlite.SQLiteDatabase;import android.database.sqlite.">
@@ -184,7 +184,6 @@
 <p><br>    改<br>    <pre><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ContentValues values=<span class="keyword">new</span> ContentValues();</span><br><span class="line">values.put(<span class="string">"phone"</span>,<span class="string">"114"</span>);</span><br><span class="line"><span class="comment">//返回值update为更新的行数</span></span><br><span class="line"><span class="keyword">int</span> update=db.update(<span class="string">"info"</span>,values,<span class="string">"name=?"</span>,<span class="keyword">new</span> String[<span class="string">"张三"</span>]);</span><br></pre></td></tr></table></figure></pre></p>
 <p><br>    查<br>    <pre><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//参数1为表名，参数2为你想查询的列（查询所有可填null),参数3为查询的条件,参数4为查询的参数</span></span><br><span class="line"> <span class="comment">//参数5为是否分组 一般为null,参数6为过滤条件，一般为null, 参数7为是否排序 这里不用排序使用null</span></span><br><span class="line">  Cursor curosr=db.query(<span class="string">"info"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"phone"</span>&#125;,<span class="string">"name=?"</span>,<span class="keyword">new</span> String[]&#123;<span class="string">"张三"</span>&#125;，<span class="keyword">null</span>,<span class="keyword">null</span>);</span><br><span class="line">  <span class="keyword">while</span>(c.moveToNext())&#123;</span><br><span class="line"><span class="comment">//只查询phone所有phone为第0列</span></span><br><span class="line">	String phone=cursor.getString(<span class="number">0</span>);</span><br><span class="line">	Log.v(<span class="string">"TAG"</span>,phone);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></pre></p>
 <p>   <br>优点:使用谷歌封装好的api是在底层组拼Sql语句，不用自己写容易出错的Sql语句<br>缺点:不够灵活</p>
-<p></p>
 
       
 
