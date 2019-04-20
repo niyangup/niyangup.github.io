@@ -160,32 +160,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android中的补间动画" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android中的补间动画
-    </h1>
-  
-
-        
-        <a href="/2019/04/18/Android中的补间动画/" class="archive-article-date">
-  	<time datetime="2019-04-18T05:02:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-18</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>补间动画也称View动画,包含透明(AlphaAnim),旋转(RotateAnim),缩放(ScaleAnim)和平移(TranslateAnim)四种<br>补间动画有两种实现方式: 一.代码实现 二.Xml文件实现<br><a id="more"></a><br>原理:动画效果不会改变控件真实的坐标<br>一.代码实现<br>1.activity_main.xml<br><br>4个Button和1个ImageView 图片水平垂直居中 图片默认显示ic_launcher即默认的小机器人图片,为了方便演示我为4个Button加上onclick属性<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    android:background=<span class="string">"#dedede"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span></span><br><span class="line">    tools:context=<span class="string">"com.example.animation.MainActivity"</span> &gt;</span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span> &gt;</span><br><span class="line"></span><br><span class="line">        &lt;Button</span><br><span class="line">            android:id=<span class="string">"@+id/btn_alpha"</span></span><br><span class="line">            android:layout_width=<span class="string">"0dp"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_weight=<span class="string">"1"</span></span><br><span class="line">            android:onClick=<span class="string">"click1"</span></span><br><span class="line">            android:text=<span class="string">"透明"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Button</span><br><span class="line">            android:id=<span class="string">"@+id/btn_rotate"</span></span><br><span class="line">            android:layout_width=<span class="string">"0dp"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_weight=<span class="string">"1"</span></span><br><span class="line">            android:onClick=<span class="string">"click2"</span></span><br><span class="line">            android:text=<span class="string">"旋转"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Button</span><br><span class="line">            android:id=<span class="string">"@+id/btn_scale"</span></span><br><span class="line">            android:layout_width=<span class="string">"0dp"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_weight=<span class="string">"1"</span></span><br><span class="line">            android:onClick=<span class="string">"click3"</span></span><br><span class="line">            android:text=<span class="string">"缩放"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Button</span><br><span class="line">            android:id=<span class="string">"@+id/btn_trans"</span></span><br><span class="line">            android:layout_width=<span class="string">"0dp"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_weight=<span class="string">"1"</span></span><br><span class="line">            android:onClick=<span class="string">"click4"</span></span><br><span class="line">            android:text=<span class="string">"平移"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;Button</span><br><span class="line">            android:id=<span class="string">"@+id/btn_set"</span></span><br><span class="line">            android:layout_width=<span class="string">"0dp"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_weight=<span class="string">"1"</span></span><br><span class="line">            android:onClick=<span class="string">"click5"</span></span><br><span class="line">            android:text=<span class="string">"一起"</span> /&gt;</span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">        android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">        android:gravity=<span class="string">"center"</span> &gt;</span><br><span class="line"></span><br><span class="line">        &lt;ImageView</span><br><span class="line">            android:id=<span class="string">"@+id/iv"</span></span><br><span class="line">            android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:src=<span class="string">"@drawable/ic_launcher"</span> /&gt;</span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>2.MainActivity.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.animation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.AlphaAnimation;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.Animation;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.RotateAnimation;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.ScaleAnimation;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.TranslateAnimation;</span><br><span class="line"><span class="keyword">import</span> android.widget.ImageView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> ImageView mImg;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		mImg = (ImageView) findViewById(R.id.iv);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 透明</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click1</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 参数1 fromAlpha:表示开始时的透明度 参数2 toAlpha:表示结束时的透明度 范围为0.0f~1.0f</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		AlphaAnimation alphaAnimation = <span class="keyword">new</span> AlphaAnimation(<span class="number">1.0f</span>, <span class="number">0.0f</span>);</span><br><span class="line">		<span class="comment">// 设置参数</span></span><br><span class="line">		<span class="comment">// 设置动画执行的时间</span></span><br><span class="line">		alphaAnimation.setDuration(<span class="number">2000</span>);</span><br><span class="line">		<span class="comment">// 设置重复次数 这里为重复1次</span></span><br><span class="line">		alphaAnimation.setRepeatCount(<span class="number">1</span>);</span><br><span class="line">		<span class="comment">// 设置重复的模式 该模式有两种[1]Animation.RESTART [2]Animation.REVERSE</span></span><br><span class="line">		alphaAnimation.setRepeatMode(Animation.REVERSE);</span><br><span class="line">		<span class="comment">// 开始</span></span><br><span class="line">		mImg.startAnimation(alphaAnimation);;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 旋转</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click2</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * fromDegrees 开始的角度 toDegrees 结束的角度 pivotXType pivotYType参照物类型</span></span><br><span class="line"><span class="comment">		 * 参照自身或父窗体[1]Animation.RELATIVE_TO_PARENT父窗体 [2]Animation.RELATIVE_TO_SELF自身</span></span><br><span class="line"><span class="comment">		 * pivotXValue pivotYValue 相对自身倍数的x,y值</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		RotateAnimation rotateAnimation = <span class="keyword">new</span> RotateAnimation(<span class="number">0</span>, <span class="number">360</span>, Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>,</span><br><span class="line">				Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>);</span><br><span class="line">		<span class="comment">// 设置动画执行的时间</span></span><br><span class="line">		rotateAnimation.setDuration(<span class="number">2000</span>);</span><br><span class="line">		<span class="comment">// 设置重复次数 这里为重复1次</span></span><br><span class="line">		rotateAnimation.setRepeatCount(<span class="number">1</span>);</span><br><span class="line">		<span class="comment">// 设置重复的模式 该模式有两种[1]Animation.RESTART [2]Animation.REVERSE</span></span><br><span class="line">		rotateAnimation.setRepeatMode(Animation.REVERSE);</span><br><span class="line"></span><br><span class="line">		mImg.startAnimation(rotateAnimation);;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 缩放</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click3</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		ScaleAnimation scaleAnimation = <span class="keyword">new</span> ScaleAnimation(<span class="number">1.0f</span>, <span class="number">2.0f</span>, <span class="number">1.0f</span>, <span class="number">2.0f</span>, Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>,</span><br><span class="line">				Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>);</span><br><span class="line">		scaleAnimation.setDuration(<span class="number">2000</span>);</span><br><span class="line">		scaleAnimation.setRepeatCount(<span class="number">1</span>);</span><br><span class="line">		scaleAnimation.setRepeatMode(Animation.REVERSE);</span><br><span class="line">		mImg.startAnimation(scaleAnimation);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//平移</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click4</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> fromXType=Animation.RELATIVE_TO_PARENT;</span><br><span class="line">		<span class="keyword">int</span> fromYType=Animation.RELATIVE_TO_PARENT;</span><br><span class="line">		<span class="keyword">int</span> toXType=Animation.RELATIVE_TO_PARENT;</span><br><span class="line">		<span class="keyword">int</span> toYType=Animation.RELATIVE_TO_PARENT;</span><br><span class="line">		TranslateAnimation ta=<span class="keyword">new</span> TranslateAnimation(fromXType, <span class="number">0f</span>, toXType, <span class="number">0f</span>, fromYType, <span class="number">0f</span>, toYType, -<span class="number">0.4f</span>);</span><br><span class="line">		ta.setDuration(<span class="number">2000</span>);</span><br><span class="line">		<span class="comment">//动画结束后,停留在结束的位置上</span></span><br><span class="line">		ta.setFillAfter(<span class="keyword">true</span>);</span><br><span class="line">		mImg.startAnimation(ta);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>二.Xmlw文件方式实现<br>1.首先在res下创建一个名为anim的文件夹,并在该文件夹下创建四种动画的Xml文件<br>2.alpha.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;alpha xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    </span><br><span class="line">    android:duration=<span class="string">"2000"</span></span><br><span class="line">    android:fromAlpha=<span class="string">"1"</span></span><br><span class="line">    android:toAlpha=<span class="string">"0"</span> </span><br><span class="line">    android:repeatCount=<span class="string">"1"</span></span><br><span class="line">    android:repeatMode=<span class="string">"reverse"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;/alpha&gt;</span><br></pre></td></tr></table></figure><br><br>3.rotate.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;rotate xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    </span><br><span class="line">    android:fromDegrees=<span class="string">"0"</span></span><br><span class="line">    android:toDegrees=<span class="string">"360"</span></span><br><span class="line">    android:pivotX=<span class="string">"50%"</span></span><br><span class="line">    android:pivotY=<span class="string">"50%"</span></span><br><span class="line">    android:duration=<span class="string">"2000"</span></span><br><span class="line">    android:repeatCount=<span class="string">"1"</span></span><br><span class="line">    android:repeatMode=<span class="string">"reverse"</span> &gt;</span><br><span class="line"></span><br><span class="line">&lt;/rotate&gt;</span><br></pre></td></tr></table></figure><br><br>4.scale.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;scale xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:duration=<span class="string">"2000"</span></span><br><span class="line">    android:fromXScale=<span class="string">"1.0"</span></span><br><span class="line">    android:fromYScale=<span class="string">"1.0"</span></span><br><span class="line">    android:pivotX=<span class="string">"50%"</span></span><br><span class="line">    android:pivotY=<span class="string">"50%"</span></span><br><span class="line">    android:repeatCount=<span class="string">"1"</span></span><br><span class="line">    android:repeatMode=<span class="string">"restart"</span></span><br><span class="line">    android:toXScale=<span class="string">"2.0"</span></span><br><span class="line">    android:toYScale=<span class="string">"2.0"</span> &gt;</span><br><span class="line"></span><br><span class="line">&lt;/scale&gt;</span><br></pre></td></tr></table></figure><br><br>5.translate.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;translate xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:duration=<span class="string">"2000"</span></span><br><span class="line">    android:fromXDelta=<span class="string">"0%p"</span></span><br><span class="line">    android:fromYDelta=<span class="string">"0%p"</span></span><br><span class="line">    android:fillAfter=<span class="string">"true"</span></span><br><span class="line">    android:toXDelta=<span class="string">"0%p"</span></span><br><span class="line">    android:toYDelta=<span class="string">"-20%p"</span> &gt;</span><br><span class="line"></span><br><span class="line">&lt;/translate&gt;</span><br></pre></td></tr></table></figure><br><br>6.若想同时达到上述4种效果可创建一个set.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;set&gt;</span><br><span class="line"></span><br><span class="line">    &lt;alpha</span><br><span class="line">        xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">        android:duration=<span class="string">"2000"</span></span><br><span class="line">        android:fromAlpha=<span class="string">"1"</span></span><br><span class="line">        android:repeatCount=<span class="string">"1"</span></span><br><span class="line">        android:repeatMode=<span class="string">"reverse"</span></span><br><span class="line">        android:toAlpha=<span class="string">"0"</span> &gt;</span><br><span class="line">    &lt;/alpha&gt;</span><br><span class="line"></span><br><span class="line">    &lt;rotate</span><br><span class="line">        xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">        android:duration=<span class="string">"2000"</span></span><br><span class="line">        android:fromDegrees=<span class="string">"0"</span></span><br><span class="line">        android:pivotX=<span class="string">"50%"</span></span><br><span class="line">        android:pivotY=<span class="string">"50%"</span></span><br><span class="line">        android:repeatCount=<span class="string">"1"</span></span><br><span class="line">        android:repeatMode=<span class="string">"reverse"</span></span><br><span class="line">        android:toDegrees=<span class="string">"360"</span> &gt;</span><br><span class="line">    &lt;/rotate&gt;</span><br><span class="line"></span><br><span class="line">    &lt;scale</span><br><span class="line">        xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">        android:duration=<span class="string">"2000"</span></span><br><span class="line">        android:fromXScale=<span class="string">"1.0"</span></span><br><span class="line">        android:fromYScale=<span class="string">"1.0"</span></span><br><span class="line">        android:pivotX=<span class="string">"50%"</span></span><br><span class="line">        android:pivotY=<span class="string">"50%"</span></span><br><span class="line">        android:repeatCount=<span class="string">"1"</span></span><br><span class="line">        android:repeatMode=<span class="string">"restart"</span></span><br><span class="line">        android:toXScale=<span class="string">"2.0"</span></span><br><span class="line">        android:toYScale=<span class="string">"2.0"</span> &gt;</span><br><span class="line">    &lt;/scale&gt;</span><br><span class="line"></span><br><span class="line">    &lt;translate</span><br><span class="line">        xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">        android:duration=<span class="string">"2000"</span></span><br><span class="line">        android:fillAfter=<span class="string">"true"</span></span><br><span class="line">        android:fromXDelta=<span class="string">"0%p"</span></span><br><span class="line">        android:fromYDelta=<span class="string">"0%p"</span></span><br><span class="line">        android:toXDelta=<span class="string">"0%p"</span></span><br><span class="line">        android:toYDelta=<span class="string">"-20%p"</span> &gt;</span><br><span class="line">    &lt;/translate&gt;</span><br><span class="line"></span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure><br><br>7.MainActivity.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.animation;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.Animation;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.AnimationUtils;</span><br><span class="line"><span class="keyword">import</span> android.widget.ImageView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> ImageView mImg;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		mImg = (ImageView) findViewById(R.id.iv);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 透明</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click1</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		Animation aa = AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.alpha);</span><br><span class="line">		<span class="comment">// 开始</span></span><br><span class="line">		mImg.startAnimation(aa);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 旋转</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click2</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		Animation ra = AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.rotate);</span><br><span class="line">		mImg.startAnimation(ra);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 缩放</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click3</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		Animation sa = AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.scale);</span><br><span class="line">		mImg.startAnimation(sa);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 平移</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click4</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		Animation ta = AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.translate);</span><br><span class="line">		mImg.startAnimation(ta);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//四种一起飞</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">click5</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">		Animation set = AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.set);</span><br><span class="line">		mImg.startAnimation(set);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>运行截图如下:<br>(由于不会gif图暂时使用png代替,图12345分别为初始状态,透明,旋转,缩放和平移)<br><img src="\img\animationnone.png"><img src="\img\alpha.png"><img src="\img\rotate.png"><img src="\img\scale.png"><img src="\img\translate.png"><br><br>(一起飞)<br><img src="\img\animationtogether.png"><br></body>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -195,144 +190,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/04/18/Android中的补间动画/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/04/18/Android中通知栏的简单使用/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android中通知栏的简单使用
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/04/17/Fragment之间的通信/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Fragment之间的通信</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>
