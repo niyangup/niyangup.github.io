@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>Android中获取系统所有运行的服务 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: Android中获取系统所有运行的服务date: 2019-05-06 22:42:43tags:[Android]— 需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行">
+  <meta name="description" content="需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blog">
+<meta property="og:title" content="Android中获取系统所有运行的服务">
 <meta property="og:url" content="http://yoursite.com/2019/05/06/Android中获取系统所有运行的服务/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="title: Android中获取系统所有运行的服务date: 2019-05-06 22:42:43tags:[Android]— 需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行">
+<meta property="og:description" content="需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-06T14:45:06.926Z">
+<meta property="og:updated_time" content="2019-05-06T14:48:12.952Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
-<meta name="twitter:description" content="title: Android中获取系统所有运行的服务date: 2019-05-06 22:42:43tags:[Android]— 需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行">
+<meta name="twitter:title" content="Android中获取系统所有运行的服务">
+<meta name="twitter:description" content="需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -155,11 +156,26 @@
             <article id="post-Android中获取系统所有运行的服务" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android中获取系统所有运行的服务
+    </h1>
+  
+
+        
+        <a href="/2019/05/06/Android中获取系统所有运行的服务/" class="archive-article-date">
+  	<time datetime="2019-05-06T14:42:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<p>title: Android中获取系统所有运行的服务<br>date: 2019-05-06 22:42:43<br>tags:<br>[Android]—</p>
-<body><br>需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行<br><a id="more"></a><br>ServiceUtil.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.ActivityManager;</span><br><span class="line"><span class="keyword">import</span> android.app.ActivityManager.RunningServiceInfo;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> ctx</span></span><br><span class="line"><span class="comment">	 *            上下文</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> serviceName</span></span><br><span class="line"><span class="comment">	 *            判断是否正在运行的服务</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> true 运行 false 未运行</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isRunning</span><span class="params">(Context ctx, String serviceName)</span> </span>&#123;</span><br><span class="line">		ActivityManager am = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">		<span class="comment">// 获取手机正在运行的服务(多少个服务)</span></span><br><span class="line">		List&lt;RunningServiceInfo&gt; services = am.getRunningServices(<span class="number">1000</span>);</span><br><span class="line">		<span class="comment">// 遍历所有的服务,拿到每一个服务的类的名称,和传递进来的类的名称做对比.如果一致,说明服务正在运行s</span></span><br><span class="line">		<span class="keyword">for</span> (RunningServiceInfo runningServiceInfo : services) &#123;</span><br><span class="line">			<span class="keyword">if</span> (runningServiceInfo.service.getClassName().equals(serviceName)) &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br></body>
+        <body><br>需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行<br><a id="more"></a><br>ServiceUtil.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.ActivityManager;</span><br><span class="line"><span class="keyword">import</span> android.app.ActivityManager.RunningServiceInfo;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> ctx</span></span><br><span class="line"><span class="comment">	 *            上下文</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> serviceName</span></span><br><span class="line"><span class="comment">	 *            判断是否正在运行的服务</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> true 运行 false 未运行</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isRunning</span><span class="params">(Context ctx, String serviceName)</span> </span>&#123;</span><br><span class="line">		ActivityManager am = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">		<span class="comment">// 获取手机正在运行的服务(多少个服务)</span></span><br><span class="line">		List&lt;RunningServiceInfo&gt; services = am.getRunningServices(<span class="number">1000</span>);</span><br><span class="line">		<span class="comment">// 遍历所有的服务,拿到每一个服务的类的名称,和传递进来的类的名称做对比.如果一致,说明服务正在运行s</span></span><br><span class="line">		<span class="keyword">for</span> (RunningServiceInfo runningServiceInfo : services) &#123;</span><br><span class="line">			<span class="keyword">if</span> (runningServiceInfo.service.getClassName().equals(serviceName)) &#123;</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br></body>
+
       
 
       
@@ -188,6 +204,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
