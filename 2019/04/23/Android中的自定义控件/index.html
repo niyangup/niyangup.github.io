@@ -157,32 +157,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android中的自定义控件" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android中的自定义控件
-    </h1>
-  
-
-        
-        <a href="/2019/04/23/Android中的自定义控件/" class="archive-article-date">
-  	<time datetime="2019-04-23T13:28:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-23</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>Android中的自定义控件很常用,尤其时在哪些布局嵌套里面,使用嵌套将会有大量的代码,可读性差,通过自定义控件后即可提高可维护性和复用性让代码更简洁,明了<br><a id="more"></a><br>1.setting_item_view.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;RelativeLayout</span><br><span class="line">        android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:padding=<span class="string">"5dp"</span> &gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=<span class="string">"@+id/tv_title"</span></span><br><span class="line">            android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:text=<span class="string">"title"</span></span><br><span class="line">            android:textColor=<span class="string">"#000"</span></span><br><span class="line">            android:textSize=<span class="string">"16sp"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=<span class="string">"@+id/tv_des"</span></span><br><span class="line">            android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_below=<span class="string">"@+id/tv_title"</span></span><br><span class="line">            android:text=<span class="string">"des"</span></span><br><span class="line">            android:textColor=<span class="string">"#000"</span></span><br><span class="line">            android:textSize=<span class="string">"16sp"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;CheckBox</span><br><span class="line">            android:id=<span class="string">"@+id/cb_box"</span></span><br><span class="line">            android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">            android:layout_alignParentRight=<span class="string">"true"</span> /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;View</span><br><span class="line">            android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">            android:layout_height=<span class="string">"1dp"</span></span><br><span class="line">            android:layout_below=<span class="string">"@+id/tv_des"</span></span><br><span class="line">            android:background=<span class="string">"#000"</span> /&gt;</span><br><span class="line">    &lt;/RelativeLayout&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>预览图如下:<img src="\img\setting_item_view1.png"><br>2.SettingItemView.java<br>同上一篇的TextView跑马灯的自定义一样,定义一个SettingItemView.class并继承RelativeLayout<br>重写有<strong><font color="red"> 1</font></strong>,<strong><font color="red"> 2</font></strong>和<strong><font color="red"> 3</font></strong>个参数的<strong><font color="red"> 构造方法</font></strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe.view;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.R;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.util.AttributeSet;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.widget.CheckBox;</span><br><span class="line"><span class="keyword">import</span> android.widget.RelativeLayout;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> niyang</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SettingItemView</span> <span class="keyword">extends</span> <span class="title">RelativeLayout</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAMESPACE = <span class="string">"http://schemas.android.com/apk/res/com.niyang.mobilesafe"</span>;</span><br><span class="line">	<span class="keyword">private</span> CheckBox cb_box;</span><br><span class="line">	<span class="keyword">private</span> TextView tv_des;</span><br><span class="line">	<span class="keyword">private</span> String mDestitle;</span><br><span class="line">	<span class="keyword">private</span> String mDesoff;</span><br><span class="line">	<span class="keyword">private</span> String mDeson;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SettingItemView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>(context, <span class="keyword">null</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SettingItemView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">SettingItemView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">		<span class="comment">// xml -&gt; view 将界面的一个item转换成view对象,直接添加到当前SettingItemView对应的view中</span></span><br><span class="line">		View.inflate(context, R.layout.setting_item_view, <span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">		TextView tv_title = (TextView) findViewById(R.id.tv_title);</span><br><span class="line">		tv_des = (TextView) findViewById(R.id.tv_des);</span><br><span class="line">		cb_box = (CheckBox) findViewById(R.id.cb_box);</span><br><span class="line">		<span class="comment">//checkBox有更高一级的监听响应,因此关闭</span></span><br><span class="line">		cb_box.setClickable(<span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 获取自定义以及原声属性的操作,写在此处,AttributeSet arrrs对象中获取</span></span><br><span class="line">		initAttrs(attrs);</span><br><span class="line">		tv_title.setText(mDestitle);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 返回属性集合中自定义属性属性值</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> attrs</span></span><br><span class="line"><span class="comment">	 *            构造方法中维护好的属性集合</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initAttrs</span><span class="params">(AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">		mDestitle = attrs.getAttributeValue(NAMESPACE, <span class="string">"destitle"</span>);</span><br><span class="line">		mDesoff = attrs.getAttributeValue(NAMESPACE, <span class="string">"desoff"</span>);</span><br><span class="line">		mDeson = attrs.getAttributeValue(NAMESPACE, <span class="string">"deson"</span>);</span><br><span class="line"></span><br><span class="line">		Log.v(<span class="string">"TAG"</span>, mDestitle);</span><br><span class="line">		Log.v(<span class="string">"TAG"</span>, mDesoff);</span><br><span class="line">		Log.v(<span class="string">"TAG"</span>, mDeson);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 返回当前SettingItemView是否被选中, true 开启 false 关闭</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isCheck</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> cb_box.isChecked();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> isCheck</span></span><br><span class="line"><span class="comment">	 *            是否作为开启的变量,由点击过程中做传递</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCheck</span><span class="params">(<span class="keyword">boolean</span> isCheck)</span> </span>&#123;</span><br><span class="line">		cb_box.setChecked(isCheck);</span><br><span class="line">		<span class="keyword">if</span> (isCheck) &#123;</span><br><span class="line">			tv_des.setText(mDeson);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			tv_des.setText(mDesoff);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>3.activity_setting.xml<br>定义好SettingItemView类后,就可用在xml文件中使用了<br>使用自定义控件需要用<strong><font color="red"> 全类名</font></strong><br>在使用自己定义的属性前,必须加上namespace即<br> xmlns:mobilesafe=”<a href="http://schemas.android.com/apk/res/com.niyang.mobilesafe&quot;" target="_blank" rel="noopener">http://schemas.android.com/apk/res/com.niyang.mobilesafe&quot;</a><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">&lt;com.niyang.mobilesafe.view.SettingItemView</span><br><span class="line">    xmlns:mobilesafe=<span class="string">"http://schemas.android.com/apk/res/com.niyang.mobilesafe"</span></span><br><span class="line">    android:id=<span class="string">"@+id/siv_update"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">    mobilesafe:destitle=<span class="string">"自动更新设置"</span></span><br><span class="line">    mobilesafe:desoff=<span class="string">"自动更新已关闭"</span></span><br><span class="line">    mobilesafe:deson=<span class="string">"自动更新已开启"</span>	&gt;</span><br><span class="line">&lt;/com.niyang.mobilesafe.view.SettingItemView&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>4.SettingActivity.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.util.SpUtil;</span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.view.SettingItemView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SettingActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_setting);</span><br><span class="line">		initUpdate();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initUpdate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">final</span> SettingItemView siv_update = (SettingItemView) findViewById(R.id.siv_update);</span><br><span class="line">		<span class="comment">// 获取已有的开关状态,用作显示</span></span><br><span class="line">		<span class="keyword">boolean</span> open_update = SpUtil.getBoolean(getApplicationContext(), ConstantValue.OPEN_UPDATE, <span class="keyword">false</span>);</span><br><span class="line">		siv_update.setCheck(open_update);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//为整个Item设置点击监听</span></span><br><span class="line">		siv_update.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">				<span class="comment">// 如果之前时未选中,点击后变为选中,如果之前为选中,点击之后变成未选中</span></span><br><span class="line">				<span class="keyword">boolean</span> isCheck = siv_update.isCheck();</span><br><span class="line">				siv_update.setCheck(!isCheck);</span><br><span class="line">				SpUtil.putBoolean(getApplicationContext(), ConstantValue.OPEN_UPDATE, !isCheck);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>运行截图如下:<br><img src="\img\setting_item_view2.png"><br><img src="\img\setting_item_view3.png"><br></body>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -192,144 +187,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/04/23/Android中的自定义控件/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/04/23/Android中util类的编写/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android中util类的编写
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/04/23/Android中TextView的跑马灯效果/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android中TextView的跑马灯效果</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>
