@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>Android获取手机所有的应用相关信息 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="当前手机所有的应用相关信息(名称,包名,图标,(手机内存,sd卡),(系统,用户))">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android获取手机所有的应用相关信息">
+<meta property="og:url" content="http://yoursite.com/2019/05/11/Android获取手机所有的应用相关信息/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="当前手机所有的应用相关信息(名称,包名,图标,(手机内存,sd卡),(系统,用户))">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-11T13:44:45.485Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="Android获取手机所有的应用相关信息">
+<meta name="twitter:description" content="当前手机所有的应用相关信息(名称,包名,图标,(手机内存,sd卡),(系统,用户))">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -148,22 +153,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Android中设置Button按下的UI" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Android获取手机所有的应用相关信息" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/25/Android中设置Button按下的UI/">Android中设置Button按下的UI</a>
+    <h1 class="article-title" itemprop="name">
+      Android获取手机所有的应用相关信息
     </h1>
   
 
         
-        <a href="/2019/04/25/Android中设置Button按下的UI/" class="archive-article-date">
-  	<time datetime="2019-04-25T14:33:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-25</time>
+        <a href="/2019/05/11/Android获取手机所有的应用相关信息/" class="archive-article-date">
+  	<time datetime="2019-05-11T13:43:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-11</time>
 </a>
 	
         
@@ -171,549 +174,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <body><br>设置Button按下后的样式,可用让用户有更好的体验<br>其原理是:再按下Button后,让Button的背景图片变更,一般让颜色变深,让人有一种Button被按下的感觉<br>
-        
-          <a class="article-more-a" href="/2019/04/25/Android中设置Button按下的UI/#more">more >></a>
-        
+        <body><br>当前手机所有的应用相关信息(名称,包名,图标,(手机内存,sd卡),(系统,用户))<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe.engine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.db.domain.AppInfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.ApplicationInfo;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageInfo;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageManager;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppInfoProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**返回当前手机所有的应用相关信息(名称,包名,图标,(手机内存,sd卡),(系统,用户))</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> context	获取包管理者的上下文环境</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 包含手机安装应用相关信息的集合下</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;AppInfo&gt; <span class="title">getAppInfoList</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 1.获取包管理者对象</span></span><br><span class="line">		PackageManager manager = context.getPackageManager();</span><br><span class="line">		<span class="comment">// 2.获取安装在手机上应用程序相关信息的集合</span></span><br><span class="line">		List&lt;PackageInfo&gt; packageInfoList = manager.getInstalledPackages(<span class="number">0</span>);</span><br><span class="line">		</span><br><span class="line">		List&lt;AppInfo&gt; appInfoList=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span> (PackageInfo packageInfo : packageInfoList) &#123;</span><br><span class="line">			AppInfo appInfo = <span class="keyword">new</span> AppInfo();</span><br><span class="line">			<span class="comment">// 3.获取包名</span></span><br><span class="line">			appInfo.packageName = packageInfo.packageName;</span><br><span class="line">			<span class="comment">// 4.获取Manifest下application节点下的信息</span></span><br><span class="line">			ApplicationInfo applicationInfo = packageInfo.applicationInfo;</span><br><span class="line">			<span class="comment">// 5.获取应用的包名</span></span><br><span class="line">			appInfo.name = applicationInfo.loadLabel(manager).toString();</span><br><span class="line">			<span class="comment">// 6.获取应用的图标</span></span><br><span class="line">			appInfo.icon = applicationInfo.loadIcon(manager);</span><br><span class="line">			<span class="comment">// 7.判断是否为系统应用</span></span><br><span class="line">			<span class="keyword">if</span> ((applicationInfo.flags &amp; ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM) &#123;</span><br><span class="line">				<span class="comment">//系统应用</span></span><br><span class="line">				appInfo.isSystem=<span class="keyword">true</span>;</span><br><span class="line">			&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="comment">//非系统应用</span></span><br><span class="line">				appInfo.isSystem=<span class="keyword">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span> ((applicationInfo.flags &amp; ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_EXTERNAL_STORAGE) &#123;</span><br><span class="line">				<span class="comment">//用户应用</span></span><br><span class="line">				appInfo.isSdCard=<span class="keyword">true</span>;</span><br><span class="line">			&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="comment">//非用户应用</span></span><br><span class="line">				appInfo.isSdCard=<span class="keyword">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			appInfoList.add(appInfo);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> appInfoList;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br></body>
       
 
       
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/25/Android中设置Button按下的UI/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中Dialog-对话框-布局自定义" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/25/Android中Dialog-对话框-布局自定义/">Android中Dialog(对话框)布局自定义</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/25/Android中Dialog-对话框-布局自定义/" class="archive-article-date">
-  	<time datetime="2019-04-25T14:03:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-25</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>普通对话框中可用输入Title,Content,以及两个Button,有时不能满足我们的需要,这时可用自定义一个布局用作对话框上<br>
-        
-          <a class="article-more-a" href="/2019/04/25/Android中Dialog-对话框-布局自定义/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/25/Android中Dialog-对话框-布局自定义/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中util类的编写" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/23/Android中util类的编写/">Android中util类的编写</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/23/Android中util类的编写/" class="archive-article-date">
-  	<time datetime="2019-04-23T14:10:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-23</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>在开发过程中,将经常用到的类封装成一个util(工具)类,能大大降低代码的重复并提高可读性<br>使用时直接调用类名.方法即可<br>
-        
-          <a class="article-more-a" href="/2019/04/23/Android中util类的编写/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/23/Android中util类的编写/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中的自定义控件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/23/Android中的自定义控件/">Android中的自定义控件</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/23/Android中的自定义控件/" class="archive-article-date">
-  	<time datetime="2019-04-23T13:28:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-23</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>Android中的自定义控件很常用,尤其时在哪些布局嵌套里面,使用嵌套将会有大量的代码,可读性差,通过自定义控件后即可提高可维护性和复用性让代码更简洁,明了<br>
-        
-          <a class="article-more-a" href="/2019/04/23/Android中的自定义控件/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/23/Android中的自定义控件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中TextView的跑马灯效果" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/23/Android中TextView的跑马灯效果/">Android中TextView的跑马灯效果</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/23/Android中TextView的跑马灯效果/" class="archive-article-date">
-  	<time datetime="2019-04-23T13:02:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-23</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>TextView的跑马灯效果就如银行大门上方悬挂的跑马灯广告牌一样,从右向左移动,实现起来也很简单<br>
-        
-          <a class="article-more-a" href="/2019/04/23/Android中TextView的跑马灯效果/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/23/Android中TextView的跑马灯效果/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-手机卫士的启动页面SplashActivity" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/21/手机卫士的启动页面SplashActivity/">手机卫士的启动页面SplashActivity</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/21/手机卫士的启动页面SplashActivity/" class="archive-article-date">
-  	<time datetime="2019-04-21T13:39:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>启动页面用到<li>getPackageManager.getPackageInfo()方法获取本地版本号以及本地版本名称</li><br><li>用HttpURLConnection连接网络进行服务器解析以及发送消息</li><br><li>用Handler接收消息更新UI </li><br><li>用XUtil框架中的httpUtils.download()根据Url下载服务器高版本的Apk,其中的onSuccess(),onFailure(),onStart(),onLoading()方法能跟方便进行相关操作(如onSuccess()方法中responseInfo.result即为下载的文件)</li><br><li>用Intent跳转到系统安装页面进行安装Apk,跳转时用startActivityForResult(),以及相关的onActivityResult()方法的调用</li><br>
-        
-          <a class="article-more-a" href="/2019/04/21/手机卫士的启动页面SplashActivity/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/21/手机卫士的启动页面SplashActivity/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-XUtils中HttpUtils的download" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/20/XUtils中HttpUtils的download/">XUtils中HttpUtils的download</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/20/XUtils中HttpUtils的download/" class="archive-article-date">
-  	<time datetime="2019-04-20T14:33:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-20</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>在手机卫士中解析服务器的Json数据比对版本号,若服务器中的版本号较高,则需要根据Json数据中的URL下载高版本的Apk,这里用到了XUtils中HttpUtils的download方法<br>
-        
-          <a class="article-more-a" href="/2019/04/20/XUtils中HttpUtils的download/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/20/XUtils中HttpUtils的download/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-手机卫士" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/19/手机卫士/">手机卫士</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/19/手机卫士/" class="archive-article-date">
-  	<time datetime="2019-04-19T03:38:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-19</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>不知不觉今天就从基础级到了项目级了,跟着视频学习也有两个月了,前一个月是Javese,后一个月是Android基础,接下来会跟着视频做一个手机卫视的项目<br>现在都9021年了这个项目不知道是不是有点out,虽然项目感觉有点out,但是里面的业务逻辑和变成思想值得我这个小白<br>学习,希望通过这个项目的实践能让我有更扎实的基础和更丰富的经验,加油!<br></body>
-
-      
-
       
     </div>
     <div class="article-info article-info-index">
@@ -733,16 +217,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/19/手机卫士/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/11/Android获取手机所有的应用相关信息/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android中获取手机和sd卡的总大小和可用大小</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -762,166 +305,14 @@
 
 
 
-
-  
-    <article id="post-Android中通知栏的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/18/Android中通知栏的简单使用/">Android中通知栏的简单使用</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/18/Android中通知栏的简单使用/" class="archive-article-date">
-  	<time datetime="2019-04-18T12:16:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-18</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>通知栏在Android应用中很常见,是除Toast,Dialog之外的显示方式,通知栏的用法非常简单<br>
-        
-          <a class="article-more-a" href="/2019/04/18/Android中通知栏的简单使用/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/18/Android中通知栏的简单使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中的补间动画" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/18/Android中的补间动画/">Android中的补间动画</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/18/Android中的补间动画/" class="archive-article-date">
-  	<time datetime="2019-04-18T05:02:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-18</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>补间动画也称View动画,包含透明(AlphaAnim),旋转(RotateAnim),缩放(ScaleAnim)和平移(TranslateAnim)四种<br>补间动画有两种实现方式: 一.代码实现 二.Xml文件实现<br>
-        
-          <a class="article-more-a" href="/2019/04/18/Android中的补间动画/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/18/Android中的补间动画/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -947,8 +338,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
