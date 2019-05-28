@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019 | Blog</title>
+  <title>Android中使用SlidingMenu添加侧边栏 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2019/page/2/index.html">
+  <meta name="description" content="本篇介绍通过SlidingMenu达到滑出左右侧边栏的效果">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中使用SlidingMenu添加侧边栏">
+<meta property="og:url" content="http://yoursite.com/2019/05/28/Android中使用SlidingMenu添加侧边栏/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="本篇介绍通过SlidingMenu达到滑出左右侧边栏的效果">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/img/slidingmen_main.png">
+<meta property="og:image" content="http://yoursite.com/img/slidingmen_left.png">
+<meta property="og:image" content="http://yoursite.com/img/slidingmen_right.png">
+<meta property="og:updated_time" content="2019-05-28T00:51:11.295Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="Android中使用SlidingMenu添加侧边栏">
+<meta name="twitter:description" content="本篇介绍通过SlidingMenu达到滑出左右侧边栏的效果">
+<meta name="twitter:image" content="http://yoursite.com/img/slidingmen_main.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -148,36 +157,56 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Android中使用SlidingMenu添加侧边栏" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android中使用SlidingMenu添加侧边栏
+    </h1>
+  
+
+        
+        <a href="/2019/05/28/Android中使用SlidingMenu添加侧边栏/" class="archive-article-date">
+  	<time datetime="2019-05-28T00:23:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
+</a>
+	
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <body><br>本篇介绍通过SlidingMenu达到滑出左右侧边栏的效果<br><a id="more"></a><br><h3>准备工作如下</h3><br>1.在github上下载相关的库文件(在此处我已准备好,点击右侧即可下载)<a href="\download\SlidingMenuLibrary.zip">点我下载</a><br>2.将下载好的库文件(压缩包解压)导入到eclipse中<br>3.将库文件添加至本项目中,鼠标选中项目,右键-&gt;点击properties-&gt;点击左侧Android-&gt;点击右侧Add-&gt;单击ok<br>4.这样库文件就准备好了,导入完成后,我们可以使用库文件中所有的资源(包括图片)<br><br><h3>使用步骤如下</h3><br>使用slidingmenu<br>1.引入slidingmenu库<br>2.继承SlidingFragmentActivity<br>3.onCreate改为public<br>4.调用相关api<br><br><h3>代码如下</h3><br>1.activity_main.xml(主界面布局)<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    tools:context=<span class="string">"com.niyang.zhbj.MainAcitivity"</span> &gt;</span><br><span class="line">	</span><br><span class="line">    &lt;TextView </span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:text=<span class="string">"this is main"</span>/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure><br><br>2.sliding_left_menu.xml(左侧侧栏布局)<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:background=<span class="string">"#0f0"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:text=<span class="string">"this is left"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>3.sliding_right_menu.xml(右侧侧栏布局)<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:background=<span class="string">"#f00"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span> &gt;</span><br><span class="line">    </span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:text=<span class="string">"this is right"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>4.MainActivity.java(示例代码)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.zhbj;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;</span><br><span class="line"><span class="keyword">import</span> com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.view.Window;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**使用slidingmenu</span></span><br><span class="line"><span class="comment"> * 1.引入slidingmenu库</span></span><br><span class="line"><span class="comment"> * 2.继承SlidingFragmentActivity </span></span><br><span class="line"><span class="comment"> * 3.onCreate改为public</span></span><br><span class="line"><span class="comment"> * 4.调用相关api</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> niyang</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainAcitivity</span> <span class="keyword">extends</span> <span class="title">SlidingFragmentActivity</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">		setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 设置左侧边栏</span></span><br><span class="line">		setBehindContentView(R.layout.sliding_left_menu);</span><br><span class="line">		SlidingMenu slidingMenu = getSlidingMenu();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 设置右边栏</span></span><br><span class="line">		slidingMenu.setSecondaryMenu(R.layout.sliding_right_menu);</span><br><span class="line">		slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);<span class="comment">// 设置模式,左右都有侧边栏</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// 设置全屏触摸,默认划动边界</span></span><br><span class="line">		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 这只侧边栏高度</span></span><br><span class="line">		slidingMenu.setBehindOffset(<span class="number">200</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br><h3>运行截图如下</h3><br><font color="black" size="+2">1.主界面如下</font><br><br><img src="\img\slidingmen_main.png"><br><br><font color="black" size="+2">2.向左滑动后</font><br><br><img src="\img\slidingmen_left.png"><br><br><font color="black" size="+2">3.向右滑动后</font><br><br><img src="\img\slidingmen_right.png"><br></body>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/" class="archive-article-date">
-  	<time datetime="2019-05-11T01:07:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/">Android中获取手机和sd卡的总大小和可用大小</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -189,364 +218,105 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/28/Android中使用SlidingMenu添加侧边栏/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/09/Android中拦截短信/" class="archive-article-date">
-  	<time datetime="2019-05-09T08:19:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/25/Android中ViewPager的使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android中ViewPager的使用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/09/Android中拦截短信/">Android中拦截短信</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/06/Android中获取系统所有运行的服务/" class="archive-article-date">
-  	<time datetime="2019-05-06T14:42:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/06/Android中获取系统所有运行的服务/">Android中获取系统所有运行的服务</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/06/Android中Button设置双击事件/" class="archive-article-date">
-  	<time datetime="2019-05-06T14:06:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/06/Android中Button设置双击事件/">Android中Button设置双击事件</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/06/Android中自定义Toast且可拖动的简单实现/" class="archive-article-date">
-  	<time datetime="2019-05-06T13:27:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/06/Android中自定义Toast且可拖动的简单实现/">Android中自定义Toast且可拖动的简单实现</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/06/Android中的归属地查询/" class="archive-article-date">
-  	<time datetime="2019-05-06T12:41:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/06/Android中的归属地查询/">Android中的归属地查询</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/26/Android中使用ContentResolver取手机中联系人的名称和手机号/" class="archive-article-date">
-  	<time datetime="2019-04-26T06:59:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/26/Android中使用ContentResolver取手机中联系人的名称和手机号/">Android中使用ContentResolver取手机中联系人的名称和手机号</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/26/Android中点击下一页后平移动画的简单实现/" class="archive-article-date">
-  	<time datetime="2019-04-26T06:39:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/26/Android中点击下一页后平移动画的简单实现/">Android中点击下一页后平移动画的简单实现</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/25/Android中startActivityForResult来获取跳转活动界面的数据/" class="archive-article-date">
-  	<time datetime="2019-04-25T15:02:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/25/Android中startActivityForResult来获取跳转活动界面的数据/">Android中startActivityForResult来获取跳转活动界面的数据</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/25/Android中设置Button按下的UI/" class="archive-article-date">
-  	<time datetime="2019-04-25T14:33:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/25/Android中设置Button按下的UI/">Android中设置Button按下的UI</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2019/page/3/">3</a><a class="page-number" href="/archives/2019/page/4/">4</a><a class="page-number" href="/archives/2019/page/5/">5</a><a class="extend next" rel="next" href="/archives/2019/page/3/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -573,8 +343,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
