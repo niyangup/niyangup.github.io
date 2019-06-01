@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>Android中事件拦截 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: Android中事件拦截date: 2019-06-01 11:47:45tags: [Android]— 当控件获取焦点时,会从上往下传递,return false表示不消费此事件,继续往下传递(往上),return true表示消费此事件,不再传递">
+  <meta name="description" content="当控件获取焦点时,会从上往下传递,return false表示不消费此事件,继续往下传递(往上),return true表示消费此事件,不再传递">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blog">
+<meta property="og:title" content="Android中事件拦截">
 <meta property="og:url" content="http://yoursite.com/2019/06/01/Android中事件拦截/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="title: Android中事件拦截date: 2019-06-01 11:47:45tags: [Android]— 当控件获取焦点时,会从上往下传递,return false表示不消费此事件,继续往下传递(往上),return true表示消费此事件,不再传递">
+<meta property="og:description" content="当控件获取焦点时,会从上往下传递,return false表示不消费此事件,继续往下传递(往上),return true表示消费此事件,不再传递">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-01T03:51:57.217Z">
+<meta property="og:updated_time" content="2019-06-01T04:35:45.315Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
-<meta name="twitter:description" content="title: Android中事件拦截date: 2019-06-01 11:47:45tags: [Android]— 当控件获取焦点时,会从上往下传递,return false表示不消费此事件,继续往下传递(往上),return true表示消费此事件,不再传递">
+<meta name="twitter:title" content="Android中事件拦截">
+<meta name="twitter:description" content="当控件获取焦点时,会从上往下传递,return false表示不消费此事件,继续往下传递(往上),return true表示消费此事件,不再传递">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -155,11 +156,26 @@
             <article id="post-Android中事件拦截" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android中事件拦截
+    </h1>
+  
+
+        
+        <a href="/2019/06/01/Android中事件拦截/" class="archive-article-date">
+  	<time datetime="2019-06-01T03:47:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-01</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<p>title: Android中事件拦截<br>date: 2019-06-01 11:47:45<br>tags:<br> [Android]—</p>
-<body><br>当控件获取焦点时,会从上往下传递,return false表示不消费此事件,继续往下传递(往上),return true表示消费此事件,不再传递<br><a id="more"></a><br>想要强制不拦截(不消费此事件)重写onInterceptTouchEvent方法并return false即可<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//事件拦截</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;<span class="comment">//不拦截</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br></body>
+        <body><br>当控件获取焦点时,会从上往下传递,return false表示不消费此事件,继续往下传递(往上),return true表示消费此事件,不再传递<br><a id="more"></a><br>想要强制不拦截(不消费此事件)重写onInterceptTouchEvent方法并return false即可<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//事件拦截</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;<span class="comment">//不拦截</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br></body>
+
       
 
       
@@ -188,6 +204,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
