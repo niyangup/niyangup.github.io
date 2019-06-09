@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>Android下捕获全局异常 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="为了让用户有更好的体验,让开发人员能得到bug的反馈,会加上一个全局异常的捕获,记录错误日志并上传至服务器">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android下捕获全局异常">
+<meta property="og:url" content="http://yoursite.com/2019/06/09/Android下捕获全局异常/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="为了让用户有更好的体验,让开发人员能得到bug的反馈,会加上一个全局异常的捕获,记录错误日志并上传至服务器">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-09T03:51:46.930Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="Android下捕获全局异常">
+<meta name="twitter:description" content="为了让用户有更好的体验,让开发人员能得到bug的反馈,会加上一个全局异常的捕获,记录错误日志并上传至服务器">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -148,22 +153,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Android中创建快捷方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Android下捕获全局异常" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/14/Android中创建快捷方式/">Android中创建快捷方式</a>
+    <h1 class="article-title" itemprop="name">
+      Android下捕获全局异常
     </h1>
   
 
         
-        <a href="/2019/05/14/Android中创建快捷方式/" class="archive-article-date">
-  	<time datetime="2019-05-14T14:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-14</time>
+        <a href="/2019/06/09/Android下捕获全局异常/" class="archive-article-date">
+  	<time datetime="2019-06-09T03:39:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
 </a>
 	
         
@@ -171,14 +174,37 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <body><br>创建快捷方式实则是发送带有创建快捷方式Action的Intent<br>
-        
-          <a class="article-more-a" href="/2019/05/14/Android中创建快捷方式/#more">more >></a>
-        
+        <p>为了让用户有更好的体验,让开发人员能得到bug的反馈,会加上一个全局异常的捕获,记录错误日志并上传至服务器<br><a id="more"></a></p>
+<h1 id="总共分为两步"><a href="#总共分为两步" class="headerlink" title="总共分为两步"></a>总共分为两步</h1><li>代码的编写</li><br><li>在AndroidManifest下进行配置使用</li>
+
+<h2 id="Java代码的编写"><a href="#Java代码的编写" class="headerlink" title="Java代码的编写"></a>Java代码的编写</h2><p>暂未实现上传的逻辑<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.zhbj.global;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="keyword">import</span> java.lang.Thread.UncaughtExceptionHandler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Application;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate();</span><br><span class="line">		<span class="comment">// 捕获全局异常</span></span><br><span class="line">		Thread.setDefaultUncaughtExceptionHandler(<span class="keyword">new</span> UncaughtExceptionHandler() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">uncaughtException</span><span class="params">(Thread thread, Throwable ex)</span> </span>&#123;</span><br><span class="line">				<span class="comment">// 在获取到了未捕获的异常后,调用的方法</span></span><br><span class="line">				String path = getFilesDir().getPath();</span><br><span class="line">				<span class="comment">// String path="/data/data/com.niyang.mobilesafe";</span></span><br><span class="line">				File file = <span class="keyword">new</span> File(path, <span class="string">"error.log"</span>);</span><br><span class="line">				<span class="keyword">try</span> &#123;</span><br><span class="line">					PrintWriter writer = <span class="keyword">new</span> PrintWriter(file);</span><br><span class="line">					ex.printStackTrace(writer);</span><br><span class="line">					writer.close();</span><br><span class="line">				&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">// 上传日志到服务器</span></span><br><span class="line">				<span class="comment">// TODO</span></span><br><span class="line">				System.exit(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="在AndroidManifest下进行配置使用"><a href="#在AndroidManifest下进行配置使用" class="headerlink" title="在AndroidManifest下进行配置使用"></a>在AndroidManifest下进行配置使用</h2><p>在 “application” 节点下加上一个name属性,内容即为上面代码的全路径<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:name=<span class="string">"com.niyang.mobilesafe.global.MyApplication"</span></span><br></pre></td></tr></table></figure></p>
+
       
 
       
-    </body></div>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
     <div class="article-info article-info-index">
       
       
@@ -196,16 +222,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/14/Android中创建快捷方式/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/09/Android下捕获全局异常/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/08/Android下的适配/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android下的适配</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -225,705 +310,14 @@
 
 
 
-
-  
-    <article id="post-Android中的ExpandableListView的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/14/Android中的ExpandableListView的使用/">Android中的ExpandableListView的使用</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/14/Android中的ExpandableListView的使用/" class="archive-article-date">
-  	<time datetime="2019-05-14T13:37:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-14</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>本例采用从数据库中进行查询而获得数据源,自定义适配器,适配到ExpandableListView上<br>
-        
-          <a class="article-more-a" href="/2019/05/14/Android中的ExpandableListView的使用/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/14/Android中的ExpandableListView的使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中获取正在运行的进程以及kill进程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/14/Android中获取正在运行的进程以及kill进程/">Android中获取正在运行的进程以及kill进程</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/14/Android中获取正在运行的进程以及kill进程/" class="archive-article-date">
-  	<time datetime="2019-05-14T00:29:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-14</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>获取正在运行的进程相关信息(个数,使用内存,总内存,相关进程的集合)以及kill进程的简单实现<br>
-        
-          <a class="article-more-a" href="/2019/05/14/Android中获取正在运行的进程以及kill进程/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/14/Android中获取正在运行的进程以及kill进程/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android一键启动-卸载-分享" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/12/Android一键启动-卸载-分享/">Android一键启动,卸载,分享</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/12/Android一键启动-卸载-分享/" class="archive-article-date">
-  	<time datetime="2019-05-12T02:11:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-12</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>一键启动,卸载,分享的使用<br>
-        
-          <a class="article-more-a" href="/2019/05/12/Android一键启动-卸载-分享/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/12/Android一键启动-卸载-分享/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中PopupWindow的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/12/Android中PopupWindow的简单使用/">Android中PopupWindow的简单使用</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/12/Android中PopupWindow的简单使用/" class="archive-article-date">
-  	<time datetime="2019-05-12T01:14:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-12</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>PopupWindow的简单使用<br>使用分为3部分:1.创建对象 2.设置参数 3.show出来<br>
-        
-          <a class="article-more-a" href="/2019/05/12/Android中PopupWindow的简单使用/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/12/Android中PopupWindow的简单使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android获取手机所有的应用相关信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/11/Android获取手机所有的应用相关信息/">Android获取手机所有的应用相关信息</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/11/Android获取手机所有的应用相关信息/" class="archive-article-date">
-  	<time datetime="2019-05-11T13:43:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-11</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>当前手机所有的应用相关信息(名称,包名,图标,(手机内存,sd卡),(系统,用户))<br>
-        
-          <a class="article-more-a" href="/2019/05/11/Android获取手机所有的应用相关信息/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/11/Android获取手机所有的应用相关信息/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中获取手机和sd卡的总大小和可用大小" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/">Android中获取手机和sd卡的总大小和可用大小</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/" class="archive-article-date">
-  	<time datetime="2019-05-11T01:07:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-11</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>获取当前手机和sd卡的总空间大小以及可用空间的大小<br>
-        
-          <a class="article-more-a" href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中拦截短信" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/09/Android中拦截短信/">Android中拦截短信</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/09/Android中拦截短信/" class="archive-article-date">
-  	<time datetime="2019-05-09T08:19:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>当手机接收到短信的时候,系统会发送一条有序广播,我们只需在最开启将广播拦截即可<br>
-        
-          <a class="article-more-a" href="/2019/05/09/Android中拦截短信/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/09/Android中拦截短信/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中获取系统所有运行的服务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/06/Android中获取系统所有运行的服务/">Android中获取系统所有运行的服务</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/06/Android中获取系统所有运行的服务/" class="archive-article-date">
-  	<time datetime="2019-05-06T14:42:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行<br>
-        
-          <a class="article-more-a" href="/2019/05/06/Android中获取系统所有运行的服务/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/06/Android中获取系统所有运行的服务/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中Button设置双击事件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/06/Android中Button设置双击事件/">Android中Button设置双击事件</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/06/Android中Button设置双击事件/" class="archive-article-date">
-  	<time datetime="2019-05-06T14:06:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>双击事件以及多击事件的实现<br>
-        
-          <a class="article-more-a" href="/2019/05/06/Android中Button设置双击事件/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/06/Android中Button设置双击事件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -949,8 +343,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
