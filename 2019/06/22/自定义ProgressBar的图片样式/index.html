@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>自定义ProgressBar的图片样式 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 自定义ProgressBar的图片样式date: 2019-06-22 15:15:03tags: [Android]—自定义ProgressBar的图片颜色">
+  <meta name="description" content="自定义ProgressBar的图片颜色">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blog">
+<meta property="og:title" content="自定义ProgressBar的图片样式">
 <meta property="og:url" content="http://yoursite.com/2019/06/22/自定义ProgressBar的图片样式/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="title: 自定义ProgressBar的图片样式date: 2019-06-22 15:15:03tags: [Android]—自定义ProgressBar的图片颜色">
+<meta property="og:description" content="自定义ProgressBar的图片颜色">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-22T07:20:56.718Z">
+<meta property="og:updated_time" content="2019-06-22T07:46:29.612Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
-<meta name="twitter:description" content="title: 自定义ProgressBar的图片样式date: 2019-06-22 15:15:03tags: [Android]—自定义ProgressBar的图片颜色">
+<meta name="twitter:title" content="自定义ProgressBar的图片样式">
+<meta name="twitter:description" content="自定义ProgressBar的图片颜色">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -155,10 +156,25 @@
             <article id="post-自定义ProgressBar的图片样式" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自定义ProgressBar的图片样式
+    </h1>
+  
+
+        
+        <a href="/2019/06/22/自定义ProgressBar的图片样式/" class="archive-article-date">
+  	<time datetime="2019-06-22T07:15:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-22</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<p>title: 自定义ProgressBar的图片样式<br>date: 2019-06-22 15:15:03<br>tags:<br> [Android]—<br>自定义ProgressBar的图片颜色<br><a id="more"></a><br>1.在drawable目录下新建custom_progress.xml<br>2.加入一下代码<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;layer-list xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span> &gt;</span><br><span class="line">&lt;!-- 	空的背景图片 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=<span class="string">"@android:id/background"</span></span><br><span class="line">        android:drawable=<span class="string">"@drawable/rating_small_empty"</span>/&gt;</span><br><span class="line">    </span><br><span class="line">&lt;!--     一半的背景图片 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=<span class="string">"@android:id/secondaryProgress"</span></span><br><span class="line">        android:drawable=<span class="string">"@drawable/rating_small_half"</span>/&gt;</span><br><span class="line">    </span><br><span class="line">&lt;!--     满的背景图片 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=<span class="string">"@android:id/progress"</span></span><br><span class="line">        android:drawable=<span class="string">"@drawable/rating_small_full"</span>/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/layer-list&gt;</span><br></pre></td></tr></table></figure></p>
+        <p>自定义ProgressBar的图片颜色<br><a id="more"></a><br>1.在drawable目录下新建custom_progress.xml<br>2.加入一下代码<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;layer-list xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span> &gt;</span><br><span class="line">&lt;!-- 	空的背景图片 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=<span class="string">"@android:id/background"</span></span><br><span class="line">        android:drawable=<span class="string">"@drawable/rating_small_empty"</span>/&gt;</span><br><span class="line">    </span><br><span class="line">&lt;!--     一半的背景图片 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=<span class="string">"@android:id/secondaryProgress"</span></span><br><span class="line">        android:drawable=<span class="string">"@drawable/rating_small_half"</span>/&gt;</span><br><span class="line">    </span><br><span class="line">&lt;!--     满的背景图片 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:id=<span class="string">"@android:id/progress"</span></span><br><span class="line">        android:drawable=<span class="string">"@drawable/rating_small_full"</span>/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/layer-list&gt;</span><br></pre></td></tr></table></figure></p>
 <p>3.在需要用到的地方<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:progressDrawable=<span class="string">"@drawable/custom_progress"</span></span><br></pre></td></tr></table></figure></p>
 
       
@@ -189,6 +205,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
