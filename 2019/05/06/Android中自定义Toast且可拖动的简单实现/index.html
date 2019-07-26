@@ -153,27 +153,32 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+            <article id="post-Android中自定义Toast且可拖动的简单实现" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
-    <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android中自定义Toast且可拖动的简单实现
+    </h1>
+  
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        
+        <a href="/2019/05/06/Android中自定义Toast且可拖动的简单实现/" class="archive-article-date">
+  	<time datetime="2019-05-06T13:27:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
+</a>
+	
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <body><br>在电话响铃时,想要实现归属地的显示,由于此时界面不存在,所以应用Service+Toast<br><a id="more"></a><br><a href="\download\call_locate_white.9.png" download="call_locate_white.9.png">需要的图片资源</a><br>1.判断手机处于响铃状态<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	mTm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);</span><br><span class="line">	listener = <span class="keyword">new</span> MyListener();</span><br><span class="line">	mTm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);</span><br><span class="line">	<span class="keyword">super</span>.onCreate();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (mTm != <span class="keyword">null</span> &amp;&amp; listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">		mTm.listen(listener, PhoneStateListener.LISTEN_NONE);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">super</span>.onDestroy();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyListener</span> <span class="keyword">extends</span> <span class="title">PhoneStateListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCallStateChanged</span><span class="params">(<span class="keyword">int</span> state, String incomingNumber)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCallStateChanged(state, incomingNumber);</span><br><span class="line">		<span class="keyword">switch</span> (state) &#123;</span><br><span class="line">		<span class="comment">// 响铃</span></span><br><span class="line">		<span class="keyword">case</span> TelephonyManager.CALL_STATE_RINGING:</span><br><span class="line">			Log.v(<span class="string">"AddressService"</span>, <span class="string">"响铃"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="comment">// 空闲</span></span><br><span class="line">		<span class="keyword">case</span> TelephonyManager.CALL_STATE_IDLE:</span><br><span class="line">			Log.v(<span class="string">"AddressService"</span>, <span class="string">"空闲"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="comment">// 摘机</span></span><br><span class="line">		<span class="keyword">case</span> TelephonyManager.CALL_STATE_OFFHOOK:</span><br><span class="line">			Log.v(<span class="string">"AddressService"</span>, <span class="string">"摘机"</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure><br><br>2.展示自定义Toast<br>自定义Toast的参数代码,自定义布局样式,挂载带windows上(需要权限)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> WindowManager.LayoutParams params = mParams;</span><br><span class="line">params.height = WindowManager.LayoutParams.WRAP_CONTENT;</span><br><span class="line">params.width = WindowManager.LayoutParams.WRAP_CONTENT;</span><br><span class="line">params.format = PixelFormat.TRANSLUCENT;</span><br><span class="line"><span class="comment">// 在响铃的时候显示Toast,和电话类型一致</span></span><br><span class="line">params.type = WindowManager.LayoutParams.TYPE_PHONE;</span><br><span class="line">params.setTitle(<span class="string">"Toast"</span>);</span><br><span class="line">params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON</span><br><span class="line">		| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;</span><br><span class="line"><span class="comment">// | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;</span></span><br><span class="line"><span class="comment">// 将Toast指定在左上角(位置)</span></span><br><span class="line">params.gravity = Gravity.LEFT + Gravity.TOP;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自定义布局样式</span></span><br><span class="line">View mViewToast = View.inflate(getApplicationContext(), R.layout.toast_view, <span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//挂载带windows上(需要权限)</span></span><br><span class="line"><span class="comment">//WindowManager mWm = (WindowManager) getSystemService(WINDOW_SERVICE);</span></span><br><span class="line">mWm.addView(mViewToast, params);</span><br></pre></td></tr></table></figure><br><br>为 mViewToast设置触摸监听OnTouchListener,使其可按下,拖动,弹起<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">mViewToast.setOnTouchListener(<span class="keyword">new</span> OnTouchListener() &#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> startX;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> startY;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View v, MotionEvent event)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">		<span class="comment">// 按下</span></span><br><span class="line">		<span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">			startX = (<span class="keyword">int</span>) event.getRawX();</span><br><span class="line">			startY = (<span class="keyword">int</span>) event.getRawY();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 移动</span></span><br><span class="line">		<span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">			<span class="keyword">int</span> moveX = (<span class="keyword">int</span>) event.getRawX();</span><br><span class="line">			<span class="keyword">int</span> moveY = (<span class="keyword">int</span>) event.getRawY();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">int</span> disX = moveX - startX;</span><br><span class="line">			<span class="keyword">int</span> disY = moveY - startY;</span><br><span class="line"></span><br><span class="line">			params.x = params.x + disX;</span><br><span class="line">			params.y = params.y + disY;</span><br><span class="line">			<span class="keyword">if</span> (params.x &lt; <span class="number">0</span>) &#123;</span><br><span class="line">				params.x = <span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (params.y &lt; <span class="number">0</span>) &#123;</span><br><span class="line">				params.y = <span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (params.x &gt; mScreenWidth - mViewToast.getWidth()) &#123;</span><br><span class="line">				params.x = mScreenWidth - mViewToast.getWidth();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (params.y &gt; mScreenHeight - mViewToast.getHeight() - <span class="number">22</span>) &#123;</span><br><span class="line">				params.y = mScreenHeight - mViewToast.getHeight() - <span class="number">22</span>;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 告知窗体Toast需要按照手势的移动,去做位置的更新</span></span><br><span class="line">			mWm.updateViewLayout(mViewToast, params);</span><br><span class="line"></span><br><span class="line">			startX = (<span class="keyword">int</span>) event.getRawX();</span><br><span class="line">			startY = (<span class="keyword">int</span>) event.getRawY();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 弹起</span></span><br><span class="line">		<span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">			<span class="comment">// 存储移动到的位置</span></span><br><span class="line">			SpUtil.putInt(getApplicationContext(), ConstantValue.LOCATION_X, params.x);</span><br><span class="line">			SpUtil.putInt(getApplicationContext(), ConstantValue.LOCATION_Y, params.y);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure><br><br>3.toast_view.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id=<span class="string">"@+id/tv_toast"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:background=<span class="string">"@drawable/call_locate_white"</span></span><br><span class="line">        android:drawableLeft=<span class="string">"@android:drawable/ic_menu_call"</span></span><br><span class="line">        android:gravity=<span class="string">"center"</span></span><br><span class="line">        android:text=<span class="string">"电话来了"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>4.AddressService.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.ConstantValue;</span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.R;</span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.engine.AddressDao;</span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.util.SpUtil;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Service;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.graphics.PixelFormat;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.IBinder;</span><br><span class="line"><span class="keyword">import</span> android.telephony.PhoneStateListener;</span><br><span class="line"><span class="keyword">import</span> android.telephony.TelephonyManager;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.Gravity;</span><br><span class="line"><span class="keyword">import</span> android.view.MotionEvent;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnTouchListener;</span><br><span class="line"><span class="keyword">import</span> android.view.WindowManager;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddressService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> TelephonyManager mTm;</span><br><span class="line">	<span class="keyword">private</span> MyListener listener;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> WindowManager.LayoutParams mParams = <span class="keyword">new</span> WindowManager.LayoutParams();</span><br><span class="line">	<span class="keyword">private</span> View mViewToast;</span><br><span class="line">	<span class="keyword">private</span> String mAddress;</span><br><span class="line">	<span class="keyword">private</span> TextView tv_toast;</span><br><span class="line">	<span class="keyword">private</span> WindowManager mWm;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> mScreenWidth;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> mScreenHeight;</span><br><span class="line">	<span class="keyword">private</span> Handler mhandler = <span class="keyword">new</span> Handler() &#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(android.os.Message msg)</span> </span>&#123;</span><br><span class="line">			tv_toast.setText(mAddress);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		mTm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);</span><br><span class="line">		listener = <span class="keyword">new</span> MyListener();</span><br><span class="line">		mTm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);</span><br><span class="line">		mWm = (WindowManager) getSystemService(WINDOW_SERVICE);</span><br><span class="line">		mScreenWidth = mWm.getDefaultDisplay().getWidth();</span><br><span class="line">		mScreenHeight = mWm.getDefaultDisplay().getHeight();</span><br><span class="line">		<span class="keyword">super</span>.onCreate();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (mTm != <span class="keyword">null</span> &amp;&amp; listener != <span class="keyword">null</span>) &#123;</span><br><span class="line">			mTm.listen(listener, PhoneStateListener.LISTEN_NONE);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">super</span>.onDestroy();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">MyListener</span> <span class="keyword">extends</span> <span class="title">PhoneStateListener</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="meta">@Override</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCallStateChanged</span><span class="params">(<span class="keyword">int</span> state, String incomingNumber)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">super</span>.onCallStateChanged(state, incomingNumber);</span><br><span class="line">			<span class="keyword">switch</span> (state) &#123;</span><br><span class="line">			<span class="comment">// 响铃</span></span><br><span class="line">			<span class="keyword">case</span> TelephonyManager.CALL_STATE_RINGING:</span><br><span class="line">				Log.v(<span class="string">"AddressService"</span>, <span class="string">"响铃"</span>);</span><br><span class="line">				showToath(incomingNumber);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="comment">// 空闲</span></span><br><span class="line">			<span class="keyword">case</span> TelephonyManager.CALL_STATE_IDLE:</span><br><span class="line">				Log.v(<span class="string">"AddressService"</span>, <span class="string">"空闲"</span>);</span><br><span class="line">				<span class="comment">// 挂断电话,窗体需要移除</span></span><br><span class="line">				<span class="keyword">if</span> (mWm != <span class="keyword">null</span> &amp;&amp; mViewToast != <span class="keyword">null</span>) &#123;</span><br><span class="line">					mWm.removeView(mViewToast);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="comment">// 摘机</span></span><br><span class="line">			<span class="keyword">case</span> TelephonyManager.CALL_STATE_OFFHOOK:</span><br><span class="line">				Log.v(<span class="string">"AddressService"</span>, <span class="string">"摘机"</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">showToath</span><span class="params">(String incomingNumber)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">final</span> WindowManager.LayoutParams params = mParams;</span><br><span class="line">		params.height = WindowManager.LayoutParams.WRAP_CONTENT;</span><br><span class="line">		params.width = WindowManager.LayoutParams.WRAP_CONTENT;</span><br><span class="line">		params.format = PixelFormat.TRANSLUCENT;</span><br><span class="line">		<span class="comment">// 在响铃的时候显示Toast,和电话类型一致</span></span><br><span class="line">		params.type = WindowManager.LayoutParams.TYPE_PHONE;</span><br><span class="line">		params.setTitle(<span class="string">"Toast"</span>);</span><br><span class="line">		params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON</span><br><span class="line">				| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;</span><br><span class="line">		<span class="comment">// | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;</span></span><br><span class="line">		<span class="comment">// 将Toast指定在左上角(位置)</span></span><br><span class="line">		params.gravity = Gravity.LEFT + Gravity.TOP;</span><br><span class="line">		<span class="comment">// Toast显示效果(xml文件),将Toast挂载到windowManager窗体上</span></span><br><span class="line"></span><br><span class="line">		mViewToast = View.inflate(getApplicationContext(), R.layout.toast_view, <span class="keyword">null</span>);</span><br><span class="line">		tv_toast = (TextView) mViewToast.findViewById(R.id.tv_toast);</span><br><span class="line"></span><br><span class="line">		mViewToast.setOnTouchListener(<span class="keyword">new</span> OnTouchListener() &#123;</span><br><span class="line">			<span class="keyword">private</span> <span class="keyword">int</span> startX;</span><br><span class="line">			<span class="keyword">private</span> <span class="keyword">int</span> startY;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View v, MotionEvent event)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line">				<span class="comment">// 按下</span></span><br><span class="line">				<span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">					startX = (<span class="keyword">int</span>) event.getRawX();</span><br><span class="line">					startY = (<span class="keyword">int</span>) event.getRawY();</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 移动</span></span><br><span class="line">				<span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">					<span class="keyword">int</span> moveX = (<span class="keyword">int</span>) event.getRawX();</span><br><span class="line">					<span class="keyword">int</span> moveY = (<span class="keyword">int</span>) event.getRawY();</span><br><span class="line"></span><br><span class="line">					<span class="keyword">int</span> disX = moveX - startX;</span><br><span class="line">					<span class="keyword">int</span> disY = moveY - startY;</span><br><span class="line"></span><br><span class="line">					params.x = params.x + disX;</span><br><span class="line">					params.y = params.y + disY;</span><br><span class="line">					<span class="keyword">if</span> (params.x &lt; <span class="number">0</span>) &#123;</span><br><span class="line">						params.x = <span class="number">0</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">if</span> (params.y &lt; <span class="number">0</span>) &#123;</span><br><span class="line">						params.y = <span class="number">0</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">if</span> (params.x &gt; mScreenWidth - mViewToast.getWidth()) &#123;</span><br><span class="line">						params.x = mScreenWidth - mViewToast.getWidth();</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">if</span> (params.y &gt; mScreenHeight - mViewToast.getHeight() - <span class="number">22</span>) &#123;</span><br><span class="line">						params.y = mScreenHeight - mViewToast.getHeight() - <span class="number">22</span>;</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="comment">// 告知窗体Toast需要按照手势的移动,去做位置的更新</span></span><br><span class="line">					mWm.updateViewLayout(mViewToast, params);</span><br><span class="line"></span><br><span class="line">					startX = (<span class="keyword">int</span>) event.getRawX();</span><br><span class="line">					startY = (<span class="keyword">int</span>) event.getRawY();</span><br><span class="line"></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 弹起</span></span><br><span class="line">				<span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">					<span class="comment">// 存储移动到的位置</span></span><br><span class="line">					SpUtil.putInt(getApplicationContext(), ConstantValue.LOCATION_X, params.x);</span><br><span class="line">					SpUtil.putInt(getApplicationContext(), ConstantValue.LOCATION_Y, params.y);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		params.x = SpUtil.getInt(getApplicationContext(), ConstantValue.LOCATION_X, <span class="number">0</span>);</span><br><span class="line">		params.y = SpUtil.getInt(getApplicationContext(), ConstantValue.LOCATION_Y, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">		mWm.addView(mViewToast, params);</span><br><span class="line">	&#125;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>5.需要的权限<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.SYSTEM_ALERT_WINDOW"</span>/&gt;</span><br></pre></td></tr></table></figure><br><br></body>
+
+      
+
+      
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -183,93 +188,144 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
+                    
+                    
+                  </div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
-        <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
-        </p>
-      <% } %>
+      </div>
+    </span>
+  </div>
+</div>
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/06/Android中自定义Toast且可拖动的简单实现/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
 
-
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
   
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
+<nav id="article-nav">
+  
+    <a href="/2019/05/06/Android中Button设置双击事件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Android中Button设置双击事件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/06/Android中的归属地查询/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android中的归属地查询</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
 
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
-</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
+
+  
+  
+  
+
+  
+
+  
+
+  
+
+
           </div>
         </div>
       </div>
