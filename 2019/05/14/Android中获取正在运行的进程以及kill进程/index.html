@@ -153,31 +153,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android中获取正在运行的进程以及kill进程" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android中获取正在运行的进程以及kill进程
-    </h1>
-  
-
-        
-        <a href="/2019/05/14/Android中获取正在运行的进程以及kill进程/" class="archive-article-date">
-  	<time datetime="2019-05-14T00:29:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-14</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>获取正在运行的进程相关信息(个数,使用内存,总内存,相关进程的集合)以及kill进程的简单实现<br><a id="more"></a><br>1.ProcessInfo实体类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe.db.domain;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.graphics.drawable.Drawable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessInfo</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> String name;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">long</span> memSize;</span><br><span class="line">	<span class="keyword">public</span> Drawable icon;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">boolean</span> isCheck;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">boolean</span> isSystem;</span><br><span class="line">	<span class="keyword">public</span> String packageName;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getMemSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> memSize;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMemSize</span><span class="params">(<span class="keyword">long</span> memSize)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.memSize = memSize;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Drawable <span class="title">getIcon</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> icon;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIcon</span><span class="params">(Drawable icon)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.icon = icon;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isCheck</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> isCheck;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCheck</span><span class="params">(<span class="keyword">boolean</span> isCheck)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.isCheck = isCheck;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSystem</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> isSystem;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSystem</span><span class="params">(<span class="keyword">boolean</span> isSystem)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.isSystem = isSystem;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getPackageName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> packageName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPackageName</span><span class="params">(String packageName)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.packageName = packageName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>2.ProcessInfoProvider.java<br>提供获取相应信息的方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe.engine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.BufferedReader;</span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</span><br><span class="line"><span class="keyword">import</span> java.io.FileReader;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.R;</span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.db.domain.ProcessInfo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.R.string;</span><br><span class="line"><span class="keyword">import</span> android.app.ActivityManager;</span><br><span class="line"><span class="keyword">import</span> android.app.Application;</span><br><span class="line"><span class="keyword">import</span> android.app.ActivityManager.MemoryInfo;</span><br><span class="line"><span class="keyword">import</span> android.app.ActivityManager.RunningAppProcessInfo;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.ApplicationInfo;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageManager;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageManager.NameNotFoundException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProcessInfoProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">	 *            上下文</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 返回进程总数</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getProcessCount</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">		List&lt;RunningAppProcessInfo&gt; appProcesses = am.getRunningAppProcesses();</span><br><span class="line">		<span class="keyword">return</span> appProcesses.size();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">	 *            上下文</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 返回可用内存的大小(bytes)</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">getAvailSpace</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 1.获取ActivityManager对象</span></span><br><span class="line">		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">		<span class="comment">// 2.构建存储可用内存的对象</span></span><br><span class="line">		MemoryInfo memoryInfo = <span class="keyword">new</span> MemoryInfo();</span><br><span class="line">		<span class="comment">// 3.给memoryInfo对象赋(可用内存)值</span></span><br><span class="line">		am.getMemoryInfo(memoryInfo);</span><br><span class="line">		<span class="comment">// 4.获取memoryInfo对象中相应的数据</span></span><br><span class="line">		<span class="keyword">return</span> memoryInfo.availMem;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">	 *            上下文</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 返回总内存值,byte</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">getTotalSpace</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		 * // 1.获取ActivityManager对象 ActivityManager am = (ActivityManager)</span></span><br><span class="line"><span class="comment">		 * context.getSystemService(Context.ACTIVITY_SERVICE); // 2.构建存储可用内存的对象</span></span><br><span class="line"><span class="comment">		 * MemoryInfo memoryInfo = new MemoryInfo(); // 3.给memoryInfo对象赋(可用内存)值</span></span><br><span class="line"><span class="comment">		 * am.getMemoryInfo(memoryInfo); // 4.获取memoryInfo对象中相应的数据 return</span></span><br><span class="line"><span class="comment">		 * memoryInfo.totalMem;</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			File file = <span class="keyword">new</span> File(<span class="string">"proc/meminfo"</span>);</span><br><span class="line">			FileReader fileReader = <span class="keyword">new</span> FileReader(file);</span><br><span class="line">			BufferedReader br = <span class="keyword">new</span> BufferedReader(fileReader);</span><br><span class="line">			String line = br.readLine();</span><br><span class="line">			System.out.println(<span class="string">"line:"</span> + line);</span><br><span class="line">			String space = line.substring(line.indexOf(<span class="string">":"</span>) + <span class="number">1</span>, line.indexOf(<span class="string">"kB"</span>)).trim();</span><br><span class="line">			System.out.println(<span class="string">"space:"</span> + space);</span><br><span class="line">			<span class="keyword">long</span> totalMem = Long.parseLong(space);</span><br><span class="line"></span><br><span class="line">			br.close();</span><br><span class="line">			fileReader.close();</span><br><span class="line">			<span class="keyword">return</span> totalMem * <span class="number">1024</span>;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">	 *            上下文</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 当前手机正在运行的进程的相关进程的集合</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;ProcessInfo&gt; <span class="title">getProcessInfo</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line"></span><br><span class="line">		List&lt;ProcessInfo&gt; processInfoList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		List&lt;RunningAppProcessInfo&gt; runningAppProcesses = am.getRunningAppProcesses();</span><br><span class="line">		PackageManager pm = context.getPackageManager();</span><br><span class="line">		<span class="keyword">for</span> (RunningAppProcessInfo info : runningAppProcesses) &#123;</span><br><span class="line"></span><br><span class="line">			ProcessInfo processInfo = <span class="keyword">new</span> ProcessInfo();</span><br><span class="line">			<span class="comment">// 获取进程的名称=packageName</span></span><br><span class="line">			processInfo.packageName = info.processName;</span><br><span class="line">			<span class="comment">// 获取进程占用的内存大小(传递一个进程对应的pid数组)</span></span><br><span class="line">			<span class="keyword">int</span> pid = info.pid;</span><br><span class="line">			android.os.Debug.MemoryInfo[] processMemoryInfo = am.getProcessMemoryInfo(<span class="keyword">new</span> <span class="keyword">int</span>[] &#123; pid &#125;);</span><br><span class="line">			<span class="comment">// 返回数组中索引位置为0的对象,为当前进程的内存信息的对象</span></span><br><span class="line">			android.os.Debug.MemoryInfo memoryInfo = processMemoryInfo[<span class="number">0</span>];</span><br><span class="line">			<span class="comment">// 获取已使用的内存大小</span></span><br><span class="line">			<span class="keyword">long</span> totalPrivateDirty = memoryInfo.getTotalPrivateDirty() * <span class="number">1024</span>;</span><br><span class="line">			processInfo.memSize = totalPrivateDirty;</span><br><span class="line">			<span class="comment">// 获取应用名称</span></span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				ApplicationInfo applicationInfo = pm.getApplicationInfo(processInfo.packageName, <span class="number">0</span>);</span><br><span class="line">				processInfo.name = applicationInfo.loadLabel(pm).toString();</span><br><span class="line">				processInfo.icon = applicationInfo.loadIcon(pm);</span><br><span class="line">				<span class="comment">// 判断是否为系统进程</span></span><br><span class="line">				<span class="keyword">if</span> ((applicationInfo.flags &amp; ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM) &#123;</span><br><span class="line">					processInfo.isSystem = <span class="keyword">true</span>;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					processInfo.isSystem = <span class="keyword">false</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">catch</span> (NameNotFoundException e) &#123;</span><br><span class="line">				processInfo.name = info.processName;</span><br><span class="line">				processInfo.icon = context.getResources().getDrawable(R.drawable.ic_launcher);</span><br><span class="line">				processInfo.isSystem = <span class="keyword">true</span>;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			processInfoList.add(processInfo);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> processInfoList;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * kill进程方法</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">	 *            上下文环境</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> processInfo</span></span><br><span class="line"><span class="comment">	 *            kill进程的java bean</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">killProcess</span><span class="params">(Context context, ProcessInfo processInfo)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 1.获取ActivityManager对象</span></span><br><span class="line">		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">		<span class="comment">// 2.kill相关进程(权限)</span></span><br><span class="line">		am.killBackgroundProcesses(processInfo.getPackageName());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">	 *            上下文环境</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">killAll</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 1.获取ActivityManager对象</span></span><br><span class="line">		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);</span><br><span class="line">		List&lt;RunningAppProcessInfo&gt; list = am.getRunningAppProcesses();</span><br><span class="line">		<span class="keyword">for</span> (RunningAppProcessInfo info : list) &#123;</span><br><span class="line">			<span class="comment">// 除了手机卫士以外,其他的进程都需要kill</span></span><br><span class="line">			<span class="keyword">if</span> (info.processName.equals(context.getPackageName())) &#123;</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			am.killBackgroundProcesses(info.processName);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>3.kill进程用到的权限<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.KILL_BACKGROUND_PROCESSES"</span>/&gt;</span><br></pre></td></tr></table></figure><br><br></body>
-      
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -187,144 +183,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/14/Android中获取正在运行的进程以及kill进程/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/05/14/Android中的ExpandableListView的使用/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android中的ExpandableListView的使用
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/05/12/Android一键启动-卸载-分享/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android一键启动,卸载,分享</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>
