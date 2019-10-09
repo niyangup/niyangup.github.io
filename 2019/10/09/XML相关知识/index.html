@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>XML相关知识 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="XML相关知识1. XML     1. 概念     2. 语法     3. 解析 XML：1. 概念：Extensible Markup Language 可扩展标记语言     * 可扩展：标签都是自定义的。 &amp;lt;user&amp;gt;  &amp;lt;student&amp;gt;      * 功能         * 存储数据             1. 配置文件             2. 在">
+  <meta name="description" content="XML概念,语法,解析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XML相关知识">
 <meta property="og:url" content="http://yoursite.com/2019/10/09/XML相关知识/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="XML相关知识1. XML     1. 概念     2. 语法     3. 解析 XML：1. 概念：Extensible Markup Language 可扩展标记语言     * 可扩展：标签都是自定义的。 &amp;lt;user&amp;gt;  &amp;lt;student&amp;gt;      * 功能         * 存储数据             1. 配置文件             2. 在">
+<meta property="og:description" content="XML概念,语法,解析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-09T07:35:31.221Z">
+<meta property="og:updated_time" content="2019-10-09T07:47:38.119Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XML相关知识">
-<meta name="twitter:description" content="XML相关知识1. XML     1. 概念     2. 语法     3. 解析 XML：1. 概念：Extensible Markup Language 可扩展标记语言     * 可扩展：标签都是自定义的。 &amp;lt;user&amp;gt;  &amp;lt;student&amp;gt;      * 功能         * 存储数据             1. 配置文件             2. 在">
+<meta name="twitter:description" content="XML概念,语法,解析">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -173,11 +173,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="XML相关知识"><a href="#XML相关知识" class="headerlink" title="XML相关知识"></a>XML相关知识</h1><pre><code>1. XML
-    1. 概念
-    2. 语法
-    3. 解析
-</code></pre><h2 id="XML："><a href="#XML：" class="headerlink" title="XML："></a>XML：</h2><pre><code>1. 概念：Extensible Markup Language 可扩展标记语言
+        <p>XML概念,语法,解析<br><a id="more"></a></p>
+<p></p><h2 id="xml-">XML：</h2><p></p>
+<pre><code>1. 概念：Extensible Markup Language 可扩展标记语言
     * 可扩展：标签都是自定义的。 &lt;user&gt;  &lt;student&gt;
 
     * 功能
@@ -200,16 +198,16 @@
         5. 标签必须正确关闭
         6. xml标签名称区分大小写
     * 快速入门：
-        &lt;?xml version=&apos;1.0&apos; ?&gt;
+        &lt;?xml version=&#39;1.0&#39; ?&gt;
         &lt;users&gt;
-            &lt;user id=&apos;1&apos;&gt;
+            &lt;user id=&#39;1&#39;&gt;
                 &lt;name&gt;zhangsan&lt;/name&gt;
                 &lt;age&gt;23&lt;/age&gt;
                 &lt;gender&gt;male&lt;/gender&gt;
                 &lt;br/&gt;
             &lt;/user&gt;
 
-            &lt;user id=&apos;2&apos;&gt;
+            &lt;user id=&#39;2&#39;&gt;
                 &lt;name&gt;lisi&lt;/name&gt;
                 &lt;age&gt;24&lt;/age&gt;
                 &lt;gender&gt;female&lt;/gender&gt;
@@ -388,7 +386,7 @@
                 System.out.println(&quot;--------------------&quot;);
                 //4.4查询student标签下带有id属性的name标签 并且id属性值为itcast
 
-                List&lt;JXNode&gt; jxNodes4 = jxDocument.selN(&quot;//student/name[@id=&apos;itcast&apos;]&quot;);
+                List&lt;JXNode&gt; jxNodes4 = jxDocument.selN(&quot;//student/name[@id=&#39;itcast&#39;]&quot;);
                 for (JXNode jxNode : jxNodes4) {
                     System.out.println(jxNode);
                 }
@@ -484,6 +482,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/10/09/Tomcat-Servlet/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Tomcat&amp;Servlet
+        
+      </div>
+    </a>
   
   
     <a href="/2019/10/09/JDBC连接池-JDBCTemplate联合操作数据库/" id="article-nav-older" class="article-nav-link-wrap">

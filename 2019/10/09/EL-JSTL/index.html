@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2019 | Blog</title>
+  <title>EL&amp;JSTL | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2019/page/3/index.html">
+  <meta name="description" content="JSP,MVC开发模式,EL表达式,JSTL标签,三层架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EL&amp;JSTL">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/EL-JSTL/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="JSP,MVC开发模式,EL表达式,JSTL标签,三层架构">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-09T08:08:50.183Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="EL&amp;JSTL">
+<meta name="twitter:description" content="JSP,MVC开发模式,EL表达式,JSTL标签,三层架构">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -148,394 +152,336 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-EL-JSTL" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      EL&amp;JSTL
+    </h1>
+  
+
+        
+        <a href="/2019/10/09/EL-JSTL/" class="archive-article-date">
+  	<time datetime="2019-10-09T08:07:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-09</time>
+</a>
+	
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JSP,MVC开发模式,EL表达式,JSTL标签,三层架构<br><a id="more"></a></p>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><pre><code>1. JSP:
+    1. 指令
+    2. 注释
+    3. 内置对象
+
+2. MVC开发模式
+3. EL表达式
+4. JSTL标签
+5. 三层架构
+</code></pre><h2 id="JSP"><a href="#JSP" class="headerlink" title="JSP:"></a>JSP:</h2><pre><code>1. 指令
+    * 作用：用于配置JSP页面，导入资源文件
+    * 格式：
+        &lt;%@ 指令名称 属性名1=属性值1 属性名2=属性值2 ... %&gt;
+    * 分类：
+        1. page        ： 配置JSP页面的
+            * contentType：等同于response.setContentType()
+                1. 设置响应体的mime类型以及字符集
+                2. 设置当前jsp页面的编码（只能是高级的IDE才能生效，如果使用低级工具，则需要设置pageEncoding属性设置当前页面的字符集）
+            * import：导包
+            * errorPage：当前页面发生异常后，会自动跳转到指定的错误页面
+            * isErrorPage：标识当前也是是否是错误页面。
+                * true：是，可以使用内置对象exception
+                * false：否。默认值。不可以使用内置对象exception
+
+
+        2. include    ： 页面包含的。导入页面的资源文件
+            * &lt;%@include file=&quot;top.jsp&quot;%&gt;
+        3. taglib    ： 导入资源
+            * &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
+                * prefix：前缀，自定义的
+2. 注释:
+    1. html注释：
+        &lt;!-- --&gt;:只能注释html代码片段
+    2. jsp注释：推荐使用
+        &lt;%-- --%&gt;：可以注释所有
+
+
+3. 内置对象
+    * 在jsp页面中不需要创建，直接使用的对象
+    * 一共有9个：
+            变量名                    真实类型                        作用
+        * pageContext                PageContext                    当前页面共享数据，还可以获取其他八个内置对象
+        * request                    HttpServletRequest            一次请求访问的多个资源(转发)
+        * session                    HttpSession                    一次会话的多个请求间
+        * application                ServletContext                所有用户间共享数据
+        * response                    HttpServletResponse            响应对象
+        * page                        Object                        当前页面(Servlet)的对象  this
+        * out                        JspWriter                    输出对象，数据输出到页面上
+        * config                    ServletConfig                Servlet的配置对象
+        * exception                    Throwable                    异常对象
+</code></pre><h2 id="MVC：开发模式"><a href="#MVC：开发模式" class="headerlink" title="MVC：开发模式"></a>MVC：开发模式</h2><pre><code>1. jsp演变历史
+    1. 早期只有servlet，只能使用response输出标签数据，非常麻烦
+    2. 后来又jsp，简化了Servlet的开发，如果过度使用jsp，在jsp中即写大量的java代码，有写html表，造成难于维护，难于分工协作
+    3. 再后来，java的web开发，借鉴mvc开发模式，使得程序的设计更加合理性
+
+2. MVC：
+    1. M：Model，模型。JavaBean
+        * 完成具体的业务操作，如：查询数据库，封装对象
+    2. V：View，视图。JSP
+        * 展示数据
+    3. C：Controller，控制器。Servlet
+        * 获取用户的输入
+        * 调用模型
+        * 将数据交给视图进行展示
+
+
+    * 优缺点：
+        1. 优点：
+            1. 耦合性低，方便维护，可以利于分工协作
+            2. 重用性高
+
+        2. 缺点：
+            1. 使得项目架构变得复杂，对开发人员要求高
+</code></pre><h2 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h2><pre><code>1. 概念：Expression Language 表达式语言
+2. 作用：替换和简化jsp页面中java代码的编写
+3. 语法：${表达式}
+4. 注意：
+    * jsp默认支持el表达式的。如果要忽略el表达式
+        1. 设置jsp中page指令中：isELIgnored=&quot;true&quot; 忽略当前jsp页面中所有的el表达式
+        2. \${表达式} ：忽略当前这个el表达式
+
+
+5. 使用：
+    1. 运算：
+        * 运算符：
+            1. 算数运算符： + - * /(div) %(mod)
+            2. 比较运算符： &gt; &lt; &gt;= &lt;= == !=
+            3. 逻辑运算符： &amp;&amp;(and) ||(or) !(not)
+            4. 空运算符： empty
+                * 功能：用于判断字符串、集合、数组对象是否为null或者长度是否为0
+                * ${empty list}:判断字符串、集合、数组对象是否为null或者长度为0
+                * ${not empty str}:表示判断字符串、集合、数组对象是否不为null 并且 长度&gt;0
+    2. 获取值
+        1. el表达式只能从域对象中获取值
+        2. 语法：
+            1. ${域名称.键名}：从指定域中获取指定键的值
+                * 域名称：
+                    1. pageScope        --&gt; pageContext
+                    2. requestScope     --&gt; request
+                    3. sessionScope     --&gt; session
+                    4. applicationScope --&gt; application（ServletContext）
+                * 举例：在request域中存储了name=张三
+                * 获取：${requestScope.name}
+
+            2. ${键名}：表示依次从最小的域中查找是否有该键对应的值，直到找到为止。
+
+
+
+            3. 获取对象、List集合、Map集合的值
+                1. 对象：${域名称.键名.属性名}
+                    * 本质上会去调用对象的getter方法
+
+                2. List集合：${域名称.键名[索引]}
+
+                3. Map集合：
+                    * ${域名称.键名.key名称}
+                    * ${域名称.键名[&quot;key名称&quot;]}
+
+
+    3. 隐式对象：
+        * el表达式中有11个隐式对象
+        * pageContext：
+            * 获取jsp其他八个内置对象
+                * ${pageContext.request.contextPath}：动态获取虚拟目录
+</code></pre><h2 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h2><pre><code>1. 概念：JavaServer Pages Tag Library  JSP标准标签库
+    * 是由Apache组织提供的开源的免费的jsp标签        &lt;标签&gt;
+
+2. 作用：用于简化和替换jsp页面上的java代码        
+
+3. 使用步骤：
+    1. 导入jstl相关jar包
+    2. 引入标签库：taglib指令：  &lt;%@ taglib %&gt;
+    3. 使用标签
+
+4. 常用的JSTL标签
+    1. if:相当于java代码的if语句
+        1. 属性：
+            * test 必须属性，接受boolean表达式
+                * 如果表达式为true，则显示if标签体内容，如果为false，则不显示标签体内容
+                * 一般情况下，test属性值会结合el表达式一起使用
+            2. 注意：
+                * c:if标签没有else情况，想要else情况，则可以在定义一个c:if标签
+    2. choose:相当于java代码的switch语句
+        1. 使用choose标签声明                     相当于switch声明
+        2. 使用when标签做判断                     相当于case
+        3. 使用otherwise标签做其他情况的声明        相当于default
+
+    3. foreach:相当于java代码的for语句
+
+5. 练习：
+    * 需求：在request域中有一个存有User对象的List集合。需要使用jstl+el将list集合数据展示到jsp页面的表格table中
+</code></pre><h2 id="三层架构：软件设计架构"><a href="#三层架构：软件设计架构" class="headerlink" title="三层架构：软件设计架构"></a>三层架构：软件设计架构</h2><pre><code>1. 界面层(表示层)：用户看的得界面。用户可以通过界面上的组件和服务器进行交互
+2. 业务逻辑层：处理业务逻辑的。
+3. 数据访问层：操作数据存储文件。
+</code></pre><h2 id="案例：用户信息列表展示"><a href="#案例：用户信息列表展示" class="headerlink" title="案例：用户信息列表展示"></a>案例：用户信息列表展示</h2><pre><code>1. 需求：用户信息的增删改查操作
+2. 设计：
+    1. 技术选型：Servlet+JSP+MySQL+JDBCTempleat+Duird+BeanUtilS+tomcat
+    2. 数据库设计：
+        create database day17; -- 创建数据库
+        use day17;                -- 使用数据库
+        create table user(   -- 创建表
+            id int primary key auto_increment,
+            name varchar(20) not null,
+            gender varchar(5),
+            age int,
+            address varchar(32),
+            qq    varchar(20),
+            email varchar(50)
+        );
+
+3. 开发：
+    1. 环境搭建
+        1. 创建数据库环境
+        2. 创建项目，导入需要的jar包
+
+    2. 编码
+
+
+4. 测试
+5. 部署运维
+</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/16/使用git命令将Android项目推送到github/" class="archive-article-date">
-  	<time datetime="2019-07-16T12:14:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/16/使用git命令将Android项目推送到github/">使用git命令将Android项目推送到github</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/10/09/EL-JSTL/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/29/横竖屏切换导致Activity销毁重启/" class="archive-article-date">
-  	<time datetime="2019-06-29T03:31:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/09/Cookie-Session/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Cookie&amp;Session</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/29/横竖屏切换导致Activity销毁重启/">横竖屏切换导致Activity销毁重启</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/22/自定义ProgressBar的图片样式/" class="archive-article-date">
-  	<time datetime="2019-06-22T07:15:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/22/自定义ProgressBar的图片样式/">自定义ProgressBar的图片样式</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/22/Android中的读写缓存/" class="archive-article-date">
-  	<time datetime="2019-06-22T02:58:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/22/Android中的读写缓存/">Android中的读写缓存</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/19/ListView的两层封装/" class="archive-article-date">
-  	<time datetime="2019-06-19T01:53:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/19/ListView的两层封装/">ListView的两层封装</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/Android下捕获全局异常/" class="archive-article-date">
-  	<time datetime="2019-06-09T03:39:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/Android下捕获全局异常/">Android下捕获全局异常</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/08/Android下的适配/" class="archive-article-date">
-  	<time datetime="2019-06-08T00:21:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/08/Android下的适配/">Android下的适配</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/05/Android中WebView的使用/" class="archive-article-date">
-  	<time datetime="2019-06-05T04:05:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/05/Android中WebView的使用/">Android中WebView的使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/01/RadioButton-ViewPager实现底部导航标签菜单/" class="archive-article-date">
-  	<time datetime="2019-06-01T15:17:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/01/RadioButton-ViewPager实现底部导航标签菜单/">RadioButton+ViewPager实现底部导航标签菜单</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/01/Android中事件拦截/" class="archive-article-date">
-  	<time datetime="2019-06-01T03:47:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/01/Android中事件拦截/">Android中事件拦截</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><a class="page-number" href="/archives/2019/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/2019/page/4/">4</a><a class="page-number" href="/archives/2019/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2019/page/8/">8</a><a class="extend next" rel="next" href="/archives/2019/page/4/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -562,8 +508,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
