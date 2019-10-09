@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="数据库连接池,Spring JDBC : JDBC Template联合操作数据库简单方便">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-09T07:31:47.670Z">
+<meta property="og:updated_time" content="2019-10-09T08:48:57.159Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JDBC连接池&amp;JDBCTemplate联合操作数据库">
 <meta name="twitter:description" content="数据库连接池,Spring JDBC : JDBC Template联合操作数据库简单方便">
@@ -174,7 +174,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>数据库连接池,Spring JDBC : JDBC Template联合操作数据库简单方便<br><a id="more"></a></p>
-<h2 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h2><p><a href="\download\jar包.zip">点击下载相关jar包(phone.db)</a></p>
+<h2 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h2><p><a href="\download\jar包.zip">点击下载相关jar包和配置文件</a></p>
 <p>Druid：数据库连接池实现技术，由阿里巴巴提供的</p>
 <h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p>1.导入jar包 druid-1.0.9.jar<br>2.定义配置文件：是properties形式的,可以叫任意名称，可以放在任意目录下<br>3.加载配置文件。Properties<br>4.获取数据库连接池对象：通过工厂来来获取  DruidDataSourceFactory<br>5.获取连接：getConnection</p>
 <p>代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//3.加载配置文件</span></span><br><span class="line">Properties pro = <span class="keyword">new</span> Properties();</span><br><span class="line">InputStream is = DruidDemo.class.getClassLoader().getResourceAsStream(<span class="string">"druid.properties"</span>);</span><br><span class="line">pro.load(is);</span><br><span class="line"><span class="comment">//4.获取连接池对象</span></span><br><span class="line">DataSource ds = DruidDataSourceFactory.createDataSource(pro);</span><br><span class="line"><span class="comment">//5.获取连接</span></span><br><span class="line">Connection conn = ds.getConnection();</span><br></pre></td></tr></table></figure></p>
