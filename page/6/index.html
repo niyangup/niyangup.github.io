@@ -150,6 +150,312 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-手机卫士的启动页面SplashActivity" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/21/手机卫士的启动页面SplashActivity/">手机卫士的启动页面SplashActivity</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/21/手机卫士的启动页面SplashActivity/" class="archive-article-date">
+  	<time datetime="2019-04-21T13:39:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-21</time>
+</a>
+	
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <body><br>启动页面用到<li>getPackageManager.getPackageInfo()方法获取本地版本号以及本地版本名称</li><br><li>用HttpURLConnection连接网络进行服务器解析以及发送消息</li><br><li>用Handler接收消息更新UI </li><br><li>用XUtil框架中的httpUtils.download()根据Url下载服务器高版本的Apk,其中的onSuccess(),onFailure(),onStart(),onLoading()方法能跟方便进行相关操作(如onSuccess()方法中responseInfo.result即为下载的文件)</li><br><li>用Intent跳转到系统安装页面进行安装Apk,跳转时用startActivityForResult(),以及相关的onActivityResult()方法的调用</li><br>
+        
+          <a class="article-more-a" href="/2019/04/21/手机卫士的启动页面SplashActivity/#more">more >></a>
+        
+      
+
+      
+    </body></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/21/手机卫士的启动页面SplashActivity/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-XUtils中HttpUtils的download" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/20/XUtils中HttpUtils的download/">XUtils中HttpUtils的download</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/20/XUtils中HttpUtils的download/" class="archive-article-date">
+  	<time datetime="2019-04-20T14:33:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-20</time>
+</a>
+	
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <body><br>在手机卫士中解析服务器的Json数据比对版本号,若服务器中的版本号较高,则需要根据Json数据中的URL下载高版本的Apk,这里用到了XUtils中HttpUtils的download方法<br>
+        
+          <a class="article-more-a" href="/2019/04/20/XUtils中HttpUtils的download/#more">more >></a>
+        
+      
+
+      
+    </body></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/20/XUtils中HttpUtils的download/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-手机卫士" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/19/手机卫士/">手机卫士</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/19/手机卫士/" class="archive-article-date">
+  	<time datetime="2019-04-19T03:38:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-19</time>
+</a>
+	
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <body><br>不知不觉今天就从基础级到了项目级了,跟着视频学习也有两个月了,前一个月是Javese,后一个月是Android基础,接下来会跟着视频做一个手机卫视的项目<br>现在都9021年了这个项目不知道是不是有点out,虽然项目感觉有点out,但是里面的业务逻辑和变成思想值得我这个小白<br>学习,希望通过这个项目的实践能让我有更扎实的基础和更丰富的经验,加油!<br></body>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/19/手机卫士/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Android中通知栏的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/18/Android中通知栏的简单使用/">Android中通知栏的简单使用</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/18/Android中通知栏的简单使用/" class="archive-article-date">
+  	<time datetime="2019-04-18T12:16:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-18</time>
+</a>
+	
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <body><br>通知栏在Android应用中很常见,是除Toast,Dialog之外的显示方式,通知栏的用法非常简单<br>
+        
+          <a class="article-more-a" href="/2019/04/18/Android中通知栏的简单使用/#more">more >></a>
+        
+      
+
+      
+    </body></div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/18/Android中通知栏的简单使用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Android中的补间动画" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -612,317 +918,9 @@
 
 
   
-    <article id="post-Android中用HttpURLConnection查看百度的源码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中用HttpURLConnection查看百度的源码/">Android中用HttpURLConnection查看百度的源码</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中用HttpURLConnection查看百度的源码/" class="archive-article-date">
-  	<time datetime="2019-04-16T12:43:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>Android 客户端可以使用HttpURLConnection向网络请求或发送数据,接收从服务器发来的请求,并显示在控件上<br><br><br>
-        
-          <a class="article-more-a" href="/2019/04/16/Android中用HttpURLConnection查看百度的源码/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中用HttpURLConnection查看百度的源码/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中ListView简单的下拉刷新" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中ListView简单的下拉刷新/">Android中ListView简单的下拉刷新</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中ListView简单的下拉刷新/" class="archive-article-date">
-  	<time datetime="2019-04-16T11:43:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>当listView处于空闲状态并且Item到达最后一条时 更新ListView<br>
-        
-          <a class="article-more-a" href="/2019/04/16/Android中ListView简单的下拉刷新/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中ListView简单的下拉刷新/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中ListView的优化和点击事项" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中ListView的优化和点击事项/">Android中ListView的优化和点击事项</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中ListView的优化和点击事项/" class="archive-article-date">
-  	<time datetime="2019-04-16T11:42:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>别说了ListView需要优化<br>
-        
-          <a class="article-more-a" href="/2019/04/16/Android中ListView的优化和点击事项/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中ListView的优化和点击事项/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中ListView的使用-3-BaseAdapter" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/Android中ListView的使用-3-BaseAdapter/">Android中ListView的使用(3)BaseAdapter</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/16/Android中ListView的使用-3-BaseAdapter/" class="archive-article-date">
-  	<time datetime="2019-04-16T11:42:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>本篇将采用自定义适配器来自定义更复杂的item<br>
-        
-          <a class="article-more-a" href="/2019/04/16/Android中ListView的使用-3-BaseAdapter/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/Android中ListView的使用-3-BaseAdapter/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
     </nav>
   
 
