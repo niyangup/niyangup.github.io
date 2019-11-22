@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>SpringMVC的简单使用 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SpringMVC的各种使用">
+  <meta name="description" content="SpringMVC    常用注解    请求参数绑定    响应数据和结果视图">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringMVC的简单使用">
 <meta property="og:url" content="http://yoursite.com/2019/11/22/SpringMVC的简单使用/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="SpringMVC的各种使用">
+<meta property="og:description" content="SpringMVC    常用注解    请求参数绑定    响应数据和结果视图">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-22T05:59:19.412Z">
+<meta property="og:updated_time" content="2019-11-22T06:30:45.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringMVC的简单使用">
-<meta name="twitter:description" content="SpringMVC的各种使用">
+<meta name="twitter:description" content="SpringMVC    常用注解    请求参数绑定    响应数据和结果视图">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -173,7 +173,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>SpringMVC的各种使用<br><a id="more"></a></p>
+        <p><ul><font size="+2">SpringMVC<br>    <li>常用注解<br>    </li><li>请求参数绑定<br>    </li><li>响应数据和结果视图<br></li></font></ul><br><a id="more"></a></p>
 <h2 id="一-常用注解"><a href="#一-常用注解" class="headerlink" title="一.常用注解"></a>一.常用注解</h2><h3 id="1-RequestMapping"><a href="#1-RequestMapping" class="headerlink" title="1.@RequestMapping()"></a>1.@RequestMapping()</h3><p>出现位置：<br>    类上:请求 URL 的第一级访问目录。此处不写的话，就相当于应用的根目录。写的话需要以/开头<br>    方法上:请求 URL 的第二级访问目录</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Java代码</span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">"accountController"</span>)</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/account"</span>) <span class="comment">//出现在类上</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/findAccount"</span>) <span class="comment">//出现在方法上</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">findAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"查询了账户。。。。"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jsp代码</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"account/findAccount"</span>&gt;</span>查询账户<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -303,6 +303,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/11/22/Mybatis小知识/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Mybatis小知识
+        
+      </div>
+    </a>
   
   
     <a href="/2019/11/20/SpringBoot整合Mybatis/" id="article-nav-older" class="article-nav-link-wrap">
