@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>SpringCloud之注册中心Eureka | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。">
+  <meta name="description" content="服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。用于简化与Eureka Server的交互，客户端同时也就是一个内置的、使用轮询(round-robin)负载算法的负载均衡器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringCloud之注册中心Eureka">
 <meta property="og:url" content="http://yoursite.com/2019/11/26/SpringCloud之注册中心Eureka/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。">
+<meta property="og:description" content="服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。用于简化与Eureka Server的交互，客户端同时也就是一个内置的、使用轮询(round-robin)负载算法的负载均衡器">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-26T09:02:01.633Z">
+<meta property="og:updated_time" content="2019-11-26T09:17:38.406Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringCloud之注册中心Eureka">
-<meta name="twitter:description" content="服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。">
+<meta name="twitter:description" content="服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。用于简化与Eureka Server的交互，客户端同时也就是一个内置的、使用轮询(round-robin)负载算法的负载均衡器">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -173,7 +173,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。<br><a id="more"></a></p>
+        <p>服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。<br>用于简化与Eureka Server的交互，客户端同时也就是一个内置的、使用轮询(round-robin)负载算法的负载均衡器<br><a id="more"></a></p>
 <p><ul><font size="+2">注册中心一般包含如下几个功能<br>    <li>服务发现<br>    </li><li>服务配置<br>    </li><li>服务健康检测<br></li></font></ul></p>
 <h2 id="搭建Eureka注册中心"><a href="#搭建Eureka注册中心" class="headerlink" title="搭建Eureka注册中心"></a>搭建Eureka注册中心</h2><h4 id="1-搭建Eureka服务中心"><a href="#1-搭建Eureka服务中心" class="headerlink" title="1.搭建Eureka服务中心"></a>1.搭建Eureka服务中心</h4><p>(1)引入maven坐标<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>(2)配置application.yml<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr"> port:</span> <span class="number">9000</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr"> instance:</span></span><br><span class="line">   <span class="attr">hostname:</span> <span class="string">localhost</span></span><br><span class="line"><span class="attr"> client:</span></span><br><span class="line">   <span class="attr">registerWithEureka:</span> <span class="literal">false</span>  <span class="comment"># 是否将自己注册到注册中心</span></span><br><span class="line">   <span class="attr">fetchRegistry:</span> <span class="literal">false</span>		  <span class="comment"># 是否从eureka中获取注册信息</span></span><br><span class="line">   <span class="attr">serviceUrl:</span>				  <span class="comment"># 配置暴露给Eureka Client的请求路径	</span></span><br><span class="line">     <span class="attr">defaultZone:</span> <span class="attr">http://$&#123;eureka.instance.hostname&#125;:$&#123;server.port&#125;/eureka/</span></span><br></pre></td></tr></table></figure></p>
@@ -284,6 +284,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/11/26/SpringCloud之负载均衡Ribbon/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          SpringCloud之负载均衡Ribbon
+        
+      </div>
+    </a>
   
   
     <a href="/2019/11/22/分页查询的实现/" id="article-nav-older" class="article-nav-link-wrap">
