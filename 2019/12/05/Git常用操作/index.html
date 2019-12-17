@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="经常使用的Git命令,在此记录一下   开发新功能  修改change  解决冲突">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-17T07:45:51.557Z">
+<meta property="og:updated_time" content="2019-12-17T08:11:44.680Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git常用操作">
 <meta name="twitter:description" content="经常使用的Git命令,在此记录一下   开发新功能  修改change  解决冲突">
@@ -320,8 +320,20 @@
 </tbody>
 </table>
 <hr>
-<p><strong>常用的git命令</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 列出所有本地分支</span><br><span class="line">$ git branch</span><br><span class="line"># 列出所有远程分支</span><br><span class="line">$ git branch -r</span><br><span class="line"># 选项来查看历史记录的简洁的版本</span><br><span class="line">$ git log --oneline</span><br><span class="line"># 开启拓扑图查看历史记录</span><br><span class="line">$ git log --graph</span><br></pre></td></tr></table></figure>
+<h3 id="常用的git命令"><a href="#常用的git命令" class="headerlink" title="常用的git命令"></a><strong>常用的git命令</strong></h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有本地分支</span></span><br><span class="line"><span class="string">$</span> <span class="string">git</span> <span class="string">branch</span></span><br><span class="line"><span class="comment"># 列出所有远程分支</span></span><br><span class="line"><span class="string">$</span> <span class="string">git</span> <span class="string">branch</span> <span class="bullet">-r</span></span><br><span class="line"><span class="comment"># 选项来查看历史记录的简洁的版本</span></span><br><span class="line"><span class="string">$</span> <span class="string">git</span> <span class="string">log</span> <span class="bullet">--oneline</span></span><br><span class="line"><span class="comment"># 开启拓扑图查看历史记录</span></span><br><span class="line"><span class="string">$</span> <span class="string">git</span> <span class="string">log</span> <span class="bullet">--graph</span></span><br></pre></td></tr></table></figure>
+<h3 id="git切换账户步骤"><a href="#git切换账户步骤" class="headerlink" title="git切换账户步骤"></a>git切换账户步骤</h3><p>1.创建SSH Key</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"你自己注册GitHub的邮箱"</span></span><br></pre></td></tr></table></figure>
+<p>一顿回车后会在<strong>C:\Users\user\.ssh</strong>文件夹下生成3个文件</p>
+<p>2.在github上添加密钥</p>
+<p>​    在github的setting-&gt;SSH Key-&gt;New SSH key-&gt;Key文本框里粘贴 id_rsa.pub文件里的全部内容</p>
+<hr>
+<p><strong>每个账号对应3个文件,哪个账号需要登录就将对应的3个文件放在C:\Users\user\.ssh文件夹中</strong></p>
+<p>3.git bash里输入下面的命令登陆</p>
+<p>当出现hi xxx的时候表示登录成功</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git<span class="meta">@github</span>.com</span><br></pre></td></tr></table></figure>
+<p>4.修改username,email</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">"你的GitHub登陆名"</span></span><br><span class="line"></span><br><span class="line">$ git config --global user.email <span class="string">"你的GitHub注册邮箱"</span></span><br></pre></td></tr></table></figure>
+<p>5.到此切换完成</p>
 
       
 
