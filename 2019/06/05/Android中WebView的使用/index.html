@@ -153,32 +153,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android中WebView的使用" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android中WebView的使用
-    </h1>
-  
-
-        
-        <a href="/2019/06/05/Android中WebView的使用/" class="archive-article-date">
-  	<time datetime="2019-06-05T04:05:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-05</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <p>不说了都在下面的代码里面<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.zhbj;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.lidroid.xutils.ViewUtils;</span><br><span class="line"><span class="keyword">import</span> com.lidroid.xutils.view.annotation.ViewInject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.app.AlertDialog;</span><br><span class="line"><span class="keyword">import</span> android.app.AlertDialog.Builder;</span><br><span class="line"><span class="keyword">import</span> android.content.DialogInterface;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Bitmap;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.view.Window;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebChromeClient;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebSettings;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebSettings.TextSize;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebView;</span><br><span class="line"><span class="keyword">import</span> android.webkit.WebViewClient;</span><br><span class="line"><span class="keyword">import</span> android.widget.ImageButton;</span><br><span class="line"><span class="keyword">import</span> android.widget.LinearLayout;</span><br><span class="line"><span class="keyword">import</span> android.widget.ProgressBar;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NewsDetailAcitvity</span> <span class="keyword">extends</span> <span class="title">Activity</span> <span class="keyword">implements</span> <span class="title">OnClickListener</span> </span>&#123;</span><br><span class="line">	<span class="meta">@ViewInject</span>(R.id.ll_control)</span><br><span class="line">	<span class="keyword">private</span> LinearLayout mLlControl;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ViewInject</span>(R.id.btn_back)</span><br><span class="line">	<span class="keyword">private</span> ImageButton mBtnBack;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ViewInject</span>(R.id.btn_share)</span><br><span class="line">	<span class="keyword">private</span> ImageButton mBtnShare;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ViewInject</span>(R.id.btn_menu)</span><br><span class="line">	<span class="keyword">private</span> ImageButton mBtnMenu;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ViewInject</span>(R.id.btn_textsize)</span><br><span class="line">	<span class="keyword">private</span> ImageButton mBtnTextSize;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ViewInject</span>(R.id.wb_news_detail)</span><br><span class="line">	<span class="keyword">private</span> WebView mWebView;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ViewInject</span>(R.id.pb_loading)</span><br><span class="line">	<span class="keyword">private</span> ProgressBar mPbLoading;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> String mUrl;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">		setContentView(R.layout.activity_news_detail);</span><br><span class="line"></span><br><span class="line">		ViewUtils.inject(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">		mLlControl.setVisibility(View.VISIBLE);</span><br><span class="line">		mBtnBack.setVisibility(View.VISIBLE);</span><br><span class="line">		mBtnMenu.setVisibility(View.GONE);</span><br><span class="line"></span><br><span class="line">		mBtnBack.setOnClickListener(<span class="keyword">this</span>);</span><br><span class="line">		mBtnShare.setOnClickListener(<span class="keyword">this</span>);</span><br><span class="line">		mBtnTextSize.setOnClickListener(<span class="keyword">this</span>);</span><br><span class="line">		<span class="comment">// mWebView.goBack();//跳到上个页面</span></span><br><span class="line">		<span class="comment">// mWebView.goForward();//跳到下一页</span></span><br><span class="line"></span><br><span class="line">		WebSettings settings = mWebView.getSettings();</span><br><span class="line">		settings.setBuiltInZoomControls(<span class="keyword">true</span>);<span class="comment">// 滑动后显示缩放按钮(wap网页不支持)</span></span><br><span class="line">		settings.setUseWideViewPort(<span class="keyword">true</span>);<span class="comment">// 支持双击缩放(wap网页不支持)</span></span><br><span class="line"></span><br><span class="line">		settings.setJavaScriptEnabled(<span class="keyword">true</span>);<span class="comment">// 支持js功能</span></span><br><span class="line"></span><br><span class="line">		mUrl = getIntent().getStringExtra(<span class="string">"url"</span>);</span><br><span class="line">		Log.v(<span class="string">"TAG"</span>, <span class="string">"url地址:"</span> + mUrl);</span><br><span class="line">		mWebView.loadUrl(mUrl);</span><br><span class="line"></span><br><span class="line">		mWebView.setWebViewClient(<span class="keyword">new</span> WebViewClient() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 开始加载网页时调用</span></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageStarted</span><span class="params">(WebView view, String url, Bitmap favicon)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">super</span>.onPageStarted(view, url, favicon);</span><br><span class="line">				mPbLoading.setVisibility(View.VISIBLE);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 网页加载结束调用</span></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPageFinished</span><span class="params">(WebView view, String url)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">super</span>.onPageFinished(view, url);</span><br><span class="line">				mPbLoading.setVisibility(View.INVISIBLE);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 所有连接跳转会走此方法</span></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldOverrideUrlLoading</span><span class="params">(WebView view, String url)</span> </span>&#123;</span><br><span class="line">				view.loadUrl(url);<span class="comment">// 在跳转页面时强制在webView中加载</span></span><br><span class="line"></span><br><span class="line">				<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		mWebView.setWebChromeClient(<span class="keyword">new</span> WebChromeClient() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 进度发生变化</span></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onProgressChanged</span><span class="params">(WebView view, <span class="keyword">int</span> newProgress)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">super</span>.onProgressChanged(view, newProgress);</span><br><span class="line">				Log.v(<span class="string">"tag"</span>, <span class="string">"进度:"</span> + newProgress);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// 网页标题</span></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceivedTitle</span><span class="params">(WebView view, String title)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">super</span>.onReceivedTitle(view, title);</span><br><span class="line">				Log.v(<span class="string">"tag"</span>, <span class="string">"网页标题:"</span> + title);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">switch</span> (view.getId()) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> R.id.btn_back:</span><br><span class="line">			finish();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> R.id.btn_share:</span><br><span class="line">			<span class="comment">// TODO</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> R.id.btn_textsize:</span><br><span class="line">			<span class="comment">// 修改网页字体大小</span></span><br><span class="line">			showChooseDialog();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> mTempWhich;<span class="comment">// 临时记录字体大小的which</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> mCurrentWhich = <span class="number">2</span>;<span class="comment">// 记录当前字体大小的which</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 展示选择字体大小的弹窗</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showChooseDialog</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		Builder builder = <span class="keyword">new</span> AlertDialog.Builder(<span class="keyword">this</span>);</span><br><span class="line">		builder.setTitle(<span class="string">"字体设置"</span>);</span><br><span class="line">		String[] items = &#123; <span class="string">"超大号字体"</span>, <span class="string">"大号字体"</span>, <span class="string">"正常字体"</span>, <span class="string">"小号字体"</span>, <span class="string">"超小号字体"</span> &#125;;</span><br><span class="line">		builder.setSingleChoiceItems(items, mCurrentWhich, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line">				mTempWhich = which;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		builder.setPositiveButton(<span class="string">"确定"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line">				WebSettings settings = mWebView.getSettings();</span><br><span class="line">				<span class="keyword">switch</span> (mTempWhich) &#123;</span><br><span class="line">				<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">					<span class="comment">// 超大字体</span></span><br><span class="line">					settings.setTextSize(TextSize.LARGEST);</span><br><span class="line">					<span class="comment">// settings.setTextZoom(arg0);</span></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">					<span class="comment">// 大字体</span></span><br><span class="line">					settings.setTextSize(TextSize.LARGER);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">					<span class="comment">// 正常字体</span></span><br><span class="line">					settings.setTextSize(TextSize.NORMAL);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">					<span class="comment">// 小号字体</span></span><br><span class="line">					settings.setTextSize(TextSize.SMALLER);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">					<span class="comment">// 超小号字体</span></span><br><span class="line">					settings.setTextSize(TextSize.SMALLEST);</span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				mCurrentWhich = mTempWhich;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		builder.setNegativeButton(<span class="string">"取消"</span>, <span class="keyword">null</span>);</span><br><span class="line">		builder.show();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -188,144 +183,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/06/05/Android中WebView的使用/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/06/08/Android下的适配/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android下的适配
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/06/01/RadioButton-ViewPager实现底部导航标签菜单/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">RadioButton+ViewPager实现底部导航标签菜单</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>

@@ -152,38 +152,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-分页查询的实现" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      分页查询的实现
-    </h1>
-  
-
-        
-        <a href="/2019/11/22/分页查询的实现/" class="archive-article-date">
-  	<time datetime="2019-11-22T09:16:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-22</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <p>简单介绍一下分页查询的实现步骤<br><a id="more"></a><br>原理:分页查询实际上是将数据分成x页,每页有x条,前台告诉后台当前第几页,后台根据当前页在数据库进行limit查询,将结果封装到PageBean上返回给前台,前台进行展示的过程</p>
-<p>分析:<br>1.总条数-&gt;在数据库中查询,不需要参数,select count(*) from user;<br>2.总页码数-&gt;通过计算获得,方法为:总页码数/每页显示的条数,若能整除则本身为值,若不能整除则需加1<br>3.每页显示的数据集合-&gt;通过后台数据库查询,需要两个参数,分别是起始位置和每页显示的记录数select * from user limit start,rows;(start=(当前页-1)*rows)<br>4.当前页码-&gt;由前台传递<br>5.每页显示的记录数-&gt;由前台传递</p>
-<p>1.实体类PageBean<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.jsh.domain;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PageBean</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> totalCount; <span class="comment">// 总记录数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> totalPage; <span class="comment">// 总页码</span></span><br><span class="line">  <span class="keyword">private</span> List&lt;T&gt; list; <span class="comment">// 每页的数据集合</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> currentPage; <span class="comment">// 当前页码</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> rows; <span class="comment">// 每页显示的记录数</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//省略get,set方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.controller<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/findByPage"</span>)<span class="comment">//前台传过来的cuttentPage,rows</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">findByPage</span><span class="params">(String cuttentPage,String rows, Model model)</span> </span>&#123;</span><br><span class="line">    PageBean&lt;User&gt; pb = service.findUserByPage(cuttentPage, rows);</span><br><span class="line">    System.out.println(pb);</span><br><span class="line">    model.addAttribute(<span class="string">"pb"</span>, pb);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"page"</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>3.service<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> PageBean&lt;User&gt; <span class="title">findUserByPage</span><span class="params">(<span class="keyword">int</span> currentPage, <span class="keyword">int</span> rows)</span> </span>&#123;</span><br><span class="line">  PageBean&lt;User&gt; pb = <span class="keyword">new</span> PageBean&lt;User&gt;();</span><br><span class="line">  <span class="comment">// 当前页</span></span><br><span class="line">  pb.setCurrentPage(currentPage);</span><br><span class="line">  <span class="comment">// 每条显示的条数</span></span><br><span class="line">  pb.setRows(rows);</span><br><span class="line">  <span class="comment">// 总条数</span></span><br><span class="line">  <span class="keyword">int</span> totalCount = dao.findTotalCount();</span><br><span class="line">  pb.setTotalCount(totalCount);</span><br><span class="line">  <span class="comment">// 总页数</span></span><br><span class="line">  <span class="keyword">int</span> totalPage = totalCount % rows == <span class="number">0</span> ? totalCount / rows : (totalCount / rows) + <span class="number">1</span>;</span><br><span class="line">  pb.setTotalPage(totalPage);</span><br><span class="line">  <span class="keyword">int</span> start = (currentPage - <span class="number">1</span>) * rows;</span><br><span class="line">  List&lt;User&gt; list = dao.findByPage(start, rows);</span><br><span class="line">  <span class="comment">// 显示的数据</span></span><br><span class="line">  pb.setList(list);</span><br><span class="line">  <span class="keyword">return</span> pb;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
-<p>4.dao<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findTotalCount</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function">List&lt;User&gt; <span class="title">findByPage</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> rows)</span></span>;</span><br></pre></td></tr></table></figure></p>
-<p>5.daoImpl<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=<span class="string">"findTotalCount"</span> resultType=<span class="string">"int"</span>&gt;</span><br><span class="line">    <span class="function">select <span class="title">count</span><span class="params">(*)</span> from user</span></span><br><span class="line"><span class="function">&lt;/select&gt;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&lt;select id</span>=<span class="string">"findByPage"</span> resultType=<span class="string">"com.jsh.domain.User"</span> parameterType=<span class="string">"int"</span>&gt;</span><br><span class="line">    select * from user limit #&#123;param1&#125; , #&#123;param2&#125;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -193,133 +182,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/11/22/分页查询的实现/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/11/26/SpringCloud之注册中心Eureka/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          SpringCloud之注册中心Eureka
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/11/22/Mybatis小知识/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Mybatis小知识</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>
