@@ -152,27 +152,69 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+            <article id="post-SpringMVC的简单使用" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
-    <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringMVC的简单使用
+    </h1>
+  
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        
+        <a href="/2019/11/22/SpringMVC的简单使用/" class="archive-article-date">
+  	<time datetime="2019-11-22T02:31:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-22</time>
+</a>
+	
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><ul><font size="+2">SpringMVC<br>    <li>常用注解<br>    </li><li>请求参数绑定<br>    </li><li>响应数据和结果视图<br></li></font></ul><br><a id="more"></a></p>
+<h2 id="一-常用注解"><a href="#一-常用注解" class="headerlink" title="一.常用注解"></a>一.常用注解</h2><h3 id="1-RequestMapping"><a href="#1-RequestMapping" class="headerlink" title="1.@RequestMapping()"></a>1.@RequestMapping()</h3><p>出现位置：<br>    类上:请求 URL 的第一级访问目录。此处不写的话，就相当于应用的根目录。写的话需要以/开头<br>    方法上:请求 URL 的第二级访问目录</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Java代码</span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">"accountController"</span>)</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/account"</span>) <span class="comment">//出现在类上</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/findAccount"</span>) <span class="comment">//出现在方法上</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">findAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"查询了账户。。。。"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jsp代码</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"account/findAccount"</span>&gt;</span>查询账户<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><font size="+2"><b>属性</b></font><br>1.method 属性<br>调用是需要使用指定的方法,否则会报错405 Method Not Allowed<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/saveAccount"</span>,method=RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">saveAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"保存了账户"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.params 属性<br>用于指定限制请求参数的条件。它支持简单的表达式。要求请求参数的 key 和 value 必须和<br>配置的一模一样<br>例如：<br>params = {“accountName”}，表示请求参数必须有 accountName<br>params = {“moeny!100”}，表示请求参数中 money 不能是 100。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value=<span class="string">"/removeAccount"</span>,params= &#123;<span class="string">"accountName"</span>&#125;)</span><br><span class="line"><span class="comment">//必须传递一个名为accountName的参数,并且,否则报错</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">removeAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"删除了账户"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"account/removeAccount?accountName=aaa"</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>3.headers属性<br>用于指定限制请求消息头的条件</p>
+<h3 id="2-RequestParam"><a href="#2-RequestParam" class="headerlink" title="2.@RequestParam"></a>2.@RequestParam</h3><p>作用：把请求中指定名称的参数给控制器中的形参赋值。<br>属性：value：请求参数中的名称。required：请求参数中是否必须提供此参数。默认值：true。表示必须提供，如果不提供将报错。<br>使用示例:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jsp 中的代码</span><br><span class="line">&lt;a href="springmvc/useRequestParam?name=test"&gt;requestParam 注解&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Java代码</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/useRequestParam"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">useRequestParam</span><span class="params">(@RequestParam(<span class="string">"name"</span>)</span>String username,</span></span><br><span class="line"><span class="function">			@<span class="title">RequestParam</span><span class="params">(value=<span class="string">"age"</span>,required=<span class="keyword">false</span>)</span>Integer age)</span>&#123;</span><br><span class="line">	System.out.println(username+<span class="string">","</span>+age);</span><br><span class="line">	<span class="comment">//test,null(参数中前者是必须的,@RequestParam注解将name的值传给username,后者不是必须的,因此未报错)</span></span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-RequestBody"><a href="#3-RequestBody" class="headerlink" title="3.RequestBody"></a>3.RequestBody</h3><p>作用：用于获取请求体内容。直接使用得到是 key=value&amp;key=value…结构的数据。(get 请求方式不适用)<br>属性：required：是否必须有请求体。默认值是:true。当取值为 true 时,get 请求方式会报错。如果取值为 false，get 请求得到是 null</p>
+<h3 id="4-PathVaribale"><a href="#4-PathVaribale" class="headerlink" title="4.PathVaribale"></a>4.PathVaribale</h3><p>作用：用于绑定 url 中的占位符。例如：请求 url 中 /delete/{id}，这个{id}就是 url 占位符<br>属性：value：用于指定 url 中占位符名称 required：是否必须提供占位符</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jsp 代码：</span><br><span class="line"><span class="comment">&lt;!-- PathVariable 注解 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"springmvc/usePathVariable/100"</span>&gt;</span>pathVariable 注解<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Java代码</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/usePathVariable/&#123;id&#125;"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">usePathVariable</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> Integer id)</span>&#123;</span><br><span class="line">	System.out.println(id);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-CookieValue"><a href="#5-CookieValue" class="headerlink" title="5.CookieValue"></a>5.CookieValue</h3><p>作用: 用于把指定 cookie 名称的值传入控制器方法参数<br>属性: value：指定 cookie 的名称 required：是否必须有此 cookie<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jsp 中的代码：</span><br><span class="line">&lt;!-- CookieValue 注解 --&gt; </span><br><span class="line">&lt;a href="springmvc/useCookieValue"&gt;绑定 cookie 的值&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/useCookieValue"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">useCookieValue</span><span class="params">(@CookieValue(value=<span class="string">"JSESSIONID"</span>,required=<span class="keyword">false</span>)</span> </span></span><br><span class="line"><span class="function">							String cookieValue)</span>&#123;</span><br><span class="line">	System.out.println(cookieValue);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-ModelAttribute"><a href="#6-ModelAttribute" class="headerlink" title="6.ModelAttribute"></a>6.ModelAttribute</h3><p>作用：<br>(1)出现在方法上，表示当前方法会在控制器的方法执行之前，先执行。它可以修饰没有返回值的方法，也可以修饰有具体返回值的方法<br>(2)出现在参数上，获取指定的数据给参数赋值<br>属性：value：用于获取数据的 key。key 可以是 POJO 的属性名称，也可以是 map 结构的 key<br>应用场景：当表单提交数据不是完整的实体类数据时，保证没有提交数据的字段使用数据库对象原来的数据<br><b>ModelAttribute 修饰方法带返回值</b><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jps 代码</span><br><span class="line">&lt;!-- 修改用户信息 --&gt; </span><br><span class="line">&lt;form action=<span class="string">"springmvc/updateUser"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">	用户名称：&lt;input type=<span class="string">"text"</span> name=<span class="string">"username"</span> &gt;&lt;br/&gt;</span><br><span class="line">	用户年龄：&lt;input type=<span class="string">"text"</span> name=<span class="string">"age"</span> &gt;&lt;br/&gt;</span><br><span class="line">	&lt;input type=<span class="string">"submit"</span> value=<span class="string">"保存"</span>&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//被ModelAttribute注解修饰的方法会先执行</span></span><br><span class="line"><span class="meta">@ModelAttribute</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> User <span class="title">showModel</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//模拟去数据库查询</span></span><br><span class="line">	User user = <span class="keyword">new</span> User();</span><br><span class="line">	user.setUsername(username);</span><br><span class="line">	user.setAge(<span class="number">19</span>);</span><br><span class="line">	user.setPassword(<span class="string">"123456"</span>);</span><br><span class="line">	System.out.println(<span class="string">"执行了 showModel 方法"</span>+abc);</span><br><span class="line">	<span class="keyword">return</span> user; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//可以直接拿到showModel中return的user对象</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/updateUser"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testModelAttribute</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"控制器中处理请求的方法：修改用户："</span>+user);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><b>ModelAttribute 修饰方法不带返回值</b><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jsp 中的代码：</span><br><span class="line">&lt;!-- 修改用户信息 --&gt; </span><br><span class="line">&lt;form action=<span class="string">"springmvc/updateUser"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">	用户名称：&lt;input type=<span class="string">"text"</span> name=<span class="string">"username"</span> &gt;&lt;br/&gt;</span><br><span class="line">	用户年龄：&lt;input type=<span class="string">"text"</span> name=<span class="string">"age"</span> &gt;&lt;br/&gt;</span><br><span class="line">	&lt;input type=<span class="string">"submit"</span> value=<span class="string">"保存"</span>&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//被ModelAttribute注解修饰的方法会先执行,参数上必须加上一个Map集合</span></span><br><span class="line"><span class="meta">@ModelAttribute</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showModel</span><span class="params">(String username,Map&lt;String,User&gt; map)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//模拟去数据库查询</span></span><br><span class="line">	User user = <span class="keyword">new</span> User();</span><br><span class="line">	user.setUsername(username);</span><br><span class="line">	user.setAge(<span class="number">19</span>);</span><br><span class="line">	user.setPassword(<span class="string">"123456"</span>);</span><br><span class="line">	System.out.println(<span class="string">"执行了 showModel 方法"</span>+user);</span><br><span class="line">	map.put(<span class="string">"abc"</span>,user);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/updateUser"</span>)<span class="comment">//ModelAttribute作用在参数上,表示将abc的值赋给user</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testModelAttribute</span><span class="params">(@ModelAttribute(<span class="string">"abc"</span>)</span>User user) </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"控制器中处理请求的方法：修改用户："</span>+user);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="7-SessionAttribute"><a href="#7-SessionAttribute" class="headerlink" title="7.SessionAttribute"></a>7.SessionAttribute</h3><p>作用：用于多次执行控制器方法间的参数共享<br>属性：<b>value</b>：用于指定存入的属性名称<br>属性：<b>type</b>：用于指定存入的数据类型<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">jsp 中的代码：</span><br><span class="line"><span class="comment">&lt;!-- SessionAttribute 注解的使用 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"springmvc/testPut"</span>&gt;</span>存入 SessionAttribute<span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"springmvc/testGet"</span>&gt;</span>取出 SessionAttribute<span class="tag">&lt;/<span class="name">a</span>&gt;</span> <span class="tag">&lt;<span class="name">hr</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"springmvc/testClean"</span>&gt;</span>清除 SessionAttribute<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span>(<span class="string">"sessionAttributeController"</span>)</span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/springmvc"</span>)</span><br><span class="line"><span class="meta">@SessionAttributes</span>(value =&#123;<span class="string">"username"</span>,<span class="string">"password"</span>&#125;,types=&#123;Integer.class&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionAttributeController</span> </span>&#123;</span><br><span class="line">	<span class="meta">@RequestMapping</span>(<span class="string">"/testPut"</span>) </span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">testPut</span><span class="params">(Model model)</span></span>&#123; </span><br><span class="line">	model.addAttribute(<span class="string">"username"</span>, <span class="string">"泰斯特"</span>); </span><br><span class="line">	model.addAttribute(<span class="string">"password"</span>,<span class="string">"123456"</span>); </span><br><span class="line">	model.addAttribute(<span class="string">"age"</span>, <span class="number">31</span>);</span><br><span class="line">	<span class="comment">//跳转之前将数据保存到 username、password 和 age 中，因为注解@SessionAttribute 中有这几个参数</span></span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testGet"</span>) </span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testGet</span><span class="params">(ModelMap model)</span></span>&#123; </span><br><span class="line">	System.out.println(model.get(<span class="string">"username"</span>)+<span class="string">";"</span>+model.get(<span class="string">"password"</span>)+<span class="string">";"</span>+model.get(<span class="string">"age"</span>)); </span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testClean"</span>) </span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">complete</span><span class="params">(SessionStatus sessionStatus)</span></span>&#123; </span><br><span class="line">	sessionStatus.setComplete(); </span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二-请求参数绑定"><a href="#二-请求参数绑定" class="headerlink" title="二.请求参数绑定"></a>二.请求参数绑定</h2><ol><b><font size="+1">支持的数据类型<font><b><br>    <li>基本数据类型和字符串类型 要求:参数名称必须和控制器中方法的形参名称保持一致。(严格区分大小写)<br>    </li><li>实体类型(JavaBean) 要求:表单中参数名称和 POJO 类的属性名称保持一致。并且控制器方法的参数类型是 POJO 类型<br>    </li><li>集合数据类型(List,Map集合等)<br>    要求:<br>        第一种：<br>        要求集合类型的请求参数必须在 POJO 中。在表单中请求参数名称要和 POJO 中集合属性名称相同。给 List 集合中的元素赋值，给 Map 集合中的元素赋值，使用键值对使用下标。<br>        第二种：<br>        接收的请求参数是 json 格式数据。需要借助一个注解实现。<br><br><br></li></b></font></font></b></ol>
+
+
+<h3 id="1-基本类型和字符串类型"><a href="#1-基本类型和字符串类型" class="headerlink" title="(1) 基本类型和字符串类型"></a>(1) 基本类型和字符串类型</h3><p>若前后台参数名相同,则后台可直接拿到前台参数的值<br>jsp 代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 基本类型示例 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"account/findAccount?accountId=10&amp;accountName=zhangsan"</span>&gt;</span>查询账户<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Java代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/findAccount"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">findAccount</span><span class="params">(Integer accountId,String accountName)</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"查询了账户。。。。"</span>+accountId+<span class="string">","</span>+accountName);</span><br><span class="line">	<span class="comment">//查询了账户。。。。10,zhangsan</span></span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-POJO-类型作为参数"><a href="#2-POJO-类型作为参数" class="headerlink" title="(2) POJO 类型作为参数"></a>(2) POJO 类型作为参数</h3><p>jsp代码<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- pojo 类型演示 --&gt; &lt;form action=<span class="string">"account/saveAccount"</span> method=<span class="string">"post"</span>&gt;</span><br><span class="line">账户名称：&lt;input type=<span class="string">"text"</span> name=<span class="string">"name"</span> &gt;&lt;br/&gt;</span><br><span class="line">账户金额：&lt;input type=<span class="string">"text"</span> name=<span class="string">"money"</span> &gt;&lt;br/&gt;</span><br><span class="line">账户省份：&lt;input type=<span class="string">"text"</span> name=<span class="string">"address.provinceName"</span> &gt;&lt;br/&gt;</span><br><span class="line">账户城市：&lt;input type=<span class="string">"text"</span> name=<span class="string">"address.cityName"</span> &gt;&lt;br/&gt;</span><br><span class="line">&lt;input type=<span class="string">"submit"</span> value=<span class="string">"保存"</span>&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Java代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//domain</span></span><br><span class="line"><span class="comment">//Account</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Integer id;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> Float money;</span><br><span class="line">	<span class="keyword">private</span> Address address;</span><br><span class="line">	<span class="comment">//getters and setters</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Address</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Address</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String provinceName;</span><br><span class="line">	<span class="keyword">private</span> String cityName;</span><br><span class="line">	<span class="comment">//getters and setters</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/saveAccount"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">saveAccount</span><span class="params">(Account account)</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"保存了账户。。。。"</span>+account);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="三-响应数据和结果视图"><a href="#三-响应数据和结果视图" class="headerlink" title="三.响应数据和结果视图"></a>三.响应数据和结果视图</h2><h3 id="1-返回值分类"><a href="#1-返回值分类" class="headerlink" title="1.返回值分类"></a>1.返回值分类</h3><h4 id="1-返回字符串"><a href="#1-返回字符串" class="headerlink" title="(1) 返回字符串"></a>(1) 返回字符串</h4><p>controller 方法返回字符串可以指定逻辑视图名，通过视图解析器解析为物理视图地址<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testReturnString"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testReturnString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"AccountController 的 testReturnString 方法执行了。。。。"</span>);</span><br><span class="line">	<span class="comment">//跳转到success.jsp</span></span><br><span class="line">	<span class="keyword">return</span> <span class="string">"success"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-void"><a href="#2-void" class="headerlink" title="(2) void"></a>(2) void</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testReturnVoid"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testReturnVoid</span><span class="params">(HttpServletRequest request,HttpServletResponse response)</span> </span></span><br><span class="line"><span class="function">						<span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	<span class="comment">//在 controller 方法形参上可以定义 request 和 response，使用 request 或 response 指定响应结果：</span></span><br><span class="line">						</span><br><span class="line">	<span class="comment">//使用 request 转向页面</span></span><br><span class="line">	request.getRequestDispatcher(<span class="string">"/WEB-INF/pages/success.jsp"</span>).forward(request,response); </span><br><span class="line">	<span class="comment">//通过 response 页面重定向</span></span><br><span class="line">	response.sendRedirect(<span class="string">"testRetrunString"</span>);</span><br><span class="line">	<span class="comment">//通过 response 指定响应结果，例如响应 json 数据</span></span><br><span class="line">	response.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">	response.setContentType(<span class="string">"application/json;charset=utf-8"</span>);</span><br><span class="line">	response.getWriter().write(<span class="string">"json 串"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-返回ModelAndView"><a href="#3-返回ModelAndView" class="headerlink" title="(3) 返回ModelAndView"></a>(3) 返回ModelAndView</h4><p>ModelAndView 是 SpringMVC 为我们提供的一个对象，该对象也可以用作控制器方法的返回值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testReturnModelAndView"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> ModelAndView <span class="title">testReturnModelAndView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ModelAndView mv = <span class="keyword">new</span> ModelAndView();</span><br><span class="line">	mv.addObject(<span class="string">"username"</span>, <span class="string">"张三"</span>);</span><br><span class="line">	mv.setViewName(<span class="string">"success"</span>);</span><br><span class="line">	<span class="keyword">return</span> mv;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">执行成功！</span><br><span class="line">$&#123;requestScope.username&#125;<span class="comment">&lt;!--张三--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注意:我们在页面上上获取使用的是 requestScope.username 取的，所以返回 ModelAndView 类型时，浏览器跳转只能是请求转发</p>
+<h3 id="2-转发和重定向"><a href="#2-转发和重定向" class="headerlink" title="2.转发和重定向"></a>2.转发和重定向</h3><h4 id="forward-转发"><a href="#forward-转发" class="headerlink" title="forward 转发"></a>forward 转发</h4><p>controller 方法在提供了 String 类型的返回值之后，默认就是请求转发。我们也可以写成：<br>需要注意的是，如果用了 formward：则路径必须写成实际视图 url，不能写逻辑视图<br>它相当于“request.getRequestDispatcher(“url”).forward(request,response)”。使用请求转发，既可以转发到 jsp，也可以转发到其他的控制器方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testForward"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testForward</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"AccountController 的 testForward 方法执行了。。。。"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"forward:/WEB-INF/pages/success.jsp"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Redirect-重定向"><a href="#Redirect-重定向" class="headerlink" title="Redirect 重定向"></a>Redirect 重定向</h4><p>contrller 方法提供了一个 String 类型返回值之后，它需要在返回值里使用:redirect:<br>它相当于“response.sendRedirect(url)”。需要注意的是，如果是重定向到 jsp 页面，则 jsp 页面不能写在 WEB-INF 目录中，否则无法找到<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testRedirect"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">testRedirect</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"AccountController 的 testRedirect 方法执行了。。。。"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"redirect:testReturnModelAndView"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="ResponseBody-响应-json-数据"><a href="#ResponseBody-响应-json-数据" class="headerlink" title="ResponseBody 响应 json 数据"></a>ResponseBody 响应 json 数据</h4><p>作用：该注解用于将 Controller 的方法返回的对象，通过 HttpMessageConverter 接口转换为指定格式的数据如：json,xml 等，通过 Response 响应给客户端<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/testResponseJson"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@ResponseBody</span> <span class="function">Account <span class="title">testResponseJson</span><span class="params">(@RequestBody Account account)</span> </span>&#123;<span class="comment">//RequestBodyz注解将json数据转换成Account对象</span></span><br><span class="line">	System.out.println(<span class="string">"异步请求："</span>+account);</span><br><span class="line">	<span class="keyword">return</span> account; <span class="comment">//ResponseBody注解会将return的account对象转化为json返回给前台</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -182,93 +224,133 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
+                    
+                    
+                  </div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
-        <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
-        </p>
-      <% } %>
+      </div>
+    </span>
+  </div>
+</div>
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/11/22/SpringMVC的简单使用/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
 
-
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
   
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
+<nav id="article-nav">
+  
+    <a href="/2019/11/22/Mybatis小知识/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Mybatis小知识
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/20/SpringBoot整合Mybatis/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SpringBoot整合Mybatis</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
 
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
-</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
+
+  
+  
+  
+
+  
+
+  
+
+  
+
+
           </div>
         </div>
       </div>
