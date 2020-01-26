@@ -156,33 +156,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android中的自定义控件" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android中的自定义控件
-    </h1>
-  
-
-        
-        <a href="/2019/04/23/Android中的自定义控件/" class="archive-article-date">
-  	<time datetime="2019-04-23T13:28:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-23</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>Android中的自定义控件很常用,尤其时在哪些布局嵌套里面,使用嵌套将会有大量的代码,可读性差,通过自定义控件后即可提高可维护性和复用性让代码更简洁,明了<br><a id="more"></a><br><h3>自定义View需要知道的:</h3><br>1.自定义开关,需要的数据为图片的背景和前景<br>2.在oncreate方法中自定义提供设置背景和前景图片的方法以及相关的业务方法<br>3.整个绘制过程再onPause方法调用之后执行<br>4.在view中重写onMeasure方法在计算宽高,宽高即为背景图片的宽和高,通过重写setMeasuredDimension方法<br>5.在view中重写onDraw绘制内容,通过canvas.drawBitmap方法,先绘制背景,再绘制前景<br>添加监听的步骤(同创建回调的步骤)<br>1.定义一个接口<br>2.定义接口中为实现的业务逻辑方法<br>3.传递一个实现了此接口的类的对象<br>4.获取传递进来的对象,再合适的地方调用<br><br><h3>自定义控件的属性的步骤如下:</h3><br>1.再values下创建一个attrs.xml文件<br>2.在resources下声明declare-styleable节点,在里面添加自己想要的属性以及属性值的类型<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line"></span><br><span class="line">    &lt;declare-styleable name=<span class="string">"ToggleView"</span>&gt;</span><br><span class="line">        &lt;attr name=<span class="string">"switch_background"</span> format=<span class="string">"reference"</span> /&gt;</span><br><span class="line">        &lt;attr name=<span class="string">"slide_backgaround"</span> format=<span class="string">"reference"</span> /&gt;</span><br><span class="line">        &lt;attr name=<span class="string">"switch_state"</span> format=<span class="string">"boolean"</span> /&gt;</span><br><span class="line">    &lt;/declare-styleable&gt;</span><br><span class="line"></span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure><br><br>3.在R文件的attr中会自动生成相应的代码<br>4.使用时,在使用自定义控件的xml文件中声明一个自己的名空间<br>xmlns:android=”<a href="http://schemas.android.com/apk/res/android&quot;" target="_blank" rel="noopener">http://schemas.android.com/apk/res/android&quot;</a><br>xmlns:”自己随便写”=”<a href="http://schemas.android.com/apk/res/&#39;包名&#39;" target="_blank" rel="noopener">http://schemas.android.com/apk/res/&#39;包名&#39;</a> “<br>如:<br>xmlns:niyang=”<a href="http://schemas.android.com/apk/res/com.example.mytoggleview&quot;" target="_blank" rel="noopener">http://schemas.android.com/apk/res/com.example.mytoggleview&quot;</a><br>6.调用时格式为: niyang:switch_state=”false”<br><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:niyang=<span class="string">"http://schemas.android.com/apk/res/com.example.mytoggleview"</span></span><br><span class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    tools:context=<span class="string">"com.example.mytoggleview.MainActivity"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.example.mytoggleview.view.ToggleView</span><br><span class="line">        android:id=<span class="string">"@+id/toggle"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_centerInParent=<span class="string">"true"</span></span><br><span class="line">        niyang:slide_backgaround=<span class="string">"@drawable/slide_button"</span></span><br><span class="line">        niyang:switch_background=<span class="string">"@drawable/switch_background"</span></span><br><span class="line">        niyang:switch_state=<span class="string">"false"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure><br><br>7.在自定义View的构造方法中调用<br>attrs.getAttributeResourceValue(namespace, attribute, defaultValue)方法获取属性值<br>参数1表示自定义的名空间,参数2表示想要获取属性value的属性key,参数3是默认值<br>8.将获取到的属性值调用set方法设置到相应的控件上<br><br><h3>总代码如下</h3><br>attrs.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;resources&gt;</span><br><span class="line"></span><br><span class="line">    &lt;declare-styleable name=<span class="string">"ToggleView"</span>&gt;</span><br><span class="line">        &lt;attr name=<span class="string">"switch_background"</span> format=<span class="string">"reference"</span> /&gt;</span><br><span class="line">        &lt;attr name=<span class="string">"slide_backgaround"</span> format=<span class="string">"reference"</span> /&gt;</span><br><span class="line">        &lt;attr name=<span class="string">"switch_state"</span> format=<span class="string">"boolean"</span> /&gt;</span><br><span class="line">    &lt;/declare-styleable&gt;</span><br><span class="line"></span><br><span class="line">&lt;/resources&gt;</span><br></pre></td></tr></table></figure><br><br>activity_main.xml<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    xmlns:niyang=<span class="string">"http://schemas.android.com/apk/res/com.example.mytoggleview"</span></span><br><span class="line">    xmlns:tools=<span class="string">"http://schemas.android.com/tools"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    tools:context=<span class="string">"com.example.mytoggleview.MainActivity"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.example.mytoggleview.view.ToggleView</span><br><span class="line">        android:id=<span class="string">"@+id/toggle"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_centerInParent=<span class="string">"true"</span></span><br><span class="line">        niyang:slide_backgaround=<span class="string">"@drawable/slide_button"</span></span><br><span class="line">        niyang:switch_background=<span class="string">"@drawable/switch_background"</span></span><br><span class="line">        niyang:switch_state=<span class="string">"false"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure><br><br>ToggleView.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.mytoggleview.view;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Bitmap;</span><br><span class="line"><span class="keyword">import</span> android.graphics.BitmapFactory;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Canvas;</span><br><span class="line"><span class="keyword">import</span> android.graphics.Paint;</span><br><span class="line"><span class="keyword">import</span> android.util.AttributeSet;</span><br><span class="line"><span class="keyword">import</span> android.view.MotionEvent;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> niyang</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ToggleView</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Bitmap switchBackgroundBitmap;</span><br><span class="line">	<span class="keyword">private</span> Bitmap SlideButtonBitmap;</span><br><span class="line">	<span class="keyword">private</span> Paint paint;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">boolean</span> mSwitchState = <span class="keyword">false</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">float</span> currentX;</span><br><span class="line">	<span class="keyword">private</span> OnSwitchStateUpdateListener onSwitchStateUpdateListener;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ToggleView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(context);</span><br><span class="line">		init();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**设置属性</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> attrs</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ToggleView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(context, attrs);</span><br><span class="line">		init();</span><br><span class="line">		String namespace = <span class="string">"http://schemas.android.com/apk/res/com.example.mytoggleview"</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> SwitchBackgarounde = attrs.getAttributeResourceValue(namespace, <span class="string">"switch_background"</span>, -<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">int</span> SlideButtonBackgaround = attrs.getAttributeResourceValue(namespace, <span class="string">"slide_backgaround"</span>, -<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">		mSwitchState = attrs.getAttributeBooleanValue(namespace, <span class="string">"switch_state"</span>, <span class="keyword">false</span>);</span><br><span class="line"></span><br><span class="line">		setSwitchBackgaroundResource(SwitchBackgarounde);</span><br><span class="line">		setSlideButtonBackgaround(SlideButtonBackgaround);</span><br><span class="line"></span><br><span class="line">		setState(mSwitchState);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ToggleView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">		init();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		paint = <span class="keyword">new</span> Paint();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">boolean</span> isTouch = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">switch</span> (event.getAction()) &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">			isTouch = <span class="keyword">true</span>;</span><br><span class="line">			currentX = event.getX();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line"></span><br><span class="line">			currentX = event.getX();</span><br><span class="line">			isTouch = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">float</span> center = switchBackgroundBitmap.getWidth() / <span class="number">2.0f</span>;</span><br><span class="line">			<span class="keyword">boolean</span> state = currentX &gt; center;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (state != mSwitchState &amp;&amp; onSwitchStateUpdateListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="comment">// TODO</span></span><br><span class="line">				onSwitchStateUpdateListener.onStateUpdate(state);</span><br><span class="line">			&#125;</span><br><span class="line">			mSwitchState = state;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">			currentX = event.getX();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		invalidate();<span class="comment">// 会引发onDraw被调用,里面的变量会重新生效</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">		setMeasuredDimension(switchBackgroundBitmap.getWidth(), switchBackgroundBitmap.getHeight());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		canvas.drawBitmap(switchBackgroundBitmap, <span class="number">0</span>, <span class="number">0</span>, paint);</span><br><span class="line">		System.out.println(<span class="string">"isTouch"</span> + isTouch);</span><br><span class="line">		<span class="keyword">if</span> (isTouch) &#123;</span><br><span class="line">			<span class="comment">// 根据用户触摸到的位置划动滑块</span></span><br><span class="line">			<span class="keyword">float</span> newLeft = currentX - SlideButtonBitmap.getWidth() / <span class="number">2.0f</span>;</span><br><span class="line">			<span class="keyword">float</span> maxLeft = switchBackgroundBitmap.getWidth() - SlideButtonBitmap.getWidth();</span><br><span class="line">			<span class="keyword">if</span> (newLeft &lt; <span class="number">0</span>) &#123;</span><br><span class="line">				newLeft = <span class="number">0</span>;</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (newLeft &gt; maxLeft) &#123;</span><br><span class="line">				newLeft = maxLeft;</span><br><span class="line">			&#125;</span><br><span class="line">			canvas.drawBitmap(SlideButtonBitmap, newLeft, <span class="number">0</span>, paint);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (mSwitchState) &#123;</span><br><span class="line">				<span class="keyword">int</span> left = switchBackgroundBitmap.getWidth() - SlideButtonBitmap.getWidth();</span><br><span class="line">				canvas.drawBitmap(SlideButtonBitmap, left, <span class="number">0</span>, paint);</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				canvas.drawBitmap(SlideButtonBitmap, <span class="number">0</span>, <span class="number">0</span>, paint);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 设置背景图片</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> switchBackground</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSwitchBackgaroundResource</span><span class="params">(<span class="keyword">int</span> switchBackground)</span> </span>&#123;</span><br><span class="line">		switchBackgroundBitmap = BitmapFactory.decodeResource(getResources(), switchBackground);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 设置滑块图片资源</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> slideButton</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSlideButtonBackgaround</span><span class="params">(<span class="keyword">int</span> slideButton)</span> </span>&#123;</span><br><span class="line">		SlideButtonBitmap = BitmapFactory.decodeResource(getResources(), slideButton);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 设置滑块当前的状态</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> b</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">boolean</span> mSwitchState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.mSwitchState = mSwitchState;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnSwitchStateUpdateListener</span> </span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStateUpdate</span><span class="params">(<span class="keyword">boolean</span> state)</span></span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnSwitchStateUpdateListener</span><span class="params">(OnSwitchStateUpdateListener onSwitchStateUpdateListener)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.onSwitchStateUpdateListener = onSwitchStateUpdateListener;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>运行截图如下:<br><img src="\img\toggleviewclose.png"><img src="\img\toggleviewopen.png"><br></body>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-
-      
-
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -192,144 +186,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/04/23/Android中的自定义控件/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/04/23/Android中util类的编写/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android中util类的编写
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/04/23/Android中TextView的跑马灯效果/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android中TextView的跑马灯效果</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>
@@ -337,7 +280,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 NiYang
+    		&copy; 2020 NiYang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -420,6 +363,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">flutter</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -153,32 +153,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Android中的归属地查询" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android中的归属地查询
-    </h1>
-  
-
-        
-        <a href="/2019/05/06/Android中的归属地查询/" class="archive-article-date">
-  	<time datetime="2019-05-06T12:41:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>归属地查询的原理主要是根据手机号前6位,在数据库中进行查询,数据库中有对应联通,电信,移动,省份,城市,区号等内容,即需要什么查什么<br><a id="more"></a><br>1.<a href="\download\phone.db">点击下载相关数据库文件(phone.db)</a><br>2.归属地查询的布局文件activity_queryaddress.xml,布局文件很简单一个EditText用于输入手机号,一个Button用于点击查询事件,一个TextView用于显示结果<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">    android:layout_height=<span class="string">"match_parent"</span></span><br><span class="line">    android:orientation=<span class="string">"vertical"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        style=<span class="string">"@style/TitleStyle"</span></span><br><span class="line">        android:text=<span class="string">"归属地查询"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;EditText</span><br><span class="line">        android:id=<span class="string">"@+id/et_phone"</span></span><br><span class="line">        android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:hint=<span class="string">"请输入电话号码"</span></span><br><span class="line">        android:inputType=<span class="string">"phone"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;Button</span><br><span class="line">        android:id=<span class="string">"@+id/btn_query"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">        android:text=<span class="string">"查询"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id=<span class="string">"@+id/tv_result"</span></span><br><span class="line">        android:layout_width=<span class="string">"wrap_content"</span></span><br><span class="line">        android:layout_height=<span class="string">"wrap_content"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure><br><br>3.将数据库文件复制到项目的assets文件夹下用于操作<br>4.在SplashAcitvity.java中,即刚进应用时将assets文件夹下的数据库文件复制到本地便于操作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initAddressDB</span><span class="params">(String dbName)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 将数据库复制到文件中</span></span><br><span class="line">		File files = getFilesDir();</span><br><span class="line">		File file = <span class="keyword">new</span> File(files, <span class="string">"address.db"</span>);</span><br><span class="line">		<span class="keyword">if</span> (file.exists()) &#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			InputStream open = <span class="keyword">null</span>;</span><br><span class="line">			FileOutputStream fos = <span class="keyword">null</span>;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				open = getAssets().open(dbName);</span><br><span class="line">				fos = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">				<span class="keyword">byte</span>[] buffer = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">				<span class="keyword">int</span> len;</span><br><span class="line">				<span class="keyword">while</span> ((len = open.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">					fos.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">				<span class="keyword">if</span> (open != <span class="keyword">null</span> &amp;&amp; fos != <span class="keyword">null</span>) &#123;</span><br><span class="line">					<span class="keyword">try</span> &#123;</span><br><span class="line">						open.close();</span><br><span class="line">						fos.close();</span><br><span class="line">					&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure><br><br>4.将查询操作放在AddressDao.java中,提供getAddress()和getType()方法便于其他类使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe.engine;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.database.Cursor;</span><br><span class="line"><span class="keyword">import</span> android.database.sqlite.SQLiteDatabase;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddressDao</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 1.指定访问数据库的路径</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String path = <span class="string">"data/data/com.niyang.mobilesafe/files/address.db"</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> String mAddress = <span class="string">"未知号码"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 2.开启数据库,进行访问</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getAddress</span><span class="params">(String phone)</span> </span>&#123;</span><br><span class="line">		String regularExpression = <span class="string">"^1[3-8]\\d&#123;9&#125;"</span>;</span><br><span class="line">		SQLiteDatabase db = SQLiteDatabase.openDatabase(path, <span class="keyword">null</span>, SQLiteDatabase.NO_LOCALIZED_COLLATORS);</span><br><span class="line">		<span class="keyword">if</span> (phone.matches(regularExpression)) &#123;</span><br><span class="line">			phone = phone.substring(<span class="number">0</span>, <span class="number">7</span>);</span><br><span class="line">			<span class="comment">// SQLiteDatabase openDatabase = SQLiteDatabase.openDatabase(path, null,</span></span><br><span class="line">			<span class="comment">// SQLiteDatabase.OPEN_READONLY);</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">// 3.数据库查询</span></span><br><span class="line">			Cursor cursor = db.query(<span class="string">"phones"</span>, <span class="keyword">new</span> String[] &#123; <span class="string">"region_id"</span>, <span class="string">"type"</span> &#125;, <span class="string">"number=?"</span>, <span class="keyword">new</span> String[] &#123; phone &#125;,</span><br><span class="line">					<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">			<span class="comment">// 4.查到即可</span></span><br><span class="line">			<span class="keyword">if</span> (cursor.moveToNext()) &#123;</span><br><span class="line">				String region_id = cursor.getString(<span class="number">0</span>);</span><br><span class="line">				String type = cursor.getString(<span class="number">1</span>);<span class="comment">// 类型,表示电信移动或联通 以 1,2,3的形式表现</span></span><br><span class="line">				String type2 = getType(type);<span class="comment">// 将1 2 3 转换为移动 联通 电信的形式</span></span><br><span class="line">				Log.v(<span class="string">"AddressDao"</span>, <span class="string">"region_id ="</span> + region_id + <span class="string">", type="</span> + type);</span><br><span class="line">				<span class="comment">// 5.通过通过phones查到的region_id,作为外键查询region表</span></span><br><span class="line">				Cursor query = db.query(<span class="string">"regions"</span>, <span class="keyword">new</span> String[] &#123; <span class="string">"province"</span>, <span class="string">"city"</span> &#125;, <span class="string">"id=?"</span>,</span><br><span class="line">						<span class="keyword">new</span> String[] &#123; region_id &#125;, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">				<span class="keyword">if</span> (query.moveToNext()) &#123;</span><br><span class="line">					String province = query.getString(<span class="number">0</span>);</span><br><span class="line">					String city = query.getString(<span class="number">1</span>);</span><br><span class="line">					<span class="comment">// 最终省份加上城市的地址</span></span><br><span class="line">					mAddress = province + city + type2;</span><br><span class="line">					Log.v(<span class="string">"AddressDao"</span>, <span class="string">"address ="</span> + mAddress);</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					mAddress = <span class="string">"未知号码"</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">int</span> length = phone.length();</span><br><span class="line">			<span class="keyword">switch</span> (length) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">				mAddress = <span class="string">"报警电话"</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">				mAddress = <span class="string">"模拟器"</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">				mAddress = <span class="string">"服务电话"</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">			<span class="keyword">case</span> <span class="number">8</span>:</span><br><span class="line">				mAddress = <span class="string">"本地电话"</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">11</span>:</span><br><span class="line"></span><br><span class="line">				Cursor query = db.query(<span class="string">"regions"</span>, <span class="keyword">new</span> String[] &#123; <span class="string">"province"</span>, <span class="string">"city"</span> &#125;, <span class="string">"area_code=?"</span>,</span><br><span class="line">						<span class="keyword">new</span> String[] &#123; phone.substring(<span class="number">0</span>, <span class="number">3</span>) &#125;, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">				<span class="keyword">if</span> (query.moveToNext()) &#123;</span><br><span class="line">					String province = query.getString(<span class="number">0</span>);</span><br><span class="line">					String city = query.getString(<span class="number">1</span>);</span><br><span class="line">					mAddress = province + city;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					mAddress = <span class="string">"未知号码"</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> <span class="number">12</span>:</span><br><span class="line">				Cursor cursor = db.query(<span class="string">"regions"</span>, <span class="keyword">new</span> String[] &#123; <span class="string">"province"</span>, <span class="string">"city"</span> &#125;, <span class="string">"area_code=?"</span>,</span><br><span class="line">						<span class="keyword">new</span> String[] &#123; phone.substring(<span class="number">1</span>, <span class="number">4</span>) &#125;, <span class="keyword">null</span>, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">				<span class="keyword">if</span> (cursor.moveToNext()) &#123;</span><br><span class="line">					String province = cursor.getString(<span class="number">0</span>);</span><br><span class="line">					String city = cursor.getString(<span class="number">1</span>);</span><br><span class="line">					mAddress = province + city;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					mAddress = <span class="string">"未知号码"</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				mAddress = <span class="string">"未知号码"</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> mAddress;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getType</span><span class="params">(String type)</span> </span>&#123;</span><br><span class="line">		String type2 = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">switch</span> (type) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"1"</span>:</span><br><span class="line">			type2 = <span class="string">"移动"</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"2"</span>:</span><br><span class="line">			type2 = <span class="string">"联通"</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="string">"3"</span>:</span><br><span class="line">			type2 = <span class="string">"电信"</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> type2;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>6.QueryAddressActivity.java用于将查询的数据显示到控件上<br>其中,btn_query设置了一个OnClickListener,点击按钮后根据输入框的手机号进行查询,若输入框的内容为空,会出现抖动效果以及震动效果(震动需要权限)<br>et_phone添加了一个TextChangedListener,可以进行实时查询,即内容改变一次查询一次<br>查询操作可能是一个耗时操作,因此放在子线程中,利用Handler进行更新UI,为TextView显示查询结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.niyang.mobilesafe;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.niyang.mobilesafe.engine.AddressDao;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.app.DownloadManager.Query;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.Message;</span><br><span class="line"><span class="keyword">import</span> android.os.Vibrator;</span><br><span class="line"><span class="keyword">import</span> android.text.Editable;</span><br><span class="line"><span class="keyword">import</span> android.text.TextUtils;</span><br><span class="line"><span class="keyword">import</span> android.text.TextWatcher;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.view.View.OnClickListener;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.Animation;</span><br><span class="line"><span class="keyword">import</span> android.view.animation.AnimationUtils;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.EditText;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QueryAddressActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> EditText et_phone;</span><br><span class="line">	<span class="keyword">private</span> Button btn_query;</span><br><span class="line">	<span class="keyword">private</span> TextView tv_result;</span><br><span class="line">	<span class="keyword">private</span> String address;</span><br><span class="line">	<span class="keyword">private</span> Handler mHandler = <span class="keyword">new</span> Handler() &#123;</span><br><span class="line"></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">			tv_result.setText(address);</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">		setContentView(R.layout.activity_queryaddress);</span><br><span class="line">		initUI();</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initUI</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		et_phone = (EditText) findViewById(R.id.et_phone);</span><br><span class="line">		btn_query = (Button) findViewById(R.id.btn_query);</span><br><span class="line">		tv_result = (TextView) findViewById(R.id.tv_result);</span><br><span class="line"></span><br><span class="line">		et_phone.addTextChangedListener(<span class="keyword">new</span> TextWatcher() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTextChanged</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> before, <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">beforeTextChanged</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> count, <span class="keyword">int</span> after)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterTextChanged</span><span class="params">(Editable s)</span> </span>&#123;</span><br><span class="line">				String phone1 = et_phone.getText().toString().trim();</span><br><span class="line">				query(phone1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line"></span><br><span class="line">		btn_query.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">				String phone = et_phone.getText().toString().trim();</span><br><span class="line">				<span class="keyword">if</span> (!TextUtils.isEmpty(phone)) &#123;</span><br><span class="line">					query(phone);</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.shake);</span><br><span class="line">					et_phone.startAnimation(shake);</span><br><span class="line">					Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);</span><br><span class="line">					<span class="comment">// vibrator.vibrate(new long[] &#123;2000,5000,2000,5000&#125;, -1);</span></span><br><span class="line">					vibrator.vibrate(<span class="number">200</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">query</span><span class="params">(<span class="keyword">final</span> String phone)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">new</span> Thread() &#123;</span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				address = AddressDao.getAddress(phone);</span><br><span class="line">				mHandler.sendEmptyMessage(<span class="number">0</span>);</span><br><span class="line">			&#125;;</span><br><span class="line">		&#125;.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>7.用于抖动效果的Xml文件cycle_7.xml和shake.xml(放置在res下anim文件夹中)<br>cycle_7.xml<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;cycleInterpolator xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span> android:cycles=<span class="string">"7"</span> /&gt;</span><br></pre></td></tr></table></figure><br><br>shake.xml<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;translate xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span> android:fromXDelta=<span class="string">"0"</span> android:toXDelta=<span class="string">"10"</span> android:duration=<span class="string">"1000"</span> android:interpolator=<span class="string">"@anim/cycle_7"</span> /&gt;</span><br></pre></td></tr></table></figure><br><br>8.震动需要的权限<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.VIBRATE"</span>/&gt;</span><br></pre></td></tr></table></figure><br><br></body>
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-      
-
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -188,144 +183,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/05/06/Android中的归属地查询/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/05/06/Android中自定义Toast且可拖动的简单实现/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Android中自定义Toast且可拖动的简单实现
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/04/26/Android中使用ContentResolver取手机中联系人的名称和手机号/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android中使用ContentResolver取手机中联系人的名称和手机号</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>
@@ -333,7 +277,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 NiYang
+    		&copy; 2020 NiYang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -416,6 +360,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">flutter</a>
               </li>
              
               <li class="article-tag-list-item">

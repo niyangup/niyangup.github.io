@@ -152,280 +152,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Cookie-Session" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Cookie&amp;Session
-    </h1>
-  
-
-        
-        <a href="/2019/10/09/Cookie-Session/" class="archive-article-date">
-  	<time datetime="2019-10-09T08:05:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-09</time>
-</a>
-	
-        
-      </header>
-    
+        <%- partial('post title', {class_name: 'article-title'}) %>
+        <% if (!post.nodate){ %>
+        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
+        <% } %>
+      </%></%-></%></%-></header>
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <p>会话技术(Cookie,Session),JSP：入门学习<br><a id="more"></a></p>
-<h2 id="会话技术"><a href="#会话技术" class="headerlink" title="会话技术"></a>会话技术</h2><pre><code>1. 会话：一次会话中包含多次请求和响应。
-    * 一次会话：浏览器第一次给服务器资源发送请求，会话建立，直到有一方断开为止
-2. 功能：在一次会话的范围内的多次请求间，共享数据
-3. 方式：
-    1. 客户端会话技术：Cookie
-    2. 服务器端会话技术：Session
-</code></pre><h2 id="Cookie："><a href="#Cookie：" class="headerlink" title="Cookie："></a>Cookie：</h2><pre><code>1. 概念：客户端会话技术，将数据保存到客户端
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link) { %>
+          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
 
-2. 快速入门：
-    * 使用步骤：
-        1. 创建Cookie对象，绑定数据
-            * new Cookie(String name, String value) 
-        2. 发送Cookie对象
-            * response.addCookie(Cookie cookie) 
-        3. 获取Cookie，拿到数据
-            * Cookie[]  request.getCookies()  
-
-
-3. 实现原理
-    * 基于响应头set-cookie和请求头cookie实现
-
-4. cookie的细节
-    1. 一次可不可以发送多个cookie?
-        * 可以
-        * 可以创建多个Cookie对象，使用response调用多次addCookie方法发送cookie即可。
-    2. cookie在浏览器中保存多长时间？
-        1. 默认情况下，当浏览器关闭后，Cookie数据被销毁
-        2. 持久化存储：
-            * setMaxAge(int seconds)
-                1. 正数：将Cookie数据写到硬盘的文件中。持久化存储。并指定cookie存活时间，时间到后，cookie文件自动失效
-                2. 负数：默认值
-                3. 零：删除cookie信息
-    3. cookie能不能存中文？
-        * 在tomcat 8 之前 cookie中不能直接存储中文数据。
-            * 需要将中文数据转码---一般采用URL编码(%E3)
-        * 在tomcat 8 之后，cookie支持中文数据。特殊字符还是不支持，建议使用URL编码存储，URL解码解析
-    4. cookie共享问题？
-        1. 假设在一个tomcat服务器中，部署了多个web项目，那么在这些web项目中cookie能不能共享？
-            * 默认情况下cookie不能共享
-
-            * setPath(String path):设置cookie的获取范围。默认情况下，设置当前的虚拟目录
-                * 如果要共享，则可以将path设置为&quot;/&quot;
-
-
-        2. 不同的tomcat服务器间cookie共享问题？
-            * setDomain(String path):如果设置一级域名相同，那么多个服务器之间cookie可以共享
-                * setDomain(&quot;.baidu.com&quot;),那么tieba.baidu.com和news.baidu.com中cookie可以共享
-
-
-5. Cookie的特点和作用
-    1. cookie存储数据在客户端浏览器
-    2. 浏览器对于单个cookie 的大小有限制(4kb) 以及 对同一个域名下的总cookie数量也有限制(20个)
-
-    * 作用：
-        1. cookie一般用于存出少量的不太敏感的数据
-        2. 在不登录的情况下，完成服务器对客户端的身份识别
-
-6. 案例：记住上一次访问时间
-    1. 需求：
-        1. 访问一个Servlet，如果是第一次访问，则提示：您好，欢迎您首次访问。
-        2. 如果不是第一次访问，则提示：欢迎回来，您上次访问时间为:显示时间字符串
-
-    2. 分析：
-        1. 可以采用Cookie来完成
-        2. 在服务器中的Servlet判断是否有一个名为lastTime的cookie
-            1. 有：不是第一次访问
-                1. 响应数据：欢迎回来，您上次访问时间为:2018年6月10日11:50:20
-                2. 写回Cookie：lastTime=2018年6月10日11:50:01
-            2. 没有：是第一次访问
-                1. 响应数据：您好，欢迎您首次访问
-                2. 写回Cookie：lastTime=2018年6月10日11:50:01
-
-    3. 代码实现：
-        package cn.itcast.cookie;
-
-        import javax.servlet.ServletException;
-        import javax.servlet.annotation.WebServlet;
-        import javax.servlet.http.Cookie;
-        import javax.servlet.http.HttpServlet;
-        import javax.servlet.http.HttpServletRequest;
-        import javax.servlet.http.HttpServletResponse;
-        import java.io.IOException;
-        import java.net.URLDecoder;
-        import java.net.URLEncoder;
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
-
-
-    @WebServlet(&quot;/cookieTest&quot;)
-    public class CookieTest extends HttpServlet {
-        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            //设置响应的消息体的数据格式以及编码
-            response.setContentType(&quot;text/html;charset=utf-8&quot;);
-
-            //1.获取所有Cookie
-            Cookie[] cookies = request.getCookies();
-            boolean flag = false;//没有cookie为lastTime
-            //2.遍历cookie数组
-            if(cookies != null &amp;&amp; cookies.length &gt; 0){
-                for (Cookie cookie : cookies) {
-                    //3.获取cookie的名称
-                    String name = cookie.getName();
-                    //4.判断名称是否是：lastTime
-                    if(&quot;lastTime&quot;.equals(name)){
-                        //有该Cookie，不是第一次访问
-
-                        flag = true;//有lastTime的cookie
-
-                        //设置Cookie的value
-                        //获取当前时间的字符串，重新设置Cookie的值，重新发送cookie
-                        Date date  = new Date();
-                        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy年MM月dd日 HH:mm:ss&quot;);
-                        String str_date = sdf.format(date);
-                        System.out.println(&quot;编码前：&quot;+str_date);
-                        //URL编码
-                        str_date = URLEncoder.encode(str_date,&quot;utf-8&quot;);
-                        System.out.println(&quot;编码后：&quot;+str_date);
-                        cookie.setValue(str_date);
-                        //设置cookie的存活时间
-                        cookie.setMaxAge(60 * 60 * 24 * 30);//一个月
-                        response.addCookie(cookie);
-
-
-                        //响应数据
-                        //获取Cookie的value，时间
-                        String value = cookie.getValue();
-                        System.out.println(&quot;解码前：&quot;+value);
-                        //URL解码：
-                        value = URLDecoder.decode(value,&quot;utf-8&quot;);
-                        System.out.println(&quot;解码后：&quot;+value);
-                        response.getWriter().write(&quot;&lt;h1&gt;欢迎回来，您上次访问时间为:&quot;+value+&quot;&lt;/h1&gt;&quot;);
-
-                        break;
-
-                    }
-                }
-            }
-
-
-            if(cookies == null || cookies.length == 0 || flag == false){
-                //没有，第一次访问
-
-                //设置Cookie的value
-                //获取当前时间的字符串，重新设置Cookie的值，重新发送cookie
-                Date date  = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy年MM月dd日 HH:mm:ss&quot;);
-                String str_date = sdf.format(date);
-                System.out.println(&quot;编码前：&quot;+str_date);
-                //URL编码
-                str_date = URLEncoder.encode(str_date,&quot;utf-8&quot;);
-                System.out.println(&quot;编码后：&quot;+str_date);
-
-                Cookie cookie = new Cookie(&quot;lastTime&quot;,str_date);
-                //设置cookie的存活时间
-                cookie.setMaxAge(60 * 60 * 24 * 30);//一个月
-                response.addCookie(cookie);
-
-                response.getWriter().write(&quot;&lt;h1&gt;您好，欢迎您首次访问&lt;/h1&gt;&quot;);
-            }
-
-
-        }
-
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            this.doPost(request, response);
-        }
-    }
-</code></pre><h2 id="JSP：入门学习"><a href="#JSP：入门学习" class="headerlink" title="JSP：入门学习"></a>JSP：入门学习</h2><pre><code>1. 概念：
-    * Java Server Pages： java服务器端页面
-        * 可以理解为：一个特殊的页面，其中既可以指定定义html标签，又可以定义java代码
-        * 用于简化书写！！！
-
-
-2. 原理
-    * JSP本质上就是一个Servlet
-
-3. JSP的脚本：JSP定义Java代码的方式
-    1. &lt;%  代码 %&gt;：定义的java代码，在service方法中。service方法中可以定义什么，该脚本中就可以定义什么。
-    2. &lt;%! 代码 %&gt;：定义的java代码，在jsp转换后的java类的成员位置。
-    3. &lt;%= 代码 %&gt;：定义的java代码，会输出到页面上。输出语句中可以定义什么，该脚本中就可以定义什么。
-
-
-4. JSP的内置对象：
-    * 在jsp页面中不需要获取和创建，可以直接使用的对象
-    * jsp一共有9个内置对象。
-    * 今天学习3个：
-        * request
-        * response
-        * out：字符输出流对象。可以将数据输出到页面上。和response.getWriter()类似
-            * response.getWriter()和out.write()的区别：
-                * 在tomcat服务器真正给客户端做出响应之前，会先找response缓冲区数据，再找out缓冲区数据。
-                * response.getWriter()数据输出永远在out.write()之前
-
-5. 案例:改造Cookie案例
-</code></pre><h2 id="Session：主菜"><a href="#Session：主菜" class="headerlink" title="Session：主菜"></a>Session：主菜</h2><pre><code>1. 概念：服务器端会话技术，在一次会话的多次请求间共享数据，将数据保存在服务器端的对象中。HttpSession
-2. 快速入门：
-    1. 获取HttpSession对象：
-        HttpSession session = request.getSession();
-    2. 使用HttpSession对象：
-        Object getAttribute(String name)  
-        void setAttribute(String name, Object value)
-        void removeAttribute(String name)  
-
-3. 原理
-    * Session的实现是依赖于Cookie的。
-
-
-4. 细节：
-    1. 当客户端关闭后，服务器不关闭，两次获取session是否为同一个？
-        * 默认情况下。不是。
-        * 如果需要相同，则可以创建Cookie,键为JSESSIONID，设置最大存活时间，让cookie持久化保存。
-             Cookie c = new Cookie(&quot;JSESSIONID&quot;,session.getId());
-             c.setMaxAge(60*60);
-             response.addCookie(c);
-
-    2. 客户端不关闭，服务器关闭后，两次获取的session是同一个吗？
-        * 不是同一个，但是要确保数据不丢失。tomcat自动完成以下工作
-            * session的钝化：
-                * 在服务器正常关闭之前，将session对象系列化到硬盘上
-            * session的活化：
-                * 在服务器启动后，将session文件转化为内存中的session对象即可。
-
-    3. session什么时候被销毁？
-        1. 服务器关闭
-        2. session对象调用invalidate() 。
-        3. session默认失效时间 30分钟
-            选择性配置修改    
-            &lt;session-config&gt;
-                &lt;session-timeout&gt;30&lt;/session-timeout&gt;
-            &lt;/session-config&gt;
-
- 5. session的特点
-     1. session用于存储一次会话的多次请求的数据，存在服务器端
-     2. session可以存储任意类型，任意大小的数据
-
-    * session与Cookie的区别：
-        1. session存储数据在服务器端，Cookie在客户端
-        2. session没有数据大小限制，Cookie有
-        3. session数据安全，Cookie相对于不安全
-</code></pre><h2 id="案例：验证码"><a href="#案例：验证码" class="headerlink" title="案例：验证码"></a>案例：验证码</h2><pre><code>1. 案例需求：
-    1. 访问带有验证码的登录页面login.jsp
-    2. 用户输入用户名，密码以及验证码。
-        * 如果用户名和密码输入有误，跳转登录页面，提示:用户名或密码错误
-        * 如果验证码输入有误，跳转登录页面，提示：验证码错误
-        * 如果全部输入正确，则跳转到主页success.jsp，显示：用户名,欢迎您
-
-
-2. 分析：
-</code></pre>
-      
-
-      
+      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -435,133 +182,93 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
                   <div class="reward-box">
-                    
-                    
-                  </div>
+                    <% if(theme.alipay) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.alipay%>">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    <% } %>
+                    <% if(theme.weixin) {%>
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="<%= theme.weixin%>">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    <% } %>
+                  </%></%></%></%></div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      
-    </div>
+      <% } %>
+    </%></%></%></%-></%></%></%></%-></%></div>
     <div class="article-info article-info-index">
-      
-      
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
+      <%if(post.top){%>
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
+      <% } %>
+      <%- partial('post tag') %>
+      <%- partial('post category') %>
+      <% if (index && theme.show_all_link){ %>
+        <p class="article-more-link">
+          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+        </p>
+      <% } %>
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/10/09/Cookie-Session/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
+      <% if (!index && theme.share_jia){ %>
+        <%- partial('post share') %>
+      <% } %>
       <div class="clearfix"></div>
-    </div>
-  </div>
+    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
+  </%></%></div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/10/09/EL-JSTL/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          EL&amp;JSTL
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/10/09/Response/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Response</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
+<% if (!index){ %>
+  <%- partial('post nav') %>
+<% } %>
+<%- partial('_partial aside') %>
 
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
+<% if (!index && post.comments){ %>
+  <% if (theme.duoshuo){ %>
+  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
   
-  
-  
+  <% if (theme.wangyiyun){ %>
+  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.changyan_appid && theme.changyan_conf){ %>
+  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
 
-  
+  <% if (theme.disqus || config.disqus_shortname){ %>
+    <section id="comments">
+      <div id="disqus_thread"></div>
+        <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
 
-  
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+  <% } %>
 
-
+  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
+  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
+  <% } %>
+<% } %>
+</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
           </div>
         </div>
       </div>
@@ -569,7 +276,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 NiYang
+    		&copy; 2020 NiYang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -652,6 +359,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">flutter</a>
               </li>
              
               <li class="article-tag-list-item">
