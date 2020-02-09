@@ -152,27 +152,56 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+            <article id="post-SpringBoot整合Mybatis" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
-    <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SpringBoot整合Mybatis
+    </h1>
+  
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
+        
+        <a href="/2019/11/20/SpringBoot整合Mybatis/" class="archive-article-date">
+  	<time datetime="2019-11-20T05:34:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-20</time>
+</a>
+	
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SpringBoot整合Mybatis的步骤总是忘,出现各种各样的问题,好记性不如烂笔头,在此记录一下整合步骤<br><a id="more"></a></p>
+<h2 id="一-准备"><a href="#一-准备" class="headerlink" title="一.准备"></a>一.准备</h2><h3 id="1-添加Mybatis的起步依赖"><a href="#1-添加Mybatis的起步依赖" class="headerlink" title="1.添加Mybatis的起步依赖"></a>1.添加Mybatis的起步依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--mybatis起步依赖--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-添加数据库驱动坐标"><a href="#2-添加数据库驱动坐标" class="headerlink" title="2.添加数据库驱动坐标"></a>2.添加数据库驱动坐标</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- MySQL连接驱动 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-添加数据库连接信息"><a href="#3-添加数据库连接信息" class="headerlink" title="3.添加数据库连接信息"></a>3.添加数据库连接信息</h3><p>在application.properties中添加数据量的连接信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#DB Configuration:</span><br><span class="line">spring.datasource.driverClassName=com.mysql.jdbc.Driver</span><br><span class="line">spring.datasource.url=jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=utf8</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=admin</span><br></pre></td></tr></table></figure>
+<h3 id="SpringBoot工程热部署"><a href="#SpringBoot工程热部署" class="headerlink" title="*SpringBoot工程热部署"></a>*SpringBoot工程热部署</h3><p>我们在开发中反复修改类、页面等资源，每次修改后都是需要重新启动才生效，这样每次启动都很麻烦，浪费了大量的时间，我们可以在修改代码后不重启就能生效，在 pom.xml 中添加如下配置就可以实现这样的功能，我们称之为热部署。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--热部署配置--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-devtools<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-创建user表"><a href="#4-创建user表" class="headerlink" title="4.创建user表"></a>4.创建user表</h3><p>在test数据库中创建user表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for `user`</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`user`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`username`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`password`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`name`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">10</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Records of user</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`user`</span> <span class="keyword">VALUES</span> (<span class="string">'1'</span>, <span class="string">'zhangsan'</span>, <span class="string">'123'</span>, <span class="string">'张三'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`user`</span> <span class="keyword">VALUES</span> (<span class="string">'2'</span>, <span class="string">'lisi'</span>, <span class="string">'123'</span>, <span class="string">'李四'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="二-开始"><a href="#二-开始" class="headerlink" title="二.开始"></a>二.开始</h2><h3 id="1-创建实体Bean"><a href="#1-创建实体Bean" class="headerlink" title="1.创建实体Bean"></a>1.创建实体Bean</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 主键</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="comment">// 用户名</span></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="comment">// 密码</span></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="comment">// 姓名</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//此处省略getter和setter方法 .. ..</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-编写Mapper"><a href="#2-编写Mapper" class="headerlink" title="2.编写Mapper"></a>2.编写Mapper</h3><p>注意：@Mapper标记该类是一个mybatis的mapper接口，可以被spring boot自动扫描到spring上下文中,生成一个UserMapper的代理对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserMapper</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">queryUserList</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-配置Mapper映射文件"><a href="#3-配置Mapper映射文件" class="headerlink" title="3.配置Mapper映射文件"></a>3.配置Mapper映射文件</h3><p>在src\main\resources\mapper路径下加入UserMapper.xml配置文件”</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8" ?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" &gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"com.jsh.mapper.UserMapper"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"queryUserList"</span> <span class="attr">resultType</span>=<span class="string">"com.jsh.domain.User"</span>&gt;</span></span><br><span class="line">        select * from user</span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-在application-properties中添加mybatis的信息"><a href="#4-在application-properties中添加mybatis的信息" class="headerlink" title="4.在application.properties中添加mybatis的信息"></a>4.在application.properties中添加mybatis的信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#spring集成Mybatis环境</span><br><span class="line">#pojo别名扫描包</span><br><span class="line">mybatis.type-aliases-package=com.jsh.domain</span><br><span class="line">#加载Mybatis映射文件</span><br><span class="line">mybatis.mapper-locations=classpath:mapper/*Mapper.xml</span><br></pre></td></tr></table></figure>
+<h3 id="乱码问题"><a href="#乱码问题" class="headerlink" title="*乱码问题"></a>*乱码问题</h3><p>在application.properties中编码设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#配置字符编码</span><br><span class="line">spring.http.encoding.charset=utf-8</span><br><span class="line">spring.http.encoding.enabled=true</span><br><span class="line">spring.http.encoding.force=true</span><br></pre></td></tr></table></figure>
+<h3 id="日志打印"><a href="#日志打印" class="headerlink" title="*日志打印"></a>*日志打印</h3><p>如果不想打印SpringBoot的启动logo,可在main方法中添加代码取消打印<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SpringApplication application = <span class="keyword">new</span> SpringApplication(SpringbootMybatisApplication(当前类名).class);</span><br><span class="line">application.setBannerMode(Banner.Mode.OFF);</span><br><span class="line">application.run(args);</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#配置字符编码</span><br><span class="line">spring.http.encoding.charset=utf-8</span><br><span class="line">spring.http.encoding.enabled=true</span><br><span class="line">spring.http.encoding.force=true</span><br></pre></td></tr></table></figure>
+<h2 id="三-测试"><a href="#三-测试" class="headerlink" title="三.测试"></a>三.测试</h2><h3 id="编写测试Controller"><a href="#编写测试Controller" class="headerlink" title="编写测试Controller"></a>编写测试Controller</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MapperController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/queryUser"</span>)</span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">queryUser</span><span class="params">()</span></span>&#123;</span><br><span class="line">        List&lt;User&gt; users = userMapper.queryUserList();</span><br><span class="line">        <span class="keyword">return</span> users;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四-事务管理"><a href="#四-事务管理" class="headerlink" title="四.事务管理"></a>四.事务管理</h2><p>1.在SpringbootMybatisApplication类上除了@SpringBootApplication注解外再添加@EnableTransactionManagement开启注解<br>2.在需要开启事务的地方添加@Transactional注释</p>
+<p>例如<br>当代码执行出现异常,会进行回滚<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/update"</span>)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	User user = <span class="keyword">new</span> User();</span><br><span class="line">	user.setId(<span class="number">1L</span>);</span><br><span class="line">	user.setName(<span class="string">"更新张三"</span>);</span><br><span class="line">	<span class="keyword">int</span> update = mapper.update(user);</span><br><span class="line">	<span class="keyword">int</span> a = <span class="number">10</span> / <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> update;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="五-打包部署"><a href="#五-打包部署" class="headerlink" title="五.打包部署"></a>五.打包部署</h2><p>将项目打成war包,可以部署到服务器运行<br>1.程序入口类需继承SpringBootServletInitializer类<br>2.在程序入口类重写如下方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> SpringApplicationBuilder <span class="title">configure</span><span class="params">(SpringApplicationBuilder builder)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> builder.sources(SpringbootMybatisApplication(当前类名).class);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3.在pom.xml中将打包方式修改为war<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">packaging</span>&gt;</span>war<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>4.配置springboot打包的插件<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plugin&gt;</span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>5.在项目中通过Maven install在本地maven仓库安装成一个war包,然后将war包部署到Tomcat下运行</p>
+
+      
+
+      
         <div class="page-reward">
           <a href="javascript:;" class="page-reward-btn tooltip-top">
             <div class="tooltip tooltip-east">
@@ -182,93 +211,133 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
+                    
+                    
+                  </div>
                 </span>
               </span>
             </span>
           </div>
           </a>
         </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
-        <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
-        </p>
-      <% } %>
+      </div>
+    </span>
+  </div>
+</div>
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/11/20/SpringBoot整合Mybatis/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
 
-
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
   
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
+<nav id="article-nav">
+  
+    <a href="/2019/11/22/SpringMVC的简单使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          SpringMVC的简单使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/10/09/EL-JSTL/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">EL&amp;JSTL</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
 
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
-</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
+
+  
+  
+  
+
+  
+
+  
+
+  
+
+
           </div>
         </div>
       </div>
