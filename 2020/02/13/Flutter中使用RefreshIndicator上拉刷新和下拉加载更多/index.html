@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>Flutter中使用RefreshIndicator上拉刷新和下拉加载更多 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="上拉刷新: RefreshIndicator是 官方提供的下拉刷新的组件 下拉加载更多: ListView 中有一个 ScrollController 属性，它    就  是专门来控制 ListView 滑动事    件，在这里我们可 以根据 ListView的位置来判断是否滑动到了底部来做加载更多的处理">
+<meta name="keywords" content="flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter中使用RefreshIndicator上拉刷新和下拉加载更多">
+<meta property="og:url" content="http://yoursite.com/2020/02/13/Flutter中使用RefreshIndicator上拉刷新和下拉加载更多/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="上拉刷新: RefreshIndicator是 官方提供的下拉刷新的组件 下拉加载更多: ListView 中有一个 ScrollController 属性，它    就  是专门来控制 ListView 滑动事    件，在这里我们可 以根据 ListView的位置来判断是否滑动到了底部来做加载更多的处理">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/img/flutter_refreshIndicator.png">
+<meta property="og:updated_time" content="2020-02-13T12:14:53.438Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="Flutter中使用RefreshIndicator上拉刷新和下拉加载更多">
+<meta name="twitter:description" content="上拉刷新: RefreshIndicator是 官方提供的下拉刷新的组件 下拉加载更多: ListView 中有一个 ScrollController 属性，它    就  是专门来控制 ListView 滑动事    件，在这里我们可 以根据 ListView的位置来判断是否滑动到了底部来做加载更多的处理">
+<meta name="twitter:image" content="http://yoursite.com/img/flutter_refreshIndicator.png">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -148,22 +155,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Flutter中BottomNavigationBar的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Flutter中使用RefreshIndicator上拉刷新和下拉加载更多" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/">Flutter中BottomNavigationBar的简单使用</a>
+    <h1 class="article-title" itemprop="name">
+      Flutter中使用RefreshIndicator上拉刷新和下拉加载更多
     </h1>
   
 
         
-        <a href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/" class="archive-article-date">
-  	<time datetime="2020-01-28T05:52:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-28</time>
+        <a href="/2020/02/13/Flutter中使用RefreshIndicator上拉刷新和下拉加载更多/" class="archive-article-date">
+  	<time datetime="2020-02-13T12:00:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-13</time>
 </a>
 	
         
@@ -171,12 +176,47 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Flutter中BottomNavigationBar的简单使用</p>
-        
-          <a class="article-more-a" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/#more">more >></a>
-        
+        <blockquote>
+<ul>
+<li>上拉刷新: <code>RefreshIndicator</code>是 官方提供的下拉刷新的组件</li>
+<li>下拉加载更多: <code>ListView</code> 中有一个 <code>ScrollController</code> 属性，它    就  是专门来控制 <code>ListView</code> 滑动事    件，在这里我们可 以根据 <code>ListView</code>的位置来判断是否滑动到了底部来做加载更多的处理</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+<p>用<code>RefreshIndicator</code>将<code>ListView</code>包裹起来,并提供onRefresh方法的回调即可</p>
+<h2 id="下拉刷新"><a href="#下拉刷新" class="headerlink" title="下拉刷新"></a>下拉刷新</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">RefreshIndicator(</span><br><span class="line">      onRefresh: _onRefresh,<span class="comment">//下拉时调用</span></span><br><span class="line">      child: ListView.builder(</span><br><span class="line">        itemCount: list.length,</span><br><span class="line">        itemBuilder: (context, index) &#123;</span><br><span class="line">          <span class="keyword">return</span> ListTile(</span><br><span class="line">            title: Text(</span><br><span class="line">              list[index][<span class="string">"title"</span>],</span><br><span class="line">              maxLines: <span class="number">1</span>,</span><br><span class="line">            ),</span><br><span class="line">          );</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+<h2 id="上拉加载更多"><a href="#上拉加载更多" class="headerlink" title="上拉加载更多"></a>上拉加载更多</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ScrollController _scrollController= <span class="keyword">new</span> ScrollController();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>_scrollController.position.pixels 底部滑动的距离</p>
+<p>_scrollController.position.maxScrollExtent 计算出的屏幕底部距离整个页面最底部的距离</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//上拉加载更多回调</span></span><br><span class="line">_scrollController.addListener(() &#123;</span><br><span class="line">    <span class="comment">//底部滑动的距离</span></span><br><span class="line">    <span class="keyword">if</span> (_scrollController.position.pixels &gt;</span><br><span class="line">        <span class="comment">//计算出的屏幕底部距离整个页面最底部的距离</span></span><br><span class="line">        _scrollController.position.maxScrollExtent - <span class="number">40</span>) &#123;</span><br><span class="line">        _page++;</span><br><span class="line">        _getData();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"> RefreshIndicator(</span><br><span class="line">      onRefresh: _onRefresh,</span><br><span class="line">      child: ListView.builder(</span><br><span class="line">        <span class="comment">//设置controller属性</span></span><br><span class="line">        controller: _scrollController,</span><br><span class="line">        itemCount: list.length,</span><br><span class="line">        itemBuilder: (context, index) &#123;</span><br><span class="line">          <span class="keyword">return</span> ListTile(</span><br><span class="line">            title: Text(</span><br><span class="line">              list[index][<span class="string">"title"</span>],</span><br><span class="line">              maxLines: <span class="number">1</span>,</span><br><span class="line">            ),</span><br><span class="line">          );</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:dio/dio.dart'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'dart:convert'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">  runApp(MyApp());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialApp(</span><br><span class="line">      home: Scaffold(</span><br><span class="line">          appBar: AppBar(</span><br><span class="line">            title: Text(<span class="string">"Hellow Flutter"</span>),</span><br><span class="line">          ),</span><br><span class="line">          body: MyContent()),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyContent</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  MyContent(&#123;Key key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _MyContentState createState() &#123;</span><br><span class="line">    <span class="keyword">return</span> _MyContentState();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_MyContentState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">MyContent</span>&gt; </span>&#123;</span><br><span class="line">  <span class="built_in">List</span> list = [];</span><br><span class="line"></span><br><span class="line">  <span class="built_in">int</span> _page = <span class="number">1</span>;</span><br><span class="line">  ScrollController _scrollController;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    _getData();</span><br><span class="line">    _scrollController = <span class="keyword">new</span> ScrollController();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//上拉加载更多回调</span></span><br><span class="line">    _scrollController.addListener(() &#123;</span><br><span class="line">      <span class="comment">//底部滑动的距离</span></span><br><span class="line">      <span class="keyword">if</span> (_scrollController.position.pixels &gt;</span><br><span class="line">          <span class="comment">//计算出的屏幕底部距离整个页面最底部的距离</span></span><br><span class="line">          _scrollController.position.maxScrollExtent - <span class="number">40</span>) &#123;</span><br><span class="line">        _page++;</span><br><span class="line">        _getData();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> _getData() <span class="keyword">async</span> &#123;</span><br><span class="line">    Response response = <span class="keyword">await</span> Dio().<span class="keyword">get</span>(</span><br><span class="line">        <span class="string">"http://www.phonegap100.com/appapi.php?a=getPortalList&amp;catid=20&amp;page=<span class="subst">$_page</span>"</span>);</span><br><span class="line">    setState(() &#123;</span><br><span class="line">      _page++;</span><br><span class="line">      list.addAll(json.decode(response.data)[<span class="string">"result"</span>]);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">    _scrollController.dispose();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//下拉刷新回调</span></span><br><span class="line">  Future&lt;<span class="keyword">void</span>&gt; _onRefresh() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">await</span> Future.delayed(<span class="built_in">Duration</span>(seconds: <span class="number">3</span>), () &#123;</span><br><span class="line">      _getData();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> RefreshIndicator(</span><br><span class="line">      onRefresh: _onRefresh,</span><br><span class="line">      child: ListView.builder(</span><br><span class="line">        controller: _scrollController,</span><br><span class="line">        itemCount: list.length,</span><br><span class="line">        itemBuilder: (context, index) &#123;</span><br><span class="line">          <span class="keyword">return</span> ListTile(</span><br><span class="line">            title: Text(</span><br><span class="line">              list[index][<span class="string">"title"</span>],</span><br><span class="line">              maxLines: <span class="number">1</span>,</span><br><span class="line">            ),</span><br><span class="line">          );</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/flutter_refreshIndicator.png" width="40%"></p>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -196,16 +236,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/02/13/Flutter中使用RefreshIndicator上拉刷新和下拉加载更多/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/02/14/Flutter获取设备信息-应用程序包信息-集成高德地图/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Flutter获取设备信息,应用程序包信息,集成高德地图
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/09/Flutter中的定时器/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Flutter中的定时器</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -225,694 +333,14 @@
 
 
 
-
-  
-    <article id="post-Flutter中TabBar的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/28/Flutter中TabBar的简单使用/">Flutter中TabBar的简单使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/28/Flutter中TabBar的简单使用/" class="archive-article-date">
-  	<time datetime="2020-01-28T05:12:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-28</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter中TabBar的简单使用</p>
-        
-          <a class="article-more-a" href="/2020/01/28/Flutter中TabBar的简单使用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/28/Flutter中TabBar的简单使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter简单布局嵌套的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/27/Flutter简单布局嵌套的使用/">Flutter简单布局嵌套的使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/27/Flutter简单布局嵌套的使用/" class="archive-article-date">
-  	<time datetime="2020-01-27T08:15:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用简单的嵌套布局来构建一个漂亮的demo</p>
-        
-          <a class="article-more-a" href="/2020/01/27/Flutter简单布局嵌套的使用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/27/Flutter简单布局嵌套的使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter的简单手势操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/26/Flutter的简单手势操作/">Flutter的简单手势操作</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/26/Flutter的简单手势操作/" class="archive-article-date">
-  	<time datetime="2020-01-26T06:59:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter的简单手势操作</p>
-        
-          <a class="article-more-a" href="/2020/01/26/Flutter的简单手势操作/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/26/Flutter的简单手势操作/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter实现页面跳转" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/25/Flutter实现页面跳转/">Flutter实现页面跳转</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/25/Flutter实现页面跳转/" class="archive-article-date">
-  	<time datetime="2020-01-25T08:38:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-25</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter实现页面跳转</p>
-        
-          <a class="article-more-a" href="/2020/01/25/Flutter实现页面跳转/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/25/Flutter实现页面跳转/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter实现的登录Demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/25/Flutter实现的登录Demo/">Flutter实现的登录Demo</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/25/Flutter实现的登录Demo/" class="archive-article-date">
-  	<time datetime="2020-01-25T07:51:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-25</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用Flutter实现一个登录小案例</p>
-        
-          <a class="article-more-a" href="/2020/01/25/Flutter实现的登录Demo/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/25/Flutter实现的登录Demo/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用LocalDateTime代替Date" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/23/使用LocalDateTime代替Date/">使用LocalDateTime代替Date</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/23/使用LocalDateTime代替Date/" class="archive-article-date">
-  	<time datetime="2019-12-23T01:18:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-23</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>自 <code>Java8</code>开始， <code>JDK</code>中其实就增加了一系列表示日期和时间的新类,<code>LocalDateTime</code>用来替代<code>Date</code></p>
-        
-          <a class="article-more-a" href="/2019/12/23/使用LocalDateTime代替Date/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/23/使用LocalDateTime代替Date/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之服务调用Feign" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/27/SpringCloud之服务调用Feign/">SpringCloud之服务调用Feign</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/27/SpringCloud之服务调用Feign/" class="archive-article-date">
-  	<time datetime="2019-11-27T03:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-27</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Feign是Netflix开发的声明式，模板化的HTTP客户端<br>
-        
-          <a class="article-more-a" href="/2019/11/27/SpringCloud之服务调用Feign/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/27/SpringCloud之服务调用Feign/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之负载均衡Ribbon" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/26/SpringCloud之负载均衡Ribbon/">SpringCloud之负载均衡Ribbon</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/26/SpringCloud之负载均衡Ribbon/" class="archive-article-date">
-  	<time datetime="2019-11-26T09:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在SpringCloud中可以将注册中心和Ribbon配合使用，Ribbon自动的从注册中心中获取服务提供者的列表信息，并基于内置的负载均衡算法，请求服务<br>
-        
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之负载均衡Ribbon/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之负载均衡Ribbon/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之注册中心Eureka" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/26/SpringCloud之注册中心Eureka/">SpringCloud之注册中心Eureka</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/26/SpringCloud之注册中心Eureka/" class="archive-article-date">
-  	<time datetime="2019-11-26T08:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。<br>用于简化与Eureka Server的交互，客户端同时也就是一个内置的、使用轮询(round-robin)负载算法的负载均衡器<br>
-        
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之注册中心Eureka/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之注册中心Eureka/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -938,8 +366,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

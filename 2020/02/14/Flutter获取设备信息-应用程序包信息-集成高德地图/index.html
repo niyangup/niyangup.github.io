@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>Flutter获取设备信息,应用程序包信息,集成高德地图 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+  <meta name="description" content="Flutter有很多很不错的插件,通过插件可以获取相关信息  device_info:  获取设备信息插件 package_info: 获取应用程序包信息插件 amap_location: 集成高德地图插件">
+<meta name="keywords" content="flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter获取设备信息,应用程序包信息,集成高德地图">
+<meta property="og:url" content="http://yoursite.com/2020/02/14/Flutter获取设备信息-应用程序包信息-集成高德地图/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Flutter有很多很不错的插件,通过插件可以获取相关信息  device_info:  获取设备信息插件 package_info: 获取应用程序包信息插件 amap_location: 集成高德地图插件">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-02-14T14:21:52.564Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="Flutter获取设备信息,应用程序包信息,集成高德地图">
+<meta name="twitter:description" content="Flutter有很多很不错的插件,通过插件可以获取相关信息  device_info:  获取设备信息插件 package_info: 获取应用程序包信息插件 amap_location: 集成高德地图插件">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -148,22 +153,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Flutter中BottomNavigationBar的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Flutter获取设备信息-应用程序包信息-集成高德地图" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/">Flutter中BottomNavigationBar的简单使用</a>
+    <h1 class="article-title" itemprop="name">
+      Flutter获取设备信息,应用程序包信息,集成高德地图
     </h1>
   
 
         
-        <a href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/" class="archive-article-date">
-  	<time datetime="2020-01-28T05:52:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-28</time>
+        <a href="/2020/02/14/Flutter获取设备信息-应用程序包信息-集成高德地图/" class="archive-article-date">
+  	<time datetime="2020-02-14T12:59:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
 </a>
 	
         
@@ -171,12 +174,84 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Flutter中BottomNavigationBar的简单使用</p>
-        
-          <a class="article-more-a" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/#more">more >></a>
-        
+        <p>Flutter有很多很不错的插件,通过插件可以获取相关信息</p>
+<blockquote>
+<p>device_info:  获取设备信息插件</p>
+<p>package_info: 获取应用程序包信息插件</p>
+<p>amap_location: 集成高德地图插件</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="1-设备信息"><a href="#1-设备信息" class="headerlink" title="1.设备信息"></a>1.设备信息</h2><h4 id="使用准备"><a href="#使用准备" class="headerlink" title="使用准备"></a>使用准备</h4><blockquote>
+<p>添加依赖: <strong>device_info: ^0.4.1+4</strong></p>
+<p>导包: <strong>import</strong> ‘package:device_info/device_info.dart’;</p>
+</blockquote>
+<h4 id="获取信息"><a href="#获取信息" class="headerlink" title="获取信息"></a>获取信息</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:device_info/device_info.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取Android设备信息</span></span><br><span class="line">DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();</span><br><span class="line">AndroidDeviceInfo androidInfo = <span class="keyword">await</span> deviceInfo.androidInfo;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">'设备号 <span class="subst">$&#123;androidInfo.androidId&#125;</span>'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取IOS设备信息</span></span><br><span class="line">IosDeviceInfo iosInfo = <span class="keyword">await</span> deviceInfo.iosInfo;</span><br></pre></td></tr></table></figure>
+<h2 id="2-应用程序包信息"><a href="#2-应用程序包信息" class="headerlink" title="2.应用程序包信息"></a>2.应用程序包信息</h2><h4 id="使用准备-1"><a href="#使用准备-1" class="headerlink" title="使用准备"></a>使用准备</h4><blockquote>
+<p>添加依赖: <strong>package_info: ^0.4.0+13</strong></p>
+<p>导包: <strong>import</strong> ‘package:package_info/package_info.dart’;</p>
+</blockquote>
+<h4 id="获取信息-1"><a href="#获取信息-1" class="headerlink" title="获取信息"></a>获取信息</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:package_info/package_info.dart'</span>;</span><br><span class="line"></span><br><span class="line">PackageInfo packageInfo = <span class="keyword">await</span> PackageInfo.fromPlatform();</span><br><span class="line"><span class="comment">//应用名称</span></span><br><span class="line"><span class="built_in">String</span> appName = packageInfo.appName;</span><br><span class="line"><span class="comment">//包名</span></span><br><span class="line"><span class="built_in">String</span> packageName = packageInfo.packageName;</span><br><span class="line"><span class="comment">//版本名</span></span><br><span class="line"><span class="built_in">String</span> version = packageInfo.version;</span><br><span class="line"><span class="comment">//版本号</span></span><br><span class="line"><span class="built_in">String</span> buildNumber = packageInfo.buildNumber;</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PackageInfo.fromPlatform().then((PackageInfo packageInfo) &#123;</span><br><span class="line">  <span class="built_in">String</span> appName = packageInfo.appName;</span><br><span class="line">  <span class="built_in">String</span> packageName = packageInfo.packageName;</span><br><span class="line">  <span class="built_in">String</span> version = packageInfo.version;</span><br><span class="line">  <span class="built_in">String</span> buildNumber = packageInfo.buildNumber;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="3-集成高德地图"><a href="#3-集成高德地图" class="headerlink" title="3.集成高德地图"></a>3.集成高德地图</h2><h4 id="使用准备-2"><a href="#使用准备-2" class="headerlink" title="使用准备"></a>使用准备</h4><blockquote>
+<p>添加依赖: <strong>amap_location: ^0.2.0</strong></p>
+<p>导包: <strong>import</strong> ‘package:amap_location/amap_location.dart’;</p>
+</blockquote>
+<h4 id="开始集成"><a href="#开始集成" class="headerlink" title="开始集成"></a>开始集成</h4><h4 id="Android版本"><a href="#Android版本" class="headerlink" title="Android版本"></a>Android版本</h4><p>1.申请apikey<code>http://lbs.amap.com/api/android-sdk/guide/create-project/get-key</code> </p>
+<p>2.在<code>app/build.gradle</code>目录下加入一下代码</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    .... 你的代码</span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        .....</span><br><span class="line">        manifestPlaceholders = [</span><br><span class="line">                <span class="string">AMAP_KEY :</span> <span class="string">"0240e37dc91d795cd1f3e073178daa2b"</span>, <span class="comment">/// 高德地图key</span></span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...你的代码</span><br><span class="line"></span><br><span class="line">    dependencies &#123;</span><br><span class="line">        <span class="comment">/// 注意这里需要在主项目增加一条依赖，否则可能发生编译不通过的情况</span></span><br><span class="line">        implementation <span class="string">'com.amap.api:location:latest.integration'</span></span><br><span class="line">        ...你的代码</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>3.获取权限</p>
+<blockquote>
+<p>Android高版本中定位为敏感权限 最好手动获取</p>
+</blockquote>
+<h4 id="IOS版本"><a href="#IOS版本" class="headerlink" title="IOS版本"></a>IOS版本</h4><p>1.申请一个key</p>
+<p>2.直接在dart文件中设置key</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:amap_location/amap_location.dart'</span>;</span><br><span class="line">   </span><br><span class="line"><span class="keyword">void</span> main()&#123;     </span><br><span class="line">    AMapLocationClient.setApiKey(<span class="string">"你的key"</span>);</span><br><span class="line">    runApp(<span class="keyword">new</span> MyApp());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.在info.plist中增加</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>NSLocationWhenInUseUsageDescription<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>要用定位<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="以下通用"><a href="#以下通用" class="headerlink" title="以下通用"></a>以下通用</h4><p>4.先启动一下</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> AMapLocationClient.startup(<span class="keyword">new</span> AMapLocationOption( desiredAccuracy:CLLocationAccuracy.kCLLocationAccuracyHundredMeters  ));</span><br></pre></td></tr></table></figure>
+<ul>
+<li>获取一次定位</li>
+</ul>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> AMapLocationClient.getLocation(<span class="keyword">true</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>实时定位(监听定位)</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AMapLocationClient.onLocationUpate.listen((AMapLocation loc)&#123;</span><br><span class="line">     <span class="keyword">if</span>(!mounted)<span class="keyword">return</span>;</span><br><span class="line">     setState(() &#123;</span><br><span class="line">        ...</span><br><span class="line">     &#125;);</span><br><span class="line">   &#125;);</span><br><span class="line">  </span><br><span class="line">AMapLocationClient.startLocation();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>停止监听定位</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AMapLocationClient.stopLocation();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>不要忘了在app生命周期结束的时候关闭</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> dispose() &#123;</span><br><span class="line">    <span class="comment">//注意这里关闭</span></span><br><span class="line">    AMapLocationClient.shutdown();</span><br><span class="line">    <span class="keyword">super</span>.dispose();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -196,16 +271,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/02/14/Flutter获取设备信息-应用程序包信息-集成高德地图/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/02/13/Flutter中使用RefreshIndicator上拉刷新和下拉加载更多/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Flutter中使用RefreshIndicator上拉刷新和下拉加载更多</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -225,694 +359,14 @@
 
 
 
-
-  
-    <article id="post-Flutter中TabBar的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/28/Flutter中TabBar的简单使用/">Flutter中TabBar的简单使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/28/Flutter中TabBar的简单使用/" class="archive-article-date">
-  	<time datetime="2020-01-28T05:12:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-28</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter中TabBar的简单使用</p>
-        
-          <a class="article-more-a" href="/2020/01/28/Flutter中TabBar的简单使用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/28/Flutter中TabBar的简单使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter简单布局嵌套的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/27/Flutter简单布局嵌套的使用/">Flutter简单布局嵌套的使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/27/Flutter简单布局嵌套的使用/" class="archive-article-date">
-  	<time datetime="2020-01-27T08:15:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用简单的嵌套布局来构建一个漂亮的demo</p>
-        
-          <a class="article-more-a" href="/2020/01/27/Flutter简单布局嵌套的使用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/27/Flutter简单布局嵌套的使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter的简单手势操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/26/Flutter的简单手势操作/">Flutter的简单手势操作</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/26/Flutter的简单手势操作/" class="archive-article-date">
-  	<time datetime="2020-01-26T06:59:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter的简单手势操作</p>
-        
-          <a class="article-more-a" href="/2020/01/26/Flutter的简单手势操作/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/26/Flutter的简单手势操作/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter实现页面跳转" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/25/Flutter实现页面跳转/">Flutter实现页面跳转</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/25/Flutter实现页面跳转/" class="archive-article-date">
-  	<time datetime="2020-01-25T08:38:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-25</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter实现页面跳转</p>
-        
-          <a class="article-more-a" href="/2020/01/25/Flutter实现页面跳转/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/25/Flutter实现页面跳转/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter实现的登录Demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/25/Flutter实现的登录Demo/">Flutter实现的登录Demo</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/25/Flutter实现的登录Demo/" class="archive-article-date">
-  	<time datetime="2020-01-25T07:51:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-25</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用Flutter实现一个登录小案例</p>
-        
-          <a class="article-more-a" href="/2020/01/25/Flutter实现的登录Demo/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/25/Flutter实现的登录Demo/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用LocalDateTime代替Date" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/23/使用LocalDateTime代替Date/">使用LocalDateTime代替Date</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/23/使用LocalDateTime代替Date/" class="archive-article-date">
-  	<time datetime="2019-12-23T01:18:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-23</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>自 <code>Java8</code>开始， <code>JDK</code>中其实就增加了一系列表示日期和时间的新类,<code>LocalDateTime</code>用来替代<code>Date</code></p>
-        
-          <a class="article-more-a" href="/2019/12/23/使用LocalDateTime代替Date/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/23/使用LocalDateTime代替Date/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之服务调用Feign" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/27/SpringCloud之服务调用Feign/">SpringCloud之服务调用Feign</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/27/SpringCloud之服务调用Feign/" class="archive-article-date">
-  	<time datetime="2019-11-27T03:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-27</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Feign是Netflix开发的声明式，模板化的HTTP客户端<br>
-        
-          <a class="article-more-a" href="/2019/11/27/SpringCloud之服务调用Feign/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/27/SpringCloud之服务调用Feign/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之负载均衡Ribbon" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/26/SpringCloud之负载均衡Ribbon/">SpringCloud之负载均衡Ribbon</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/26/SpringCloud之负载均衡Ribbon/" class="archive-article-date">
-  	<time datetime="2019-11-26T09:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在SpringCloud中可以将注册中心和Ribbon配合使用，Ribbon自动的从注册中心中获取服务提供者的列表信息，并基于内置的负载均衡算法，请求服务<br>
-        
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之负载均衡Ribbon/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之负载均衡Ribbon/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之注册中心Eureka" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/26/SpringCloud之注册中心Eureka/">SpringCloud之注册中心Eureka</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/26/SpringCloud之注册中心Eureka/" class="archive-article-date">
-  	<time datetime="2019-11-26T08:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。<br>用于简化与Eureka Server的交互，客户端同时也就是一个内置的、使用轮询(round-robin)负载算法的负载均衡器<br>
-        
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之注册中心Eureka/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之注册中心Eureka/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -938,8 +392,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
