@@ -150,1184 +150,763 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter中Radio-CheckBox-Switch的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/09/Flutter中Radio-CheckBox-Switch的使用/">Flutter中Radio,CheckBox,Switch的使用</a>
+    </h1>
+  
+
+        
+        <a href="/2020/02/09/Flutter中Radio-CheckBox-Switch的使用/" class="archive-article-date">
+  	<time datetime="2020-02-09T08:36:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>Flutter中Radio,CheckBox,Switch的使用</p>
+        
+          <a class="article-more-a" href="/2020/02/09/Flutter中Radio-CheckBox-Switch的使用/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/02/09/Flutter中Radio-CheckBox-Switch的使用/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter中TextField-文本框-的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/09/Flutter中TextField-文本框-的使用/">Flutter中TextField(文本框)的使用</a>
+    </h1>
+  
+
+        
+        <a href="/2020/02/09/Flutter中TextField-文本框-的使用/" class="archive-article-date">
+  	<time datetime="2020-02-09T07:31:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>Flutter中TextField(文本框)的使用</p>
+        
+          <a class="article-more-a" href="/2020/02/09/Flutter中TextField-文本框-的使用/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/02/09/Flutter中TextField-文本框-的使用/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter中的侧边栏和Tab切换菜单" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/09/Flutter中的侧边栏和Tab切换菜单/">Flutter中的侧边栏和Tab切换菜单</a>
+    </h1>
+  
+
+        
+        <a href="/2020/02/09/Flutter中的侧边栏和Tab切换菜单/" class="archive-article-date">
+  	<time datetime="2020-02-09T05:28:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>Flutter中的侧边栏和Tab切换菜单</p>
+        
+          <a class="article-more-a" href="/2020/02/09/Flutter中的侧边栏和Tab切换菜单/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/02/09/Flutter中的侧边栏和Tab切换菜单/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter中BottomNavigationBar的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/">Flutter中BottomNavigationBar的简单使用</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/" class="archive-article-date">
+  	<time datetime="2020-01-28T05:52:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-28</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>Flutter中BottomNavigationBar的简单使用</p>
+        
+          <a class="article-more-a" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter中TabBar的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/28/Flutter中TabBar的简单使用/">Flutter中TabBar的简单使用</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/28/Flutter中TabBar的简单使用/" class="archive-article-date">
+  	<time datetime="2020-01-28T05:12:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-28</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>Flutter中TabBar的简单使用</p>
+        
+          <a class="article-more-a" href="/2020/01/28/Flutter中TabBar的简单使用/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/01/28/Flutter中TabBar的简单使用/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter简单布局嵌套的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/27/Flutter简单布局嵌套的使用/">Flutter简单布局嵌套的使用</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/27/Flutter简单布局嵌套的使用/" class="archive-article-date">
+  	<time datetime="2020-01-27T08:15:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>使用简单的嵌套布局来构建一个漂亮的demo</p>
+        
+          <a class="article-more-a" href="/2020/01/27/Flutter简单布局嵌套的使用/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/01/27/Flutter简单布局嵌套的使用/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter的简单手势操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/26/Flutter的简单手势操作/">Flutter的简单手势操作</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/26/Flutter的简单手势操作/" class="archive-article-date">
+  	<time datetime="2020-01-26T06:59:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-26</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>Flutter的简单手势操作</p>
+        
+          <a class="article-more-a" href="/2020/01/26/Flutter的简单手势操作/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/01/26/Flutter的简单手势操作/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter实现页面跳转" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/25/Flutter实现页面跳转/">Flutter实现页面跳转</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/25/Flutter实现页面跳转/" class="archive-article-date">
+  	<time datetime="2020-01-25T08:38:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-25</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>Flutter实现页面跳转</p>
+        
+          <a class="article-more-a" href="/2020/01/25/Flutter实现页面跳转/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/01/25/Flutter实现页面跳转/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-Flutter实现的登录Demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/01/25/Flutter实现的登录Demo/">Flutter实现的登录Demo</a>
+    </h1>
+  
+
+        
+        <a href="/2020/01/25/Flutter实现的登录Demo/" class="archive-article-date">
+  	<time datetime="2020-01-25T07:51:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-25</time>
+</a>
+	
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
+      
+        <p>使用Flutter实现一个登录小案例</p>
+        
+          <a class="article-more-a" href="/2020/01/25/Flutter实现的登录Demo/#more">more >></a>
+        
+      
 
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
+      
+    </div>
     <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
         <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
+          <a class="article-more-a" href="/2020/01/25/Flutter实现的登录Demo/">展开全文 >></a>
         </p>
-      <% } %>
+      
 
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
+      
       <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
+    </div>
+  </div>
 </article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
 
 
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-  
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
-
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
-
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
 
   
-    <article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %> <%if(index){%> article-index<%}%>" itemscope itemprop="blogPost">
+    <article id="post-使用LocalDateTime代替Date" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    <% if (post.link || post.title){ %>
+    
       <header class="article-header">
-        <%- partial('post title', {class_name: 'article-title'}) %>
-        <% if (!post.nodate){ %>
-        <%- partial('post date', {class_name: 'archive-article-date', date_format: null}) %>
-        <% } %>
-      </%></%-></%></%-></header>
-    <% } %>
-    <div class="article-entry" itemprop="articleBody">
-      <% if (post.excerpt && index){ %>
-        <%- post.excerpt %>
-        <% if (theme.excerpt_link) { %>
-          <a class="article-more-a" href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %> >></%=></a>
-        <% } %>
-      <% } else { %>
-        <%- post.content %>
-      <% } %>
-
-      <% 1 2 if ((theme.reward_type="==" || (theme.reward_type="==" && post.reward)) !index){ %>
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i><%= theme.reward_wording%><i class="icon icon-quo-right"></i></%=></p>
-                  <div class="reward-box">
-                    <% if(theme.alipay) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.alipay%>">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    <% } %>
-                    <% if(theme.weixin) {%>
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="<%= theme.weixin%>">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    <% } %>
-                  </%></%></%></%></div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      <% } %>
-    </%></%></%></%-></%></%></%></%-></%></div>
-    <div class="article-info article-info-index">
-      <%if(post.top){%>
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      <% } %>
-      <%- partial('post tag') %>
-      <%- partial('post category') %>
-      <% if (index && theme.show_all_link){ %>
-        <p class="article-more-link">
-          <a class="article-more-a" href="<%- url_for(post.path) %>"><%= theme.show_all_link %> >></%=></a>
-        </p>
-      <% } %>
-
-      <% if (!index && theme.share_jia){ %>
-        <%- partial('post share') %>
-      <% } %>
-      <div class="clearfix"></div>
-    </%></%-></%></%></%></%-></%-></%></%if(post.top){%></div>
-  </%></%></div>
-</article>
-<% if (!index){ %>
-  <%- partial('post nav') %>
-<% } %>
-<%- partial('_partial aside') %>
-
-
-<% if (!index && post.comments){ %>
-  <% if (theme.duoshuo){ %>
-  <%- partial('post duoshuo', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
+        
   
-  <% if (theme.wangyiyun){ %>
-  <%- partial('post wangyiyun', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/23/使用LocalDateTime代替Date/">使用LocalDateTime代替Date</a>
+    </h1>
+  
 
-  <% if (theme.changyan_appid && theme.changyan_conf){ %>
-  <%- partial('post changyan', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
+        
+        <a href="/2019/12/23/使用LocalDateTime代替Date/" class="archive-article-date">
+  	<time datetime="2019-12-23T01:18:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-23</time>
+</a>
+	
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>自 <code>Java8</code>开始， <code>JDK</code>中其实就增加了一系列表示日期和时间的新类,<code>LocalDateTime</code>用来替代<code>Date</code></p>
+        
+          <a class="article-more-a" href="/2019/12/23/使用LocalDateTime代替Date/#more">more >></a>
+        
+      
 
-  <% if (theme.disqus || config.disqus_shortname){ %>
-    <section id="comments">
-      <div id="disqus_thread"></div>
-        <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = '<%= theme.disqus || config.disqus_shortname %>'; // required: replace example with your forum shortname
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </section>
-  <% } %>
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/12/23/使用LocalDateTime代替Date/">展开全文 >></a>
+        </p>
+      
 
-  <% if (theme.gitment_owner && theme.gitment_repo &&theme.gitment_oauth theme.gitment_oauth.client_id theme.gitment_oauth.client_secret){ %>
-  <%- partial('post gitment', { key: post.slug, title: post.title, url: config.url+url_for(post.path) }) %>
-  <% } %>
-<% } %>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
 
   
   
@@ -1335,7 +914,7 @@
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
-</%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%></%></%></%-></%></%></%></%></%-></%></%></%-></%></%></%-></%></%></%-></%></%-></%>
+
 
           </div>
         </div>
