@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="当直接调用Scaffold.of(context)的相关方法时可能会报错">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-18T15:26:38.988Z">
+<meta property="og:updated_time" content="2020-02-18T15:29:21.330Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flutter中通过事件打开SnackBar">
 <meta name="twitter:description" content="当直接调用Scaffold.of(context)的相关方法时可能会报错">
@@ -176,9 +176,9 @@
       
         <p>当直接调用Scaffold.of(context)的相关方法时可能会报错</p>
 <a id="more"></a>
-<h2 id="解决办法有两个"><a href="#解决办法有两个" class="headerlink" title="解决办法有两个"></a>解决办法有两个</h2><h4 id="1-使用Builder包裹"><a href="#1-使用Builder包裹" class="headerlink" title="1.使用Builder包裹"></a>1.使用Builder包裹</h4><p>直接使用RaisedButton的onPressed事件会报错,使用Builder包裹可正常使用</p>
+<h2 id="解决办法有两个"><a href="#解决办法有两个" class="headerlink" title="解决办法有两个"></a>解决办法有两个</h2><h5 id="1-使用Builder包裹"><a href="#1-使用Builder包裹" class="headerlink" title="1.使用Builder包裹"></a>1.使用Builder包裹</h5><p>直接使用RaisedButton的onPressed事件会报错,使用Builder包裹可正常使用</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      body: Center(</span><br><span class="line">        child: Builder(</span><br><span class="line">          builder: (context) &#123;</span><br><span class="line">            <span class="keyword">return</span> RaisedButton(onPressed: () &#123;</span><br><span class="line">              Scaffold.of(context)</span><br><span class="line">                  .showSnackBar(<span class="keyword">new</span> SnackBar(content: Text(<span class="string">'haha'</span>)));</span><br><span class="line">            &#125;);</span><br><span class="line">          &#125;,</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-添加key"><a href="#2-添加key" class="headerlink" title="2.添加key"></a>2.添加key</h3><p>1.创建全局key</p>
+<h5 id="2-添加key"><a href="#2-添加key" class="headerlink" title="2.添加key"></a>2.添加key</h5><p>1.创建全局key</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//全局定义key </span></span><br><span class="line">GlobalKey&lt;ScaffoldState&gt; _globalKey = <span class="keyword">new</span> GlobalKey();</span><br></pre></td></tr></table></figure>
 <p>2.在当前页面的Scaffold添加key属性</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">key: _globalKey,</span><br></pre></td></tr></table></figure>
