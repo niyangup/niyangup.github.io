@@ -242,6 +242,1737 @@
 
 
   
+    <article id="post-css中属性值计算过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: CSS中属性值计算过程<br>date: 2020-04-04 14:29:02<br>tags: [Web前端]</p>
+<p><img src="../img/css_img.png" alt="属性值计算过程简介"></p>
+<p>渲染每个元素的前提条件：该元素的所有CSS属性必须有值</p>
+<p>一个元素，从所有属性都没有值，到所有的属性都有值，这个计算过程，叫做属性值计算过程</p>
+<p>特殊的两个CSS取值：</p>
+<ul>
+<li>inherit：手动（强制）继承，将父元素的值取出应用到该元素 (attr: inherit)</li>
+<li>initial：初始值，将该属性设置为默认值,即无需记忆对应属性的默认值,直接一词代替</li>
+</ul>
+<p>属性值的计算从无到有分为4步进行计算:</p>
+<blockquote>
+<p>1.确定声明值</p>
+<p>2.层叠冲突</p>
+<p>3.使用继承</p>
+<p>4.使用默认值</p>
+</blockquote>
+<h2 id="一-确定声明值"><a href="#一-确定声明值" class="headerlink" title="一.确定声明值"></a>一.确定声明值</h2><ul>
+<li>确定声明值: 参考样式表中没有冲突的声明，作为CSS属性值</li>
+</ul>
+<h2 id="二-层叠冲突"><a href="#二-层叠冲突" class="headerlink" title="二.层叠冲突"></a>二.层叠冲突</h2><p>声明冲突：同一个样式，多次应用到同一个元素</p>
+<p>层叠：解决声明冲突的过程，浏览器自动处理（权重计算）</p>
+<h4 id="1-比较重要性"><a href="#1-比较重要性" class="headerlink" title="(1).比较重要性"></a>(1).比较重要性</h4><p>重要性从高到底：</p>
+<blockquote>
+<p>作者样式表：开发者书写的样式</p>
+</blockquote>
+<p>1)  作者样式表中的!important样式<br>2)  作者样式表中的普通样式<br>3)  浏览器默认样式表中的样式</p>
+<h4 id="2-比较特殊性"><a href="#2-比较特殊性" class="headerlink" title="(2).比较特殊性"></a>(2).比较特殊性</h4><p>看选择器</p>
+<p>总体规则：选择器选中的范围越窄，越特殊</p>
+<p>具体规则：通过选择器，计算出一个4位数（x x x x）</p>
+<p>1.千位：如果是内联样式，记1，否则记0</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color:red"</span>&gt;</span>举个例子<span class="tag">&lt;/<span class="name">p</span>&gt;</span> //1000</span><br></pre></td></tr></table></figure>
+<p>2.百位：等于选择器中所有id选择器的数量</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#id1</span> <span class="selector-id">#id2</span> &#123;</span><br><span class="line">    color:red;  //100+100=200</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.十位：等于选择器中所有类选择器、属性选择器、伪类选择器的数量</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.class1</span> <span class="selector-class">.class2</span> <span class="selector-tag">p</span><span class="selector-class">.class3</span> &#123;</span><br><span class="line">    color: blue;  //10+10+(1+10) 注p.class3是1+10</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.个位：等于选择器中所有元素选择器、伪元素选择器的数量</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> <span class="selector-tag">p</span> &#123;</span><br><span class="line">    color: green; //1+1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-比较源次序"><a href="#3-比较源次序" class="headerlink" title="(3).比较源次序"></a>(3).比较源次序</h4><p>代码书写靠后的胜出</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    p &#123;</span></span><br><span class="line"><span class="undefined">        color: red;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    p &#123;</span></span><br><span class="line"><span class="undefined">        color: blue;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>举个例子<span class="tag">&lt;/<span class="name">p</span>&gt;</span> //最后P标签中的字体为蓝色</span><br></pre></td></tr></table></figure>
+<h2 id="三-使用继承"><a href="#三-使用继承" class="headerlink" title="三.使用继承"></a>三.使用继承</h2><ul>
+<li>对仍然没有值的属性，若可以继承，则继承父元素的值</li>
+</ul>
+<h2 id="四-使用默认值"><a href="#四-使用默认值" class="headerlink" title="四.使用默认值"></a>四.使用默认值</h2><ul>
+<li>对仍然没有值的属性，使用默认值</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/04/04/css中属性值计算过程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/saved_resource" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+<!-- saved from url=(0011)about:blank -->
+<html><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body></body></html>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/08/只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/saved_resource/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/reset" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+/* 清除内外边距 */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+fieldset, lengend, button, input, textarea, /* form elements 表单元素 */
+th, td { /* table elements 表格元素 */
+    margin: 0;
+    padding: 0;
+}
+
+/* 设置默认字体 */
+body,
+button, input, select, textarea { /* for ie */
+    /*font: 12px/1 Tahoma, Helvetica, Arial, "宋体", sans-serif;*/
+    font: 12px/1 "微软雅黑",Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; /* 用 ascii 字符表示，使得在任何编码下都无问题 */
+}
+
+h1 { font-size: 18px; /* 18px / 12px = 1.5 */ }
+h2 { font-size: 16px; }
+h3 { font-size: 14px; }
+h4, h5, h6 { font-size: 100%; }
+
+address, cite, dfn, var { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp, tt { font-family: "Courier New", Courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/* 重置列表元素 */
+ul, ol { list-style: none; }
+
+/* 重置文本格式元素 */
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+abbr[title], acronym[title] { /* 注：1.ie6 不支持 abbr; 2.这里用了属性选择符，ie6 下无效果 */
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+
+q:before, q:after { content: ''; }
+
+/* 重置表单元素 */
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: none; } /* img 搭车：让链接里的 img 无边框 */
+/* 注：optgroup 无法扶正 */
+button, input, select, textarea {
+    font-size: 100%; /* 使得表单元素在 ie 下能继承字体大小 */
+}
+
+/* 重置表格元素 */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 重置 hr */
+hr {
+    border: none;
+    height: 1px;
+}
+
+/* 让非ie浏览器默认也显示垂直滚动条，防止因滚动条引起的闪烁 */
+html { overflow-y: scroll; }
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/08/只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/reset/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/index" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        /**
+ * @fileoverview 默认皮肤的样式
+ * @author 首作<aloysious.ld@taobao.com>
+ * @date 2015-01-12
+ *
+ * 约定：
+ * 1. 这个文件只定义所有ui组件的尺寸、在prite图中的位置（background、width、height）；
+ * 2. 与layout相关的属性（position、margin等）不在此定义，而交由js的layout模块完成；
+ * 3. 对于复杂的ui组件，其内层的所有样式都可以在这个文件定制（如进度条、音量控制条）；
+ * 4. 在首次迭代中，这个文件开发者会手动编辑，以后与sprite图相关的属性应由代码自动化生成。
+ */
+.prism-player .prism-big-play-btn {
+  width: 90px;
+  height: 90px;
+  background: url("//gw.alicdn.com/tps/TB1YuE3KFXXXXaAXFXXXXXXXXXX-256-512.png") no-repeat -2px -2px;
+}
+.prism-player .prism-play-btn {
+  width: 27px;
+  height: 30px;
+  background: url("//gw.alicdn.com/tps/TB1YuE3KFXXXXaAXFXXXXXXXXXX-256-512.png") no-repeat -2px -250px;
+}
+.prism-player .prism-live-display {
+  width: 56px;
+  height: 19px;
+  background: url("//gw.alicdn.com/tps/TB1YuE3KFXXXXaAXFXXXXXXXXXX-256-512.png") no-repeat -186px -2px;
+}
+.prism-player .prism-play-btn.playing {
+  width: 27px;
+  height: 30px;
+  background: url("//gw.alicdn.com/tps/TB1YuE3KFXXXXaAXFXXXXXXXXXX-256-512.png") no-repeat -208px -269px;
+}
+.prism-player .prism-fullscreen-btn {
+  width: 30px;
+  height: 30px;
+  background: url("//gw.alicdn.com/tps/TB1YuE3KFXXXXaAXFXXXXXXXXXX-256-512.png") no-repeat -124px -190px;
+}
+.prism-player .prism-fullscreen-btn.fullscreen {
+  width: 30px;
+  height: 30px;
+  background: url("//gw.alicdn.com/tps/TB1YuE3KFXXXXaAXFXXXXXXXXXX-256-512.png") no-repeat -161px -183px;
+}
+.prism-player .prism-volume {
+  width: 33px;
+  height: 30px;
+  background: url("//gw.alicdn.com/tps/TB1YuE3KFXXXXaAXFXXXXXXXXXX-256-512.png") no-repeat -199px -119px;
+}
+.prism-player .prism-volume.mute {
+  width: 33px;
+  height: 30px;
+  background: url("//gw.alicdn.com/tps/TB1YuE3KFXXXXaAXFXXXXXXXXXX-256-512.png") no-repeat -164px -151px;
+}
+.prism-player {
+  background-color: #000;
+  position: relative;
+  /* bigPlayButton */
+  /* controlBar */
+  /* playButton */
+  /* liveDisplay */
+  /* timeDisplay */
+  /* fullscreenButton */
+  /* volume */
+  /* progress */
+  /* h5记载数据loading */
+}
+.prism-player .prism-cover {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.prism-player .prism-ErrorMessage {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.prism-player .prism-controlbar {
+  width: 100%;
+  height: 61px;
+  position: relative;
+  z-index: 1;
+}
+.prism-player .prism-controlbar .prism-controlbar-bg {
+  background-color: #262626;
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+.prism-player .prism-time-display {
+  height: 33px;
+  line-height: 33px;
+  color: #666666;
+}
+.prism-player .prism-time-display .current-time {
+  color: #fff;
+}
+.prism-player .prism-progress {
+  cursor: pointer;
+  width: 100%;
+  height: 6px;
+  margin-top: 5px;
+  background-color: #363636;
+  position: relative;
+}
+.prism-player .prism-progress .prism-progress-loaded {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: #7e2c1f;
+}
+.prism-player .prism-progress .prism-progress-played {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: #ee2a10;
+}
+.prism-player .prism-progress .prism-progress-cursor {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: -5px;
+  left: 0;
+  margin-left: -8px;
+  background-color: #5b5b5b;
+  border: 4px solid #fff;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
+  overflow: hidden;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.prism-player .prism-loading {
+  width: 55px;
+  height: 55px;
+  margin-top: -27px !important;
+  margin-left: -27px !important;
+}
+.prism-player .prism-loading .circle {
+  background-color: rgba(0, 0, 0, 0);
+  border: 5px solid;
+  border-color: rgba(0, 193, 222, 0.2) rgba(0, 193, 222, 0.5) rgba(0, 193, 222, 0.7) rgba(0, 193, 222, 0.1);
+  opacity: .9;
+  border-radius: 50px;
+  width: 45px;
+  height: 45px;
+  margin: 0 auto;
+  -moz-animation: spinoffPulse 0.9s infinite linear;
+  -webkit-animation: spinoffPulse 0.9s infinite linear;
+}
+.prism-player .prism-hide {
+  display: none;
+}
+@-moz-keyframes spinoffPulse {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spinoffPulse {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+:-webkit-full-screen {
+  width: 100% !important;
+  height: 100% !important;
+}
+:-moz-full-screen {
+  width: 100% !important;
+  height: 100% !important;
+}
+:-ms-full-screen {
+  width: 100% !important;
+  height: 100% !important;
+}
+:-ms-fullscreen {
+  width: 100% !important;
+  height: 100% !important;
+}
+:fullscreen {
+  width: 100% !important;
+  height: 100% !important;
+}
+body.prism-full-window {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  overflow-y: auto;
+}
+.prism-fullscreen {
+  position: fixed;
+  overflow: hidden;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100% !important;
+  height: 100% !important;
+  _position: absolute;
+}
+</aloysious.ld@taobao.com>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/08/只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/index/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/global" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        @charset "UTF-8";
+body {
+  font-family: "微软雅黑",SimSun,Arial,"Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", 宋体, Tahoma，arial, sans-serif; }
+
+a:hover {
+  color: #c5171e; }
+
+.g-main {
+  width: 1100px;
+  margin: 0 auto;
+  overflow: hidden; }
+
+.g-top {
+  width: 100%;
+  background: #505050;
+  height: 24px;
+  padding: 4px 0 10px;
+  min-width: 1110px; }
+
+.m-top {
+  width: 1100px;
+  margin: 0 auto;
+  overflow: hidden; }
+
+.u-top-list {
+  overflow: hidden;
+  float: left;
+  margin-top: 9px; }
+  .u-top-list li {
+    float: left;
+    margin-right: 20px; }
+    .u-top-list li a {
+      font-size: 12px;
+      color: #fff;
+      float: left; }
+      .u-top-list li a:hover {
+        color: #c5171e; }
+    .u-top-list li span {
+      color: #fff; }
+    .u-top-list li img {
+      margin-right: 10px;
+      float: left; }
+
+.u-top-right {
+  float: right; }
+
+.u-login {
+  float: left;
+  margin-right: 20px;
+  margin-top: 9px;
+  color: #fff; }
+  .u-login img {
+    margin-right: 10px;
+    float: left; }
+  .u-login a {
+    font-size: 12px;
+    color: #fff; }
+
+.u-top-form {
+  float: left; }
+  .u-top-form input {
+    width: 174px;
+    height: 28px;
+    border: 1px solid #dedede;
+    border-right: none;
+    float: left;
+    padding: 0 10px; }
+  .u-top-form img {
+    cursor: pointer;
+    float: left; }
+
+.g-logo {
+  width: 1100px;
+  height: 100px;
+  margin: 20px auto; }
+
+.m-logo {
+  width: 306px;
+  float: left;
+  margin-top: 14px; }
+
+.m-logo img:first-child {
+  margin-right: 6px; }
+
+.m-ad {
+  width: 790px;
+  height: 100px;
+  float: right; }
+
+.g-nav {
+  border: 1px solid #dadada;
+  border-top: 3px solid #e23838;
+  padding: 15px 0px 8px 0px;
+  width: 1100px;
+  margin: 0 auto;
+  font-family: "Microsoft YaHei";
+  margin-bottom: 10px; }
+
+.m-nav-list {
+  float: left;
+  width: 340px;
+  padding: 0 20px;
+  border-right: 1px solid #dedede; }
+  .m-nav-list .u-nav-top {
+    margin-bottom: 15px;
+    overflow: hidden; }
+  .m-nav-list .u-nav-bottom {
+    overflow: hidden; }
+  .m-nav-list .u-nav-top1 {
+    margin-bottom: 15px;
+    overflow: hidden; }
+    .m-nav-list .u-nav-top1 li {
+      margin-right: 8px;
+      margin-right: 8px\8\0;
+      margin-right: 8px\8;
+      _margin-right: 8px; }
+    .m-nav-list .u-nav-top1 .end {
+      margin-right: 0; }
+  .m-nav-list .u-nav-bottom1 {
+    overflow: hidden; }
+    .m-nav-list .u-nav-bottom1 li {
+      margin-right: 16px;
+      margin-right: 16px\9\0;
+      margin-right: 12px\9;
+      _margin-right: 12px; }
+    .m-nav-list .u-nav-bottom1 .end {
+      margin-right: 0; }
+  .m-nav-list li {
+    display: inline;
+    margin-right: 22px;
+    margin-right: 22px\9\0;
+    margin-right: 18px\9;
+    _margin-right: 20px; }
+    .m-nav-list li a {
+      font-size: 16px;
+      color: #606060; }
+      .m-nav-list li a:hover {
+        color: #c5171e; }
+  .m-nav-list .end {
+    margin-right: 0; }
+
+.m-nav-er {
+  float: right;
+  width: 355px;
+  padding: 0 10px;
+  padding-right: 0; }
+  .m-nav-er li {
+    width: 86px;
+    float: left;
+    margin-right: 52px;
+    position: relative; }
+    .m-nav-er li img {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 10px; }
+    .m-nav-er li a {
+      font-size: 14px;
+      color: #606060;
+      display: block;
+      text-align: center; }
+  .m-nav-er .end {
+    margin-right: 0; }
+
+.g-ad {
+  width: 1100px;
+  margin: 0 auto; }
+  .g-ad img {
+    width: 100%; }
+
+.footer {
+  padding: 38px 0;
+  background: #f6f6f6;
+  height: 450px;
+  width: 100%;
+  margin-top: 40px;
+  min-width: 1110px;
+  border-top: 3px solid #c5171e; }
+
+.container {
+  width: 1110px;
+  margin: 0 auto; }
+
+.about, .contact, .concern, .jion {
+  overflow: hidden;
+  float: left;
+  margin-right: 150px; }
+  .about .first, .contact .first, .concern .first, .jion .first {
+    font-size: 16px;
+    color: #020202; }
+  .about li, .contact li, .concern li, .jion li {
+    text-align: left;
+    margin-bottom: 30px; }
+    .about li a, .contact li a, .concern li a, .jion li a {
+      color: #757575; }
+
+.jion {
+  margin: 0; }
+
+.copy {
+  text-align: center;
+  border-bottom: 1px solid #757575;
+  padding-bottom: 20px;
+  margin-top: 45px;
+  color: #757575;
+  font-size: 14px; }
+
+.advertising {
+  text-align: center;
+  color: #757575;
+  font-size: 14px;
+  margin: 28px 0; }
+
+#f-top-new-border {
+  margin-top: 10px; }
+
+.u_nbd_logo {
+  float: left; }
+
+.u_nbd_column {
+  float: left;
+  margin-top: 8px; }
+
+.u-return-top {
+  position: fixed;
+  bottom: 10px;
+  left: 50px;
+  z-index: 999;
+  height: 470px; }
+  .u-return-top a {
+    display: block;
+    margin-bottom: 10px;
+    position: relative;
+    width: 90px; }
+  .u-return-top .f-nbd-return {
+    height: 60px;
+    margin: 0 auto;
+    width: 60px;
+    position: absolute;
+    left: 15px;
+    bottom: 0;
+    background: url(/images/nbd_v5/return_top.png); }
+    .u-return-top .f-nbd-return:hover {
+      background: url(/images/nbd_v5/return_top-h.png); }
+
+.f-nbd-er {
+  position: absolute;
+  left: -186px;
+  top: -64px;
+  display: none;
+  z-index: 999; }
+
+.f-mobile-nbd {
+  background: url(/images/nbd_v5/m-nbd.png);
+  height: 70px; }
+  .f-mobile-nbd:hover {
+    background: url(/images/nbd_v5/m-nbd-h.png); }
+    .f-mobile-nbd:hover .f-nbd-er {
+      display: block; }
+
+.icon_theme + img {
+  display: none; }
+
+#m-topimage {
+  display: none; }
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/08/只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/global/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/cm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0122)http://static.bshare.cn/cm.html?cid=2019041921024600006312700137839785&m=8,11,12,13,14,17,16,19,18,21,20,23,22,25,24,27,26 -->
+<html><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>bShare Toolbar</title>
+<style id="a63938c2-3c6a-4883-95dd-7db4a08585a5">.pb-toast-main {
+  z-index: 2147483639 !important;
+  position: fixed !important;
+  top: -50px !important;
+  left: 0px !important;
+  width: 100% !important;
+  height: 44px !important;
+  border: none !important;
+  box-shadow: 0 1px 0 0 #b6b4b6 !important;
+  transition: top 0.3s;
+}
+
+.pb-toast-main-move {
+  top: 0px !important;
+}
+
+.pb-toast-main-show {
+  transition: none;
+  top: 0px !important;
+}
+
+
+
+#pb_jq_tipsWrapper {
+  position: fixed !important;
+  width: 230px !important;
+  background-color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.2);
+  font-family: "Lucida Grande", tahoma, verdana, arial, sans-serif !important;
+  border-radius: 5px !important;
+  color: #ffffff !important;
+  z-index: 2147483641 !important;
+  padding: 15px !important;
+  font-size: 14px !important;
+}
+
+#pb_jq_tipsWrapper:before {
+  position: absolute !important;
+  top: -10px !important;
+  right: 60px !important;
+  display: inline-block !important;
+  border-right: 10px solid transparent !important;
+  border-bottom: 10px solid #000 !important;
+  border-left: 10px solid transparent !important;
+  border-bottom-color: rgba(0, 0, 0, 0.2) !important;
+  content: '' !important;
+}
+
+#pb_jq_tipsWrapper:after {
+  position: absolute !important;
+  top: -9px !important;
+  right: 60px !important;
+  display: inline-block !important;
+  border-right: 9px solid transparent !important;
+  border-bottom: 9px solid #000 !important;
+  border-left: 9px solid transparent !important;
+  content: '' !important;
+}
+
+#pb-link-copied-message {
+  display: none;
+  position: fixed;
+  width: 90px;
+  height: 29px;
+  opacity: 0;
+  border-radius: 100px;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2147483641;
+  font-family: "Lucida Grande", tahoma, verdana, arial, sans-serif !important;
+  font-size: 13px;
+  line-height: 29px;
+  text-align: center;
+  color: #ffffff;
+}</style></head>
+<body>
+
+<script type="text/javascript">
+	(function(){
+		var docBody = document.body ,doc = document;
+		var B={
+			parseOptions:function(src){
+				 var options = {}, g, f, c, a, e;
+			        g = /\?(.*)|#(.*)/.exec(src);
+		            if (g) {
+		            	g = g[0].slice(1).replace("+", " ").split(/[&;]/g);
+				        for (f = 0; f < g.length; f++) {
+				            c = g[f].split("=");
+				            a = decodeURIComponent(c[0]);
+				            e = "";
+				            if (c.length != 1) e = decodeURIComponent(c[1]);
+				            options[a] = e;
+				        }
+		            }
+			        return options;
+			},
+			createElem: function(eTag, eId, eClass, eStyle, eText, eUrl) {
+				var newEle = doc.createElement(eTag);
+				if (eTag == "a") {
+					newEle.href = eUrl || "javascript:;";
+					newEle.target = "_blank";
+				}
+				if (eId) newEle.id = eId;
+				if (eClass) newEle.className = eClass;
+				if (eStyle) newEle.style.cssText = eStyle;
+				if (eText) newEle.innerHTML = eText;
+				return newEle;
+			},
+			loadImg:function (src) {
+				var _cmimg = B.createElem("img", "", "", "display:none;");
+				_cmimg.src = src;
+				docBody.appendChild(_cmimg);
+			}
+		}
+		var cmData = B.parseOptions(window.location.href);
+		var cid = cmData.cid, m = cmData.m, _cmurl,ids, id, i, len ;
+		
+		ids = m.toString().split(",");
+		len = ids.length;
+		for (i = 0; i < len; ++i) {
+			id = +ids[i];
+			/* if (id == 1) {
+				_cmurl = "http://bx.optimix.cn/cms.gif?a=bshare&c=" + cid;
+			}
+			else */if (id == 3) {
+				_cmurl = "http://cm.qtmojo.com/pixel?allyes_dspid=182&allyes_cm&extra=" + cid;
+			}
+			/* else if (id == 4) {
+				_cmurl = "http://d.turn.com/r/dd/id/L2NzaWQvMS9jaWQvMjY1Nzg5NDAvdC8y/dpuid/" + cid;
+			} */
+			else if (id == 8) {
+				_cmurl = "http://cms.tanx.com/t.gif?id=30875969&extendata=" + cid;
+			}
+			/* else if (id == 9) {
+				_cmurl = "http://cm.yigao.com/sspcm/cm?dsp_id=80808&dsp_uid=" + cid;
+			} 
+			else if (id == 10) {
+				_cmurl = "http://mega.mlt01.com/mmpcm.htm?id=1038&cid=" + cid;
+			}*/
+			else if (id == 12) {
+				var time = Math.floor(new Date().getTime()/1000);
+				_cmurl = "http://cm.e.qq.com/cm.fcg?a=379448&j=optimix&time=" + time;
+			}
+			else if (id == 13) {
+				_cmurl = "http://cm.fastapi.net/?dspid=100016&hparam=c&gethuid=1&dspuid=" + cid;
+			}
+			else if (id == 14) {
+				_cmurl = "http://t.go.sohu.com/cm.gif?ver=1&mid=10030&uid=" + cid;
+			}
+			/*
+			else if (id == 15) {
+                _cmurl = "http://cm.pos.baidu.com/pixel?dspid=6410560&ext_data=" + cid;
+			}
+			*/
+			else if (id == 16) {
+				_cmurl = "http://ckm.iqiyi.com/pixel?qiyi_nid=71000033&qiyi_no_sc";
+			}
+			/* else if (id == 17) {
+				_cmurl = "http://cm02.optimix.cn/cookies?client_id=bshare";
+			} */
+			else if(id == 18){
+				_cmurl = "http://iclick.cm.admaster.com.cn?tid=1575&type=1&uid=" + cid + "&redir=http%3a%2f%2fbx01.optimix.cn%2fcms.gif%3fa%3dadmaster";
+			}
+			else if(id == 19){
+				_cmurl = "http://m.reachmax.cn/rm.gif?ext=16";
+			}
+			else if(id == 20){
+				_cmurl = "http://cm.vamaker.com/pixel?vamaker_dspid=15400018&vamaker_cm&v=1";
+			}
+			else if(id == 21){
+				//两个地址都有效
+				_cmurl = "http://c.yes.youku.com/cm.gif?dspid=11202";
+				//cmurl = "http://cm.miaozhen.atm.youku.com/cm.gif?dspid=11202";
+			}
+			else if(id == 22){
+				_cmurl = "http://t1.chinavivaki.com/cm?_t=r&type=imp&hat_id=MTUwJjczJjI1NiYxMTIzJjIwMjM5Jt1S&l=aHR0cDovL2J4Lm9wdGltaXguYXNpYS9jbXMuZ2lmP2E9dml2YWtp";
+			}
+			else if(id == 23){
+				_cmurl = "https://cm.optaim.com/j?sid=iclick&suid=" + cid;
+			}
+			else if(id == 24){
+				_cmurl = "http://its.fugetech.com/bg.gif?p=2567&g=" + cid;
+			}
+			else if(id == 25){
+				_cmurl = "http://cm.g.doubleclick.net/pixel?google_nid=iclick&google_cm&origin=bshare";
+			}else if(id == 27){
+				//_cmurl = "http://cmsandbox.l.qq.com/?dspid=151&dspuid=" + cid +"&gettuid=1";//测试
+				_cmurl = "http://cm.l.qq.com/?dspid=10189&dspuid="+ cid +"&gettuid=1";
+			}
+			else {
+				continue;
+			}
+			B.loadImg(_cmurl);
+		}
+	})();
+	</script><img src="./t.gif" style="display: none;"><img src="http://cm.e.qq.com/cm.fcg?a=379448&amp;j=optimix&amp;time=1583667184" style="display: none;"><img src="./saved_resource" style="display: none;"><img src="./cm.gif" style="display: none;"><img src="./pixel" style="display: none;"><img src="./rm.gif" style="display: none;"><img src="./saved_resource(1)" style="display: none;"><img src="./cm(1).gif" style="display: none;"><img src="http://cm.vamaker.com/pixel?vamaker_dspid=15400018&amp;vamaker_cm&amp;v=1" style="display: none;"><img src="https://cm.optaim.com/j?sid=iclick&amp;suid=2019041921024600006312700137839785" style="display: none;"><img src="./cm" style="display: none;"><img src="http://cm.g.doubleclick.net/pixel?google_nid=iclick&amp;google_cm&amp;origin=bshare" style="display: none;"><img src="./bg.gif" style="display: none;"><img src="./saved_resource(2)" style="display: none;">
+
+</body></html>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/08/只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/cm/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/article" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        @charset "UTF-8";
+.g-main {
+  width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  overflow: inherit; }
+
+.g-article-left {
+  width: 760px;
+  float: left; }
+
+.g-article {
+  overflow: hidden; }
+
+.g-article-column {
+  margin-bottom: 20px;
+  overflow: hidden; }
+  .g-article-column .u-column {
+    padding: 5px 10px;
+    float: left;
+    display: block;
+    background: #c5171e;
+    color: #fff; }
+  .g-article-column .u-bar {
+    float: right;
+    color: #6d6d6d;
+    font-size: 14px;
+    margin-top: 5px; }
+    .g-article-column .u-bar a {
+      color: #6d6d6d; }
+
+.g-article-top {
+  overflow: hidden;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #dedede;
+  margin-bottom: 30px; }
+  .g-article-top h1 {
+    font-size: 30px;
+    line-height: 1.5;
+    margin-bottom: 30px; }
+    .g-article-top h1 a {
+      color: #010101; }
+
+.u-time {
+  font-size: 14px;
+  color: #6d6d6d; }
+  .u-time .source {
+    float: left; }
+  .u-time .time {
+    float: left;
+    margin-left: 25px; }
+
+.g-article-abstract {
+  width: 720px;
+  display: table-cell;
+  height: 68px;
+  vertical-align: middle;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 10px 20px;
+  color: #6d6d6d;
+  position: relative; }
+  .g-article-abstract p {
+    margin-bottom: 20px; }
+  .g-article-abstract .m-abstractUp {
+    position: absolute;
+    width: 760px;
+    height: 16px;
+    left: 0;
+    top: 0;
+    background: url("/images/nbd_v5/abstractUp.png") no-repeat; }
+  .g-article-abstract .m-abstractDown {
+    position: absolute;
+    width: 760px;
+    height: 16px;
+    left: 0;
+    bottom: 0;
+    background: url("/images/nbd_v5/abstractDown.png") no-repeat; }
+
+.g-articl-text {
+  margin-top: 20px; }
+  .g-articl-text img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 30px; }
+  .g-articl-text p {
+    font-size: 18px;
+    color: #030303;
+    margin-bottom: 40px;
+    line-height: 1.6;
+    text-align: justify;
+    text-indent: 2em; }
+  .g-articl-text h2 {
+    border-left: 3px solid #c5171e;
+    font-size: 18px;
+    color: #000000;
+    margin-bottom: 40px;
+    padding-left: 20px; }
+
+.u-editor {
+  font-size: 14px;
+  color: #6d6d6d; }
+
+.u-tips {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #6d6d6d;
+  line-height: 1.5; }
+  .u-tips span {
+    color: #cf2118; }
+  .u-tips a {
+    color: #cf2118; }
+
+.u-er {
+  width: 245px;
+  margin: 0 auto;
+  color: #6d6d6d;
+  margin-top: 40px; }
+  .u-er p {
+    text-align: center;
+    margin-bottom: 10px; }
+
+.u-aticle-tag {
+  margin-top: 40px;
+  border-top: 1px solid #dedede;
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: 40px; }
+  .u-aticle-tag span {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #dedede;
+    color: #747c85;
+    margin-right: 10px;
+    font-size: 18px; }
+
+.m-left-box {
+  border: 1px solid #dedede;
+  border-top: 3px solid #c5171e;
+  margin-bottom: 25px; }
+
+.u-left-title {
+  padding: 10px;
+  height: 20px;
+  border-bottom: 1px solid #dedede; }
+  .u-left-title img {
+    float: left;
+    margin-right: 10px; }
+  .u-left-title a {
+    font-size: 18px;
+    color: #020202;
+    float: left; }
+  .u-left-title span {
+    float: right;
+    color: #c5171e;
+    font-size: 14px;
+    margin-top: 5px; }
+
+.u-items {
+  float: right; }
+  .u-items img {
+    margin-right: 10px;
+    float: left; }
+  .u-items ul {
+    float: left;
+    margin-top: 6px; }
+  .u-items li {
+    float: left;
+    background: url(/images/nbd_v5/item.png) no-repeat;
+    width: 6px;
+    height: 6px;
+    margin-right: 10px;
+    cursor: pointer; }
+  .u-items .on {
+    background: url(/images/nbd_v5/active.png) no-repeat; }
+
+.u-left-text {
+  padding: 15px 10px; }
+
+.u-nbd-list {
+  width: 100%;
+  overflow: hidden; }
+  .u-nbd-list li {
+    width: 74px;
+    height: 108px;
+    float: left;
+    margin-right: 36px;
+    margin-bottom: 20px; }
+    .u-nbd-list li img {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 10px; }
+    .u-nbd-list li a {
+      font-size: 12px;
+      color: #030303;
+      text-align: center;
+      display: block; }
+  .u-nbd-list .end {
+    margin: 0; }
+  .u-nbd-list .end_last {
+    margin-bottom: 0; }
+
+.prev, .next {
+  cursor: pointer; }
+
+.m-article-comment {
+  overflow: hidden; }
+
+.u-article-commet-title {
+  border-bottom: 4px solid #c5171e;
+  font-size: 18px;
+  color: #020202;
+  padding-bottom: 10px; }
+  .u-article-commet-title p {
+    float: right; }
+  .u-article-commet-title span {
+    color: #c5171e; }
+
+.u-article-form {
+  padding: 20px;
+  border: 1px solid #dedede;
+  border-top: none;
+  overflow: hidden; }
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  height: auto; }
+
+.form-group {
+  margin-top: 15px;
+  overflow: hidden; }
+
+.pull-right {
+  float: right !important; }
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px; }
+
+.btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc; }
+
+.sub_bg {
+  background: #dedede; }
+
+.u-new-comment {
+  margin-top: 40px;
+  border: 1px solid #dedede;
+  border-top: 3px solid #c5171e;
+  padding: 12px 0;
+  overflow: hidden;
+  padding-bottom: 0; }
+
+.u-new-comment-title {
+  border-bottom: 1px solid #eaeaea;
+  padding: 0 20px;
+  overflow: hidden;
+  font-size: 1.25em;
+  padding-bottom: 12px; }
+
+.num {
+  color: #c5171e; }
+
+.f-comment-head {
+  border-radius: 50%;
+  float: left;
+  margin-right: 20px; }
+
+.u-commtn-list {
+  overflow: hidden;
+  padding: 10px 20px; }
+  .u-commtn-list li {
+    border-bottom: 1px solid #eaeaea;
+    overflow: hidden;
+    padding: 10px 0; }
+    .u-commtn-list li:last-child {
+      border: none; }
+
+.f-comment-text {
+  float: left;
+  width: 580px; }
+
+.comment_id {
+  float: left;
+  font-size: 16px;
+  color: #040404; }
+
+.comment_time {
+  float: right;
+  font-size: 0.8em;
+  color: #6d6d6d; }
+
+.comment_text {
+  font-size: 16px;
+  color: #040404;
+  margin-top: 20px;
+  line-height: 1.5; }
+
+.comment_address {
+  float: left;
+  font-size: 0.8em;
+  color: #6d6d6d; }
+
+.comment_good {
+  margin-right: 15px; }
+
+.comment_good, .comment_bad {
+  float: right;
+  margin-left: 10px;
+  margin-top: -5px; }
+  .comment_good img, .comment_bad img {
+    float: left;
+    margin-right: 5px; }
+
+.reply {
+  color: #040404;
+  float: right;
+  margin-top: -4px;
+  margin-left: 10px; }
+
+.mt20 {
+  margin-top: 20px; }
+
+.more {
+  height: 50px;
+  display: block;
+  width: 100%;
+  line-height: 50px;
+  text-align: center;
+  color: #6d6d6d;
+  font-size: 16px;
+  border-top: 1px solid #eaeaea; }
+
+.m-anthoer-article {
+  margin-top: 40px;
+  overflow: hidden; }
+  .m-anthoer-article ul {
+    border: 1px solid #eaeaea;
+    margin-top: -2px;
+    width: 718px;
+    padding: 15px; }
+    .m-anthoer-article ul li {
+      overflow: hidden;
+      margin-bottom: 20px; }
+      .m-anthoer-article ul li h2 {
+        font-size: 18px;
+        height: 27px;
+        overflow: hidden; }
+        .m-anthoer-article ul li h2 a {
+          color: #020202;
+          line-height: 27px; }
+      .m-anthoer-article ul li p {
+        color: #6d6d6d;
+        line-height: 1.5; }
+      .m-anthoer-article ul li .read {
+        position: absolute;
+        bottom: 0;
+        left: 0; }
+        .m-anthoer-article ul li .read span {
+          float: left;
+          margin-right: 30px; }
+    .m-anthoer-article ul .f-column-img {
+      width: 220px;
+      height: 124px;
+      float: left; }
+      .m-anthoer-article ul .f-column-img img {
+        max-width: 100%; }
+    .m-anthoer-article ul .f-column-text {
+      width: 100%;
+      height: 124px;
+      float: right;
+      position: relative; }
+    .m-anthoer-article ul .f-channel-name {
+      display: inline-block;
+      padding: 5px 10px;
+      background: #d1454b;
+      color: #FFF;
+      margin-bottom: 15px; }
+  .m-anthoer-article .more {
+    height: 50px;
+    display: block;
+    width: 750px;
+    line-height: 50px;
+    text-align: center;
+    color: #6d6d6d;
+    font-size: 16px;
+    border: 1px solid #eaeaea;
+    border-top: none; }
+
+.m-column-name {
+  border-top: 2px solid #c5171e;
+  border-left: 1px solid #eaeaea;
+  overflow: hidden;
+  float: left; }
+  .m-column-name a {
+    display: block;
+    float: left;
+    height: 40px;
+    width: 106px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 18px;
+    color: #020202;
+    border-right: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    background: #FFF; }
+    .m-column-name a:hover {
+      text-decoration: none; }
+  .m-column-name .on {
+    border-bottom: none; }
+
+.m-next-article {
+  font-size: 30px;
+  color: #000;
+  display: block;
+  text-align: center;
+  margin-top: 40px; }
+
+.m-left-buttom {
+  overflow: hidden;
+  margin-top: 40px;
+  text-align: center; }
+  .m-left-buttom a {
+    display: inline-block;
+    padding: 15px 20px;
+    border: 1px solid #eaeaea;
+    color: #6d6d6d;
+    margin-right: 50px; }
+
+.g-article-right {
+  width: 316px;
+  float: right;
+  overflow: hidden; }
+
+.u-news-title {
+  margin-bottom: 15px; }
+  .u-news-title a {
+    font-size: 14px;
+    color: #050505; }
+
+.mt25 {
+  margin-top: 25px; }
+
+.u-news-list li img {
+  float: left;
+  margin-right: 7px; }
+.u-news-list li span {
+  color: #c5171e; }
+.u-news-list .u-li-items {
+  margin-top: 6px; }
+
+.u-news-list.ranking-list span {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  text-align: center;
+  color: #FFF;
+  background: #b1b1b1; }
+.u-news-list.ranking-list .first {
+  background: #c5171e; }
+.u-news-list.ranking-list .sencnd {
+  background: #e15e63; }
+.u-news-list.ranking-list .third {
+  background: #e67c81; }
+
+.g-aritice-share {
+  position: absolute;
+  left: -80px;
+  top: 0;
+  width: 64px;
+  overflow: hidden; }
+
+.m-aritice-share {
+  overflow: hidden;
+  width: 100%; }
+  .m-aritice-share li {
+    margin-bottom: 2px; }
+
+.m-article-collection {
+  margin-top: 10px; }
+  .m-article-collection a {
+    display: block;
+    width: 64px;
+    height: 66px;
+    margin-bottom: 2px; }
+  .m-article-collection .f-collection {
+    background: url("/images/nbd_v5/collection.png"); }
+    .m-article-collection .f-collection:hover {
+      background: url("/images/nbd_v5/collection-h.png"); }
+  .m-article-collection .f-comment {
+    background: url("/images/nbd_v5/comment.png"); }
+    .m-article-collection .f-comment:hover {
+      background: url("/images/nbd_v5/comment-h.png"); }
+
+.m-article-like {
+  margin-top: 10px; }
+  .m-article-like a {
+    display: block;
+    width: 64px;
+    height: 16px;
+    margin-bottom: 2px;
+    padding-top: 50px;
+    color: #dedede;
+    text-align: center; }
+  .m-article-like .f-like {
+    background: url("/images/nbd_v5/article_like.png"); }
+    .m-article-like .f-like:hover {
+      background: url("/images/nbd_v5/like-h.png");
+      color: #FFF;
+      text-decoration: none; }
+  .m-article-like .f-dislike {
+    background: url("/images/nbd_v5/article_dislike.png");
+    display: none; }
+    .m-article-like .f-dislike:hover {
+      background: url("/images/nbd_v5/dislike-h.png");
+      color: #FFF;
+      text-decoration: none; }
+
+.top10 {
+  width: 314px; }
+
+/*分页*/
+.pagination {
+  margin-top: 28px;
+  float: right;
+  margin-bottom: 2em;
+  font-size: 12px;
+  font-family: Arial, sans-serif; }
+
+.pagination a, .pagination b, .pagination .current {
+  padding: 3px 7px;
+  float: left;
+  margin: 0 0 10px 8px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px; }
+
+.pagination a {
+  border: 1px solid #CFD6E5;
+  background-color: #eceff5;
+  color: #606060; }
+
+.pagination a:hover {
+  background: #0066cc;
+  border-color: #0044cc;
+  color: white;
+  text-decoration: none; }
+
+.pagination b, .pagination .current {
+  border: 1px solid #0044cc;
+  background-color: #0066cc;
+  color: white;
+  font-weight: bold; }
+
+.pagination .gap {
+  margin-top: 0px;
+  float: left;
+  margin-left: 8px; }
+
+.pagination-white a {
+  border: 1px solid #ddd;
+  background-color: #fff; }
+
+.reprint_title {
+  color: #6d6d6d;
+  font-size: 18px;
+  margin-top: 40px; }
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/08/只要蹭上“科技”这个热点，这只钢铁行业个股也能月涨90%！如此“跨界”操作还能火多久？ _ 每经网_files/article/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Flutter中通过事件打开SnackBar" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -399,565 +2130,9 @@
 
 
   
-    <article id="post-Flutter中检测网络连接状态" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/15/Flutter中检测网络连接状态/">Flutter中检测网络连接状态</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/15/Flutter中检测网络连接状态/" class="archive-article-date">
-  	<time datetime="2020-02-15T07:11:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-15</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>connectivity: 获取网络连接状态插件</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2020/02/15/Flutter中检测网络连接状态/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/15/Flutter中检测网络连接状态/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter中的视频播放" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/15/Flutter中的视频播放/">Flutter中的视频播放</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/15/Flutter中的视频播放/" class="archive-article-date">
-  	<time datetime="2020-02-15T06:18:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-15</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>chewie: Flutter中好用的视频播放插件</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2020/02/15/Flutter中的视频播放/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/15/Flutter中的视频播放/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter实现相机拍照-相册选择功能-图片上传功能" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/14/Flutter实现相机拍照-相册选择功能-图片上传功能/">Flutter实现相机拍照,相册选择功能,图片上传功能</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/14/Flutter实现相机拍照-相册选择功能-图片上传功能/" class="archive-article-date">
-  	<time datetime="2020-02-14T15:31:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>image_picker: 用于从图像库中拾取图像，或者使用相机拍摄新照片</p>
-<p>dio: 文件上传(不只是有文件上传功能)</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2020/02/14/Flutter实现相机拍照-相册选择功能-图片上传功能/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/14/Flutter实现相机拍照-相册选择功能-图片上传功能/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter获取设备信息-应用程序包信息-集成高德地图" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/14/Flutter获取设备信息-应用程序包信息-集成高德地图/">Flutter获取设备信息,应用程序包信息,集成高德地图</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/14/Flutter获取设备信息-应用程序包信息-集成高德地图/" class="archive-article-date">
-  	<time datetime="2020-02-14T12:59:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-14</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter有很多很不错的插件,通过插件可以获取相关信息</p>
-<blockquote>
-<p>device_info:  获取设备信息插件</p>
-<p>package_info: 获取应用程序包信息插件</p>
-<p>amap_location: 集成高德地图插件</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2020/02/14/Flutter获取设备信息-应用程序包信息-集成高德地图/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/14/Flutter获取设备信息-应用程序包信息-集成高德地图/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter中使用RefreshIndicator上拉刷新和下拉加载更多" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/13/Flutter中使用RefreshIndicator上拉刷新和下拉加载更多/">Flutter中使用RefreshIndicator上拉刷新和下拉加载更多</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/13/Flutter中使用RefreshIndicator上拉刷新和下拉加载更多/" class="archive-article-date">
-  	<time datetime="2020-02-13T12:00:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-13</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<ul>
-<li>上拉刷新: <code>RefreshIndicator</code>是 官方提供的下拉刷新的组件</li>
-<li>下拉加载更多: <code>ListView</code> 中有一个 <code>ScrollController</code> 属性，它    就  是专门来控制 <code>ListView</code> 滑动事    件，在这里我们可 以根据 <code>ListView</code>的位置来判断是否滑动到了底部来做加载更多的处理</li>
-</ul>
-</blockquote>
-        
-          <a class="article-more-a" href="/2020/02/13/Flutter中使用RefreshIndicator上拉刷新和下拉加载更多/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/13/Flutter中使用RefreshIndicator上拉刷新和下拉加载更多/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter中的定时器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/09/Flutter中的定时器/">Flutter中的定时器</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/09/Flutter中的定时器/" class="archive-article-date">
-  	<time datetime="2020-02-09T12:22:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter中的定时器</p>
-        
-          <a class="article-more-a" href="/2020/02/09/Flutter中的定时器/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/09/Flutter中的定时器/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter中的对话框" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/09/Flutter中的对话框/">Flutter中的对话框</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/09/Flutter中的对话框/" class="archive-article-date">
-  	<time datetime="2020-02-09T11:50:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-09</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter中的对话框</p>
-        
-          <a class="article-more-a" href="/2020/02/09/Flutter中的对话框/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/09/Flutter中的对话框/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
