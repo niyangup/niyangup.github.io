@@ -242,69 +242,54 @@
 
 
   
-    <article id="post-css中属性值计算过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-CSS中属性值计算过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/04/CSS中属性值计算过程/">CSS中属性值计算过程</a>
+    </h1>
+  
+
+        
+        <a href="/2020/04/04/CSS中属性值计算过程/" class="archive-article-date">
+  	<time datetime="2020-04-04T06:29:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
+</a>
+	
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: CSS中属性值计算过程<br>date: 2020-04-04 14:29:02<br>tags: [Web前端]</p>
-<p><img src="../img/css_img.png" alt="属性值计算过程简介"></p>
-<p>渲染每个元素的前提条件：该元素的所有CSS属性必须有值</p>
-<p>一个元素，从所有属性都没有值，到所有的属性都有值，这个计算过程，叫做属性值计算过程</p>
-<p>特殊的两个CSS取值：</p>
-<ul>
-<li>inherit：手动（强制）继承，将父元素的值取出应用到该元素 (attr: inherit)</li>
-<li>initial：初始值，将该属性设置为默认值,即无需记忆对应属性的默认值,直接一词代替</li>
-</ul>
-<p>属性值的计算从无到有分为4步进行计算:</p>
-<blockquote>
-<p>1.确定声明值</p>
-<p>2.层叠冲突</p>
-<p>3.使用继承</p>
-<p>4.使用默认值</p>
-</blockquote>
-<h2 id="一-确定声明值"><a href="#一-确定声明值" class="headerlink" title="一.确定声明值"></a>一.确定声明值</h2><ul>
-<li>确定声明值: 参考样式表中没有冲突的声明，作为CSS属性值</li>
-</ul>
-<h2 id="二-层叠冲突"><a href="#二-层叠冲突" class="headerlink" title="二.层叠冲突"></a>二.层叠冲突</h2><p>声明冲突：同一个样式，多次应用到同一个元素</p>
-<p>层叠：解决声明冲突的过程，浏览器自动处理（权重计算）</p>
-<h4 id="1-比较重要性"><a href="#1-比较重要性" class="headerlink" title="(1).比较重要性"></a>(1).比较重要性</h4><p>重要性从高到底：</p>
-<blockquote>
-<p>作者样式表：开发者书写的样式</p>
-</blockquote>
-<p>1)  作者样式表中的!important样式<br>2)  作者样式表中的普通样式<br>3)  浏览器默认样式表中的样式</p>
-<h4 id="2-比较特殊性"><a href="#2-比较特殊性" class="headerlink" title="(2).比较特殊性"></a>(2).比较特殊性</h4><p>看选择器</p>
-<p>总体规则：选择器选中的范围越窄，越特殊</p>
-<p>具体规则：通过选择器，计算出一个4位数（x x x x）</p>
-<p>1.千位：如果是内联样式，记1，否则记0</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">style</span>=<span class="string">"color:red"</span>&gt;</span>举个例子<span class="tag">&lt;/<span class="name">p</span>&gt;</span> //1000</span><br></pre></td></tr></table></figure>
-<p>2.百位：等于选择器中所有id选择器的数量</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#id1</span> <span class="selector-id">#id2</span> &#123;</span><br><span class="line">    color:red;  //100+100=200</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>3.十位：等于选择器中所有类选择器、属性选择器、伪类选择器的数量</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.class1</span> <span class="selector-class">.class2</span> <span class="selector-tag">p</span><span class="selector-class">.class3</span> &#123;</span><br><span class="line">    color: blue;  //10+10+(1+10) 注p.class3是1+10</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>4.个位：等于选择器中所有元素选择器、伪元素选择器的数量</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> <span class="selector-tag">p</span> &#123;</span><br><span class="line">    color: green; //1+1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="3-比较源次序"><a href="#3-比较源次序" class="headerlink" title="(3).比较源次序"></a>(3).比较源次序</h4><p>代码书写靠后的胜出</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    p &#123;</span></span><br><span class="line"><span class="undefined">        color: red;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    p &#123;</span></span><br><span class="line"><span class="undefined">        color: blue;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>举个例子<span class="tag">&lt;/<span class="name">p</span>&gt;</span> //最后P标签中的字体为蓝色</span><br></pre></td></tr></table></figure>
-<h2 id="三-使用继承"><a href="#三-使用继承" class="headerlink" title="三.使用继承"></a>三.使用继承</h2><ul>
-<li>对仍然没有值的属性，若可以继承，则继承父元素的值</li>
-</ul>
-<h2 id="四-使用默认值"><a href="#四-使用默认值" class="headerlink" title="四.使用默认值"></a>四.使用默认值</h2><ul>
-<li>对仍然没有值的属性，使用默认值</li>
-</ul>
-
+        <p>CSS中属性值计算后才能最终决定元素表现的形式<br>
+        
+          <a class="article-more-a" href="/2020/04/04/CSS中属性值计算过程/#more">more >></a>
+        
       
 
       
-    </div>
+    </p></div>
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Web前端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/04/css中属性值计算过程/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/04/04/CSS中属性值计算过程/">展开全文 >></a>
         </p>
       
 
@@ -2227,6 +2212,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Web前端</a>
               </li>
              
               <li class="article-tag-list-item">
