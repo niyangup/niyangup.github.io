@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>Flutter集成微信登录分享等 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+  <meta name="description" content="fluwx: 使用Flutter集成微信登录,分享等功能">
+<meta name="keywords" content="flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter集成微信登录分享等">
+<meta property="og:url" content="http://yoursite.com/2020/07/23/Flutter集成微信登录分享等/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="fluwx: 使用Flutter集成微信登录,分享等功能">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-07-23T07:54:56.055Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="Flutter集成微信登录分享等">
+<meta name="twitter:description" content="fluwx: 使用Flutter集成微信登录,分享等功能">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -148,22 +153,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Flutter中BottomNavigationBar的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Flutter集成微信登录分享等" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/">Flutter中BottomNavigationBar的简单使用</a>
+    <h1 class="article-title" itemprop="name">
+      Flutter集成微信登录分享等
     </h1>
   
 
         
-        <a href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/" class="archive-article-date">
-  	<time datetime="2020-01-28T05:52:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-28</time>
+        <a href="/2020/07/23/Flutter集成微信登录分享等/" class="archive-article-date">
+  	<time datetime="2020-07-23T06:45:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-23</time>
 </a>
 	
         
@@ -171,12 +174,161 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Flutter中BottomNavigationBar的简单使用</p>
-        
-          <a class="article-more-a" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/#more">more >></a>
-        
+        <blockquote>
+<p><code>fluwx</code>: 使用Flutter集成微信登录,分享等功能</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="1-在微信开放平台创建应用"><a href="#1-在微信开放平台创建应用" class="headerlink" title="1.在微信开放平台创建应用"></a>1.在微信开放平台创建应用</h3><blockquote>
+<p>注: 点<a href="https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html" target="_blank" rel="noopener">这里</a>下载<strong>签名生成工具</strong></p>
+<p>1.需要签名打包您的 App，并保存好签名文件以及签名密码</p>
+<p>2.把刚打包的 app 发到手机上面安装 </p>
+<p>3.使用微信官方工具获取当前应用的签名</p>
+</blockquote>
+<h2 id="2-配置"><a href="#2-配置" class="headerlink" title="2.配置"></a>2.配置</h2><h3 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h3><p>在<code>app</code>目录下的<code>build.gradle</code>文件中添加签名信息</p>
+<blockquote>
+<p>注: <code>defaultConfig</code>-&gt; <code>applicationId</code>中的值,<font color="red"><strong>必须</strong></font>与在微信申请的应用包名相同</p>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs &#123;</span><br><span class="line">    debug &#123;</span><br><span class="line">        <span class="comment">//配置签名文件的路径</span></span><br><span class="line">        storeFile file(<span class="string">"xx.keystore"</span>)</span><br><span class="line">            <span class="comment">//配置签名文件中的密码</span></span><br><span class="line">            storePassword <span class="string">"password"</span></span><br><span class="line">            <span class="comment">//配置签名文件中的别名</span></span><br><span class="line">            keyAlias <span class="string">"alias"</span></span><br><span class="line">            <span class="comment">//配置签名文件中的密码</span></span><br><span class="line">            keyPassword <span class="string">"password"</span></span><br><span class="line">    &#125;</span><br><span class="line">    release &#123;</span><br><span class="line">        <span class="comment">//同上</span></span><br><span class="line">        storeFile file(<span class="string">"xx.keystore"</span>)</span><br><span class="line">            storePassword <span class="string">"password"</span></span><br><span class="line">            keyAlias <span class="string">"alias"</span></span><br><span class="line">            keyPassword <span class="string">"password"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">buildTypes &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        signingConfig signingConfigs.release</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    debug &#123;</span><br><span class="line">        signingConfig signingConfigs.debug</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-初始化fluwx"><a href="#3-初始化fluwx" class="headerlink" title="3.初始化fluwx"></a>3.初始化fluwx</h3><p>在合适的地方初始化<code>fluwx</code></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    _initFluwx();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_initFluwx() <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> res = <span class="keyword">await</span> registerWxApi(</span><br><span class="line">        appId: <span class="string">"wxc9be39926ed03460"</span>,</span><br><span class="line">        doOnAndroid: <span class="keyword">true</span>,</span><br><span class="line">        doOnIOS: <span class="keyword">true</span>,</span><br><span class="line">        universalLink: <span class="string">"https://your.univerallink.com/link/"</span>);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'初始化结果:<span class="subst">$res</span>'</span>);</span><br><span class="line">    <span class="comment">//是否安装了微信App</span></span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">await</span> isWeChatInstalled;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"is installed <span class="subst">$result</span>"</span>);</span><br><span class="line">    <span class="comment">//直接拉起微信</span></span><br><span class="line">    openWeChatApp();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-登录"><a href="#4-登录" class="headerlink" title="4.登录"></a>4.登录</h3><p>注册监听登录事件,用于获取微信登录结果</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> initState() &#123;</span><br><span class="line">    <span class="keyword">super</span>.initState();</span><br><span class="line">    fluwx.weChatResponseEventHandler.distinct((a, b) =&gt; a == b).listen((res) &#123;</span><br><span class="line">        <span class="keyword">if</span> (res <span class="keyword">is</span> fluwx.WeChatAuthResponse) &#123;</span><br><span class="line">            setState(() &#123;</span><br><span class="line">                _result = <span class="string">"state :<span class="subst">$&#123;res.state&#125;</span> \n code:<span class="subst">$&#123;res.code&#125;</span>"</span>;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>发出微信登录事件,用于拉起微信</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">OutlineButton(</span><br><span class="line">    onPressed: () &#123;</span><br><span class="line">        fluwx</span><br><span class="line">            .sendWeChatAuth(</span><br><span class="line">            scope: <span class="string">"snsapi_userinfo"</span>, state: <span class="string">"wechat_sdk_demo_test"</span>)</span><br><span class="line">            .then((data) &#123;</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">'---------------------'</span>);</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">'data:<span class="subst">$data</span>'</span>);</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">'---------------------'</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    child: <span class="keyword">const</span> Text(<span class="string">"发起微信登录"</span>),</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+<h4 id="获取token"><a href="#获取token" class="headerlink" title="获取token"></a>获取token</h4><p>1.第三方发起微信授权登录请求，微信用户允许授权第三方应用后，微信会拉起应用或重定向到第三方网站，并且带上授权临时票据code参数</p>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ErrCode</td>
+<td>ERR_OK = 0(用户同意) ERR_AUTH_DENIED = -4（用户拒绝授权） ERR_USER_CANCEL = -2（用户取消）</td>
+</tr>
+<tr>
+<td>code</td>
+<td>用户换取 access_token 的 code，仅在 ErrCode 为 0 时有效</td>
+</tr>
+<tr>
+<td>state</td>
+<td>第三方程序发送时用来标识其请求的唯一性的标志，由第三方程序调用 sendReq 时传入，由微信终端回传，state 字符串长度不能超过 1K</td>
+</tr>
+<tr>
+<td>lang</td>
+<td>微信客户端当前语言</td>
+</tr>
+<tr>
+<td>country</td>
+<td>微信用户当前国家信息</td>
+</tr>
+</tbody>
+</table>
+<p>2.通过code参数加上AppID和AppSecret等，通过API换取access_token</p>
+<p>获取第一步的 code 后，请求以下链接获取 access_token：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&amp;secret=SECRET&amp;code=CODE&amp;grant_type=authorization_code</span><br></pre></td></tr></table></figure>
+<p><strong>参数说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>是否必须</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>appid</td>
+<td>是</td>
+<td>应用唯一标识，在微信开放平台提交应用审核通过后获得</td>
+</tr>
+<tr>
+<td>secret</td>
+<td>是</td>
+<td>应用密钥 AppSecret，在微信开放平台提交应用审核通过后获得</td>
+</tr>
+<tr>
+<td>code</td>
+<td>是</td>
+<td>填写第一步获取的 code 参数</td>
+</tr>
+<tr>
+<td>grant_type</td>
+<td>是</td>
+<td>填 authorization_code</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回说明</strong></p>
+<p>正确的返回:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"access_token"</span>: <span class="string">"ACCESS_TOKEN"</span>,</span><br><span class="line">  <span class="attr">"expires_in"</span>: <span class="number">7200</span>,</span><br><span class="line">  <span class="attr">"refresh_token"</span>: <span class="string">"REFRESH_TOKEN"</span>,</span><br><span class="line">  <span class="attr">"openid"</span>: <span class="string">"OPENID"</span>,</span><br><span class="line">  <span class="attr">"scope"</span>: <span class="string">"SCOPE"</span>,</span><br><span class="line">  <span class="attr">"unionid"</span>: <span class="string">"o6_bmasdasdsad6_2sgVt7hMZOPfL"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>access_token</td>
+<td>接口调用凭证</td>
+</tr>
+<tr>
+<td>expires_in</td>
+<td>access_token 接口调用凭证超时时间，单位（秒）</td>
+</tr>
+<tr>
+<td>refresh_token</td>
+<td>用户刷新 access_token</td>
+</tr>
+<tr>
+<td>openid</td>
+<td>授权用户唯一标识</td>
+</tr>
+<tr>
+<td>scope</td>
+<td>用户授权的作用域，使用逗号（,）分隔</td>
+</tr>
+<tr>
+<td>unionid</td>
+<td>当且仅当该移动应用已获得该用户的 userinfo 授权时，才会出现该字段</td>
+</tr>
+</tbody>
+</table>
+<p><strong>错误返回样例</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"errcode"</span>:<span class="number">40029</span>,<span class="attr">"errmsg"</span>:<span class="string">"invalid code"</span>&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>access_token过期刷新</strong></p>
+<p>点击<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Development_Guide.html" target="_blank" rel="noopener">这里</a>查看官方文档</p>
+<p>3.通过access_token进行接口调用，获取用户基本数据资源或帮助用户实现基本操作</p>
+<p>点击<a href="https://developers.weixin.qq.com/doc/oplatform/Mobile_App/WeChat_Login/Development_Guide.html" target="_blank" rel="noopener">这里</a>查看官方文档</p>
+<h3 id="5-分享"><a href="#5-分享" class="headerlink" title="5.分享"></a>5.分享</h3><p>点击<a href="https://github.com/OpenFlutter/fluwx/blob/master/doc/SHARE_CN.md" target="_blank" rel="noopener">这里</a>查看分享文档</p>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -196,16 +348,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/28/Flutter中BottomNavigationBar的简单使用/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/23/Flutter集成微信登录分享等/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/07/23/Flutter中FutureBuild的使用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Flutter中FutureBuilder的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/07/23/Flutter修改状态栏颜色/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Flutter修改状态栏颜色</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -225,694 +445,14 @@
 
 
 
-
-  
-    <article id="post-Flutter中TabBar的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/28/Flutter中TabBar的简单使用/">Flutter中TabBar的简单使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/28/Flutter中TabBar的简单使用/" class="archive-article-date">
-  	<time datetime="2020-01-28T05:12:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-28</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter中TabBar的简单使用</p>
-        
-          <a class="article-more-a" href="/2020/01/28/Flutter中TabBar的简单使用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/28/Flutter中TabBar的简单使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter简单布局嵌套的使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/27/Flutter简单布局嵌套的使用/">Flutter简单布局嵌套的使用</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/27/Flutter简单布局嵌套的使用/" class="archive-article-date">
-  	<time datetime="2020-01-27T08:15:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-27</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用简单的嵌套布局来构建一个漂亮的demo</p>
-        
-          <a class="article-more-a" href="/2020/01/27/Flutter简单布局嵌套的使用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/27/Flutter简单布局嵌套的使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter的简单手势操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/26/Flutter的简单手势操作/">Flutter的简单手势操作</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/26/Flutter的简单手势操作/" class="archive-article-date">
-  	<time datetime="2020-01-26T06:59:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter的简单手势操作</p>
-        
-          <a class="article-more-a" href="/2020/01/26/Flutter的简单手势操作/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/26/Flutter的简单手势操作/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter实现页面跳转" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/25/Flutter实现页面跳转/">Flutter实现页面跳转</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/25/Flutter实现页面跳转/" class="archive-article-date">
-  	<time datetime="2020-01-25T08:38:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-25</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Flutter实现页面跳转</p>
-        
-          <a class="article-more-a" href="/2020/01/25/Flutter实现页面跳转/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/25/Flutter实现页面跳转/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Flutter实现的登录Demo" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/25/Flutter实现的登录Demo/">Flutter实现的登录Demo</a>
-    </h1>
-  
-
-        
-        <a href="/2020/01/25/Flutter实现的登录Demo/" class="archive-article-date">
-  	<time datetime="2020-01-25T07:51:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-25</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用Flutter实现一个登录小案例</p>
-        
-          <a class="article-more-a" href="/2020/01/25/Flutter实现的登录Demo/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/01/25/Flutter实现的登录Demo/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用LocalDateTime代替Date" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/23/使用LocalDateTime代替Date/">使用LocalDateTime代替Date</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/23/使用LocalDateTime代替Date/" class="archive-article-date">
-  	<time datetime="2019-12-23T01:18:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-23</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>自 <code>Java8</code>开始， <code>JDK</code>中其实就增加了一系列表示日期和时间的新类,<code>LocalDateTime</code>用来替代<code>Date</code></p>
-        
-          <a class="article-more-a" href="/2019/12/23/使用LocalDateTime代替Date/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/23/使用LocalDateTime代替Date/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之服务调用Feign" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/27/SpringCloud之服务调用Feign/">SpringCloud之服务调用Feign</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/27/SpringCloud之服务调用Feign/" class="archive-article-date">
-  	<time datetime="2019-11-27T03:09:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-27</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Feign是Netflix开发的声明式，模板化的HTTP客户端<br>
-        
-          <a class="article-more-a" href="/2019/11/27/SpringCloud之服务调用Feign/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/27/SpringCloud之服务调用Feign/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之负载均衡Ribbon" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/26/SpringCloud之负载均衡Ribbon/">SpringCloud之负载均衡Ribbon</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/26/SpringCloud之负载均衡Ribbon/" class="archive-article-date">
-  	<time datetime="2019-11-26T09:21:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在SpringCloud中可以将注册中心和Ribbon配合使用，Ribbon自动的从注册中心中获取服务提供者的列表信息，并基于内置的负载均衡算法，请求服务<br>
-        
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之负载均衡Ribbon/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之负载均衡Ribbon/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringCloud之注册中心Eureka" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/26/SpringCloud之注册中心Eureka/">SpringCloud之注册中心Eureka</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/26/SpringCloud之注册中心Eureka/" class="archive-article-date">
-  	<time datetime="2019-11-26T08:23:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>服务注册中心（下称注册中心）是微服务架构非常重要的一个组件，在微服务架构里主要起到了协调者的一个作用。<br>用于简化与Eureka Server的交互，客户端同时也就是一个内置的、使用轮询(round-robin)负载算法的负载均衡器<br>
-        
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之注册中心Eureka/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">SpringCloud</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/26/SpringCloud之注册中心Eureka/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -938,8 +478,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
