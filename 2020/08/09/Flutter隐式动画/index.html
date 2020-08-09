@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>Flutter隐式动画 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/page/9/index.html">
+  <meta name="description" content="利用动画组件我们已经可以方便地封装出一系列控件动画了，但是这种实现方式均需要我们自己提供 Animation 对象，然后通过提供的接口方法来启动我们的动画，控件的属性由 Animation 对象提供并在动画过程中改变而达到动画的效果。为了使动画使用起来更加方便，Flutter 帮助了开发者从另一个角度以更简单的方式实现了动画效果——隐式动画组件（ImplicitlyAnimatedWidget）">
+<meta name="keywords" content="flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter隐式动画">
+<meta property="og:url" content="http://yoursite.com/2020/08/09/Flutter隐式动画/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="利用动画组件我们已经可以方便地封装出一系列控件动画了，但是这种实现方式均需要我们自己提供 Animation 对象，然后通过提供的接口方法来启动我们的动画，控件的属性由 Animation 对象提供并在动画过程中改变而达到动画的效果。为了使动画使用起来更加方便，Flutter 帮助了开发者从另一个角度以更简单的方式实现了动画效果——隐式动画组件（ImplicitlyAnimatedWidget）">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-09T13:49:37.624Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Blog">
+<meta name="twitter:title" content="Flutter隐式动画">
+<meta name="twitter:description" content="利用动画组件我们已经可以方便地封装出一系列控件动画了，但是这种实现方式均需要我们自己提供 Animation 对象，然后通过提供的接口方法来启动我们的动画，控件的属性由 Animation 对象提供并在动画过程中改变而达到动画的效果。为了使动画使用起来更加方便，Flutter 帮助了开发者从另一个角度以更简单的方式实现了动画效果——隐式动画组件（ImplicitlyAnimatedWidget）">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -148,22 +153,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Android中PopupWindow的简单使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Flutter隐式动画" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/12/Android中PopupWindow的简单使用/">Android中PopupWindow的简单使用</a>
+    <h1 class="article-title" itemprop="name">
+      Flutter隐式动画
     </h1>
   
 
         
-        <a href="/2019/05/12/Android中PopupWindow的简单使用/" class="archive-article-date">
-  	<time datetime="2019-05-12T01:14:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-12</time>
+        <a href="/2020/08/09/Flutter隐式动画/" class="archive-article-date">
+  	<time datetime="2020-08-09T13:18:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
 </a>
 	
         
@@ -171,14 +174,73 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <body><br>PopupWindow的简单使用<br>使用分为3部分:1.创建对象 2.设置参数 3.show出来<br>
-        
-          <a class="article-more-a" href="/2019/05/12/Android中PopupWindow的简单使用/#more">more >></a>
-        
+        <p>利用动画组件我们已经可以方便地封装出一系列控件动画了，但是这种实现方式均需要我们自己提供 Animation 对象，然后通过提供的接口方法来启动我们的动画，控件的属性由 Animation 对象提供并在动画过程中改变而达到动画的效果。为了使动画使用起来更加方便，Flutter 帮助了开发者从另一个角度以更简单的方式实现了动画效果——隐式动画组件（ImplicitlyAnimatedWidget）</p>
+<a id="more"></a>
+<blockquote>
+<p> 注:其中的<code>curve</code>属性的值为<code>动画的运动曲线</code>,具体曲线效果可以参考<a href="https://api.flutter.dev/flutter/animation/Curves-class.html" target="_blank" rel="noopener">官方文档</a>(需科学上网)</p>
+</blockquote>
+<h3 id="AnimatedSwitcher"><a href="#AnimatedSwitcher" class="headerlink" title="AnimatedSwitcher"></a>AnimatedSwitcher</h3><p><code>AnimatedSwitcher</code>通常用于两个组件切换时显示动画,比如loading结束后显示Text。</p>
+<blockquote>
+<p>判断机制：</p>
+<ol>
+<li>判断是否是同一个widget</li>
+<li>判断同一个widget是否是同一个key</li>
+</ol>
+</blockquote>
+<p><code>AnimatedSwitcher</code>判断<code>child</code>是否为同一个widget,若为同一个就不会出现动画效果,例如<code>Text</code>组件中内容的变化就不会触发动画效果。因此可以给<code>Text</code>组件的<code>key</code>赋值独一无二的key值即可</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AnimatedSwitcher(</span><br><span class="line">  duration: <span class="built_in">Duration</span>(seconds: <span class="number">1</span>),</span><br><span class="line">  child: Text(</span><br><span class="line">    <span class="string">'hello'</span>,</span><br><span class="line">    key: UniqueKey(),<span class="comment">//there</span></span><br><span class="line">    style: TextStyle(fontSize: <span class="number">50</span>),</span><br><span class="line">  ),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>默认动画是淡入淡出的效果,我们可以修改<code>transitionBuilder</code>属性即可更换切换时的动画效果</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">AnimatedSwitcher(</span><br><span class="line">  transitionBuilder: (child, animation) &#123;</span><br><span class="line">    <span class="comment">//默认效果</span></span><br><span class="line">    <span class="keyword">return</span> FadeTransition(</span><br><span class="line">      opacity: animation,</span><br><span class="line">      child: child,</span><br><span class="line">    );</span><br><span class="line">  &#125;,</span><br><span class="line">  duration: <span class="built_in">Duration</span>(seconds: <span class="number">1</span>),</span><br><span class="line">  child: Text(</span><br><span class="line">    <span class="string">'hello'</span>,</span><br><span class="line">    key: UniqueKey(),</span><br><span class="line">    style: TextStyle(fontSize: <span class="number">50</span>),</span><br><span class="line">  ),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>缩放效果,可以通过嵌套<code>Transition</code>获得多个效果</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">transitionBuilder: (child, animation) &#123;</span><br><span class="line">  <span class="comment">//缩放效果</span></span><br><span class="line">  <span class="keyword">return</span> ScaleTransition(</span><br><span class="line">    scale: animation,</span><br><span class="line">    child: child,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RotationTransition 旋转效果</span><br></pre></td></tr></table></figure>
+<h3 id="AnimatedContainer"><a href="#AnimatedContainer" class="headerlink" title="AnimatedContainer"></a>AnimatedContainer</h3><p>当修改<code>AnimatedContainer</code>某个值的时候会触发相应的动画效果</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AnimatedContainer(</span><br><span class="line">  duration: <span class="built_in">Duration</span>(seconds: <span class="number">1</span>),</span><br><span class="line">  width: <span class="number">300</span>,<span class="comment">//modity</span></span><br><span class="line">  height: <span class="number">300</span>,</span><br><span class="line">  color: Colors.blue,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="AnimatedOpacity"><a href="#AnimatedOpacity" class="headerlink" title="AnimatedOpacity"></a>AnimatedOpacity</h3><p><code>AnimatedOpacity</code>用来控制<code>child</code>的透明度(0.0~1.0),修改透明度时会触发动画 </p>
+<blockquote>
+<ul>
+<li><p>0.0为全透明</p>
+</li>
+<li><p>1.0为全不透明</p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AnimatedOpacity(</span><br><span class="line">  duration: <span class="built_in">Duration</span>(seconds: <span class="number">1</span>),</span><br><span class="line">  opacity: <span class="number">1.0</span>,<span class="comment">//modify</span></span><br><span class="line">  child: Container(</span><br><span class="line">    width: <span class="number">300</span>,</span><br><span class="line">    height: <span class="number">300</span>,</span><br><span class="line">    color: Colors.blue,</span><br><span class="line">  ),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="AnimatedPadding"><a href="#AnimatedPadding" class="headerlink" title="AnimatedPadding"></a>AnimatedPadding</h3><p>为padding(内边距)添加动画(平移动画),修改padding值时会触发平移动画</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">AnimatedPadding(</span><br><span class="line">  padding: EdgeInsets.only(</span><br><span class="line">    top: <span class="number">30</span>,<span class="comment">//modity</span></span><br><span class="line">  ),</span><br><span class="line">  duration: <span class="built_in">Duration</span>(seconds: <span class="number">1</span>),</span><br><span class="line">  child: Container(</span><br><span class="line">    width: <span class="number">300</span>,</span><br><span class="line">    height: <span class="number">300</span>,</span><br><span class="line">    color: Colors.blue,</span><br><span class="line">  ),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="TweenAnimationBuilder"><a href="#TweenAnimationBuilder" class="headerlink" title="TweenAnimationBuilder"></a>TweenAnimationBuilder</h3><p>使用<code>TweenAnimationBuilder</code>可以自己定义更高级点的动画,补间动画即在两个关键帧中间做的动画,其中的插补帧由框架实现,我们无需多虑</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TweenAnimationBuilder(</span><br><span class="line">  duration: <span class="built_in">Duration</span>(seconds: <span class="number">2</span>),</span><br><span class="line">  tween: Tween&lt;<span class="built_in">double</span>&gt;(begin: <span class="number">0</span>, end: <span class="number">9</span>),</span><br><span class="line">  builder: (BuildContext context, <span class="built_in">double</span> value, Widget child) &#123;</span><br><span class="line">    <span class="keyword">return</span> Text(<span class="string">'text <span class="subst">$value</span>'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>tween</code>(插值器): 属性用于指定动画的初始值和结束值</p>
+<p><code>builder</code>: 用于创建在每次value修改时当前状态下的widget</p>
+</blockquote>
+<h3 id="一个计数器案例"><a href="#一个计数器案例" class="headerlink" title="一个计数器案例"></a>一个计数器案例</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Widget buildTweenAnimationBuilder() &#123;</span><br><span class="line">  <span class="keyword">return</span> TweenAnimationBuilder(</span><br><span class="line">    duration: <span class="built_in">Duration</span>(seconds: <span class="number">2</span>),</span><br><span class="line">    tween: Tween&lt;<span class="built_in">double</span>&gt;(begin: <span class="number">0</span>, end: <span class="number">9</span>),</span><br><span class="line">    builder: (BuildContext context, <span class="built_in">double</span> value, Widget child) &#123;</span><br><span class="line">      <span class="built_in">print</span>(value);</span><br><span class="line">      <span class="keyword">var</span> whole = value.toInt(); <span class="comment">//整数</span></span><br><span class="line">      <span class="keyword">var</span> decimal = value - whole;</span><br><span class="line">      <span class="keyword">return</span> Center(</span><br><span class="line">        child: Container(</span><br><span class="line">          width: <span class="number">300</span>,</span><br><span class="line">          height: <span class="number">120</span>,</span><br><span class="line">          color: Colors.orange,</span><br><span class="line">          child: Stack(</span><br><span class="line">            children: &lt;Widget&gt;[</span><br><span class="line">              Positioned(</span><br><span class="line">                top: decimal * <span class="number">-100</span>, <span class="comment">//0 -&gt; -100</span></span><br><span class="line">                child: Text(</span><br><span class="line">                  <span class="string">'<span class="subst">$whole</span>'</span>,</span><br><span class="line">                  style: TextStyle(fontSize: <span class="number">100</span>),</span><br><span class="line">                  key: UniqueKey(),</span><br><span class="line">                ),</span><br><span class="line">              ),</span><br><span class="line">              Positioned(</span><br><span class="line">                top: <span class="number">100</span> - decimal * <span class="number">100</span>, <span class="comment">//100 -&gt; 0</span></span><br><span class="line">                child: Text(</span><br><span class="line">                  <span class="string">'<span class="subst">$&#123;whole + <span class="number">1</span>&#125;</span>'</span>,</span><br><span class="line">                  style: TextStyle(fontSize: <span class="number">100</span>),</span><br><span class="line">                  key: UniqueKey(),</span><br><span class="line">                ),</span><br><span class="line">              ),</span><br><span class="line">            ],</span><br><span class="line">          ),</span><br><span class="line">        ),</span><br><span class="line">      );</span><br><span class="line">    &#125;,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
 
       
-    </body></div>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
     <div class="article-info article-info-index">
       
       
@@ -187,7 +249,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">flutter</a>
         		</li>
       		
 		</ul>
@@ -196,16 +258,84 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/12/Android中PopupWindow的简单使用/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/08/09/Flutter隐式动画/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/08/09/Flutter显式动画/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Flutter显式动画
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/09/Flutter可伸缩的顶部子菜单Demo/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Flutter可伸缩的顶部子菜单Demo</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -225,705 +355,14 @@
 
 
 
-
-  
-    <article id="post-Android获取手机所有的应用相关信息" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/11/Android获取手机所有的应用相关信息/">Android获取手机所有的应用相关信息</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/11/Android获取手机所有的应用相关信息/" class="archive-article-date">
-  	<time datetime="2019-05-11T13:43:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-11</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>当前手机所有的应用相关信息(名称,包名,图标,(手机内存,sd卡),(系统,用户))<br>
-        
-          <a class="article-more-a" href="/2019/05/11/Android获取手机所有的应用相关信息/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/11/Android获取手机所有的应用相关信息/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中获取手机和sd卡的总大小和可用大小" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/">Android中获取手机和sd卡的总大小和可用大小</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/" class="archive-article-date">
-  	<time datetime="2019-05-11T01:07:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-11</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>获取当前手机和sd卡的总空间大小以及可用空间的大小<br>
-        
-          <a class="article-more-a" href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/11/Android中获取手机和sd卡的总大小和可用大小/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中拦截短信" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/09/Android中拦截短信/">Android中拦截短信</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/09/Android中拦截短信/" class="archive-article-date">
-  	<time datetime="2019-05-09T08:19:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-09</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>当手机接收到短信的时候,系统会发送一条有序广播,我们只需在最开启将广播拦截即可<br>
-        
-          <a class="article-more-a" href="/2019/05/09/Android中拦截短信/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/09/Android中拦截短信/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中获取系统所有运行的服务" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/06/Android中获取系统所有运行的服务/">Android中获取系统所有运行的服务</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/06/Android中获取系统所有运行的服务/" class="archive-article-date">
-  	<time datetime="2019-05-06T14:42:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>需要知道本程序的某个服务是否运行时,可以通过获取系统所有正在运行的服务,遍历比对名称,若有相同的则已运行,反之,则未运行<br>
-        
-          <a class="article-more-a" href="/2019/05/06/Android中获取系统所有运行的服务/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/06/Android中获取系统所有运行的服务/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中Button设置双击事件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/06/Android中Button设置双击事件/">Android中Button设置双击事件</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/06/Android中Button设置双击事件/" class="archive-article-date">
-  	<time datetime="2019-05-06T14:06:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>双击事件以及多击事件的实现<br>
-        
-          <a class="article-more-a" href="/2019/05/06/Android中Button设置双击事件/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/06/Android中Button设置双击事件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中自定义Toast且可拖动的简单实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/06/Android中自定义Toast且可拖动的简单实现/">Android中自定义Toast且可拖动的简单实现</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/06/Android中自定义Toast且可拖动的简单实现/" class="archive-article-date">
-  	<time datetime="2019-05-06T13:27:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>在电话响铃时,想要实现归属地的显示,由于此时界面不存在,所以应用Service+Toast<br>
-        
-          <a class="article-more-a" href="/2019/05/06/Android中自定义Toast且可拖动的简单实现/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/06/Android中自定义Toast且可拖动的简单实现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中的归属地查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/06/Android中的归属地查询/">Android中的归属地查询</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/06/Android中的归属地查询/" class="archive-article-date">
-  	<time datetime="2019-05-06T12:41:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-06</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>归属地查询的原理主要是根据手机号前6位,在数据库中进行查询,数据库中有对应联通,电信,移动,省份,城市,区号等内容,即需要什么查什么<br>
-        
-          <a class="article-more-a" href="/2019/05/06/Android中的归属地查询/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/06/Android中的归属地查询/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中使用ContentResolver取手机中联系人的名称和手机号" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/26/Android中使用ContentResolver取手机中联系人的名称和手机号/">Android中使用ContentResolver取手机中联系人的名称和手机号</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/26/Android中使用ContentResolver取手机中联系人的名称和手机号/" class="archive-article-date">
-  	<time datetime="2019-04-26T06:59:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>在开发过程中,常常需要使用手机数据库里面联系人信息,为了方便开发,现将查询名称和手机号的代码抽取出来,其数据用一个List&lt;HashMap&lt;String, String&gt;&gt;封装<br>
-        
-          <a class="article-more-a" href="/2019/04/26/Android中使用ContentResolver取手机中联系人的名称和手机号/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/26/Android中使用ContentResolver取手机中联系人的名称和手机号/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Android中点击下一页后平移动画的简单实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/26/Android中点击下一页后平移动画的简单实现/">Android中点击下一页后平移动画的简单实现</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/26/Android中点击下一页后平移动画的简单实现/" class="archive-article-date">
-  	<time datetime="2019-04-26T06:39:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-26</time>
-</a>
-	
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <body><br>通常点击下一页的Button后,使用startActivity()方法,开启一个新界面,这样弹出来的动画在导航页面中不是很合适,因此设置平移动画来切换导航界面<br>
-        
-          <a class="article-more-a" href="/2019/04/26/Android中点击下一页后平移动画的简单实现/#more">more >></a>
-        
-      
-
-      
-    </body></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/26/Android中点击下一页后平移动画的简单实现/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -949,8 +388,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

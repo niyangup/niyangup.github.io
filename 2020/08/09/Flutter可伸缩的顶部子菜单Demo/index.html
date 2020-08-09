@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Flutter设置App图标,启动页和修改应用名称 | Blog</title>
+  <title>Flutter可伸缩的顶部子菜单Demo | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="配置Android IOS的App图标和启动页">
+  <meta name="description" content="制作一个顶部可伸缩的菜单">
 <meta name="keywords" content="flutter">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Flutter设置App图标,启动页和修改应用名称">
-<meta property="og:url" content="http://yoursite.com/2020/07/25/Flutter设置App图标-启动图和修改应用名称/index.html">
+<meta property="og:title" content="Flutter可伸缩的顶部子菜单Demo">
+<meta property="og:url" content="http://yoursite.com/2020/08/09/Flutter可伸缩的顶部子菜单Demo/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="配置Android IOS的App图标和启动页">
+<meta property="og:description" content="制作一个顶部可伸缩的菜单">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-25T06:42:18.450Z">
+<meta property="og:image" content="http://yoursite.com/img/selector.gif">
+<meta property="og:updated_time" content="2020-08-09T14:11:57.514Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Flutter设置App图标,启动页和修改应用名称">
-<meta name="twitter:description" content="配置Android IOS的App图标和启动页">
+<meta name="twitter:title" content="Flutter可伸缩的顶部子菜单Demo">
+<meta name="twitter:description" content="制作一个顶部可伸缩的菜单">
+<meta name="twitter:image" content="http://yoursite.com/img/selector.gif">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
   
@@ -153,20 +155,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Flutter设置App图标-启动图和修改应用名称" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Flutter可伸缩的顶部子菜单Demo" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Flutter设置App图标,启动页和修改应用名称
+      Flutter可伸缩的顶部子菜单Demo
     </h1>
   
 
         
-        <a href="/2020/07/25/Flutter设置App图标-启动图和修改应用名称/" class="archive-article-date">
-  	<time datetime="2020-07-25T03:04:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-25</time>
+        <a href="/2020/08/09/Flutter可伸缩的顶部子菜单Demo/" class="archive-article-date">
+  	<time datetime="2020-08-09T13:18:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
 </a>
 	
         
@@ -174,52 +176,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>配置Android IOS的App图标和启动页</p>
+        <p>制作一个顶部可伸缩的菜单</p>
 <a id="more"></a>
-<h2 id="一、App图标"><a href="#一、App图标" class="headerlink" title="一、App图标"></a>一、App图标</h2><h4 id="1-准备一张符合大小的图片"><a href="#1-准备一张符合大小的图片" class="headerlink" title="1.准备一张符合大小的图片"></a>1.准备一张符合大小的图片</h4><p>一个图片生成工具</p>
-<p><a href="https://www.designevo.com/cn/logo-maker/" target="_blank" rel="noopener">https://www.designevo.com/cn/logo-maker</a></p>
-<blockquote>
-<p>为了适配各种机型的各种屏幕, App图标的大小需要适配</p>
-<p>图标尺寸(单位:像素):</p>
-<p>​    - android 512x512</p>
-<p>​    - ios 1024x1024</p>
-</blockquote>
-<h4 id="2-借助插件生成对应大小的图片"><a href="#2-借助插件生成对应大小的图片" class="headerlink" title="2.借助插件生成对应大小的图片"></a>2.借助插件生成对应大小的图片</h4><blockquote>
-<p>flutter_launcher_icons插件</p>
-</blockquote>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">dev_dependencies:</span></span><br><span class="line"><span class="attr">  flutter_test:</span></span><br><span class="line"><span class="attr">    sdk:</span> <span class="string">flutter</span></span><br><span class="line"><span class="attr">  flutter_launcher_icons:</span> <span class="string">^0.7.5</span></span><br><span class="line"><span class="comment"># 注意此处空格 应与dev对齐</span></span><br><span class="line"><span class="attr">flutter_icons:</span></span><br><span class="line"><span class="attr">  android:</span> <span class="string">"launcher_icon"</span></span><br><span class="line"><span class="attr">  ios:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  image_path:</span> <span class="string">"assets/icon/logo.png"</span>  <span class="comment">#icon所有目录</span></span><br></pre></td></tr></table></figure>
-<p>配置好上述代码后在终端运行该命令生成对应平台对应大小的图标</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> flutter pub run flutter_launcher_icons:main</span><br></pre></td></tr></table></figure>
-<p>运行完成后图片在对应平台生成</p>
-<h4 id="3-修改双端配置加载App图片"><a href="#3-修改双端配置加载App图片" class="headerlink" title="3.修改双端配置加载App图片"></a>3.修改双端配置加载App图片</h4><p><strong>Android</strong></p>
-<p>修改<code>AndroidManifest.xml</code> -&gt; <code>application</code>节点下<code>icon</code>属性为我们生成好的图片名称</p>
-<p><strong>IOS</strong></p>
-<p>在Xcode中修改<code>Runner</code>文件夹中选择<code>Assets.xcassets</code>,使用自己的应用程序图标更换占位图标</p>
-<h4 id="4-运行查看"><a href="#4-运行查看" class="headerlink" title="4.运行查看"></a>4.运行查看</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> flutter run</span><br></pre></td></tr></table></figure>
-<h1 id="二、启动页"><a href="#二、启动页" class="headerlink" title="二、启动页"></a>二、启动页</h1><h4 id="1-准备一张符合大小的启动图片"><a href="#1-准备一张符合大小的启动图片" class="headerlink" title="1.准备一张符合大小的启动图片"></a>1.准备一张符合大小的启动图片</h4><p>屏幕尺寸大小大全</p>
-<p><a href="https://uiiiuiii.com/screen/" target="_blank" rel="noopener">https://uiiiuiii.com/screen/</a></p>
-<blockquote>
-<h4 id="图片尺寸"><a href="#图片尺寸" class="headerlink" title="图片尺寸:"></a>图片尺寸:</h4><ul>
-<li><p>iPhone XS Max 1242px × 2688px</p>
-</li>
-<li><p>android xxhdpi xhdpi</p>
-</li>
-</ul>
-</blockquote>
-<h5 id="2-配置图片"><a href="#2-配置图片" class="headerlink" title="2.配置图片"></a>2.配置图片</h5><p>将准备好的图片放置在对应平台的文件夹下</p>
-<h5 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h5><p> 1.将图片放在<code>res</code>目录下对应分辨率目录即<code>mipmap</code>中</p>
-<p> 2.解除<code>res</code>-&gt;<code>drawbale</code>-&gt;<code>launch_background.xml</code>文件中的注释,修改<code>launch_image</code>为自己配置的图片名称</p>
-<p>在bitmap节点中配置启动页显示的图片</p>
-<p>在drawable属性中配置启动页的背景颜色(默认白色)</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><span class="comment">&lt;!-- Modify this file to customize your launch splash screen --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">layer-list</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--   &lt;item android:drawable="@android:color/white" /&gt;--&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--使用自己定义的颜色--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">"@color/my_color"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 打开下面item的注释 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bitmap</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:src</span>=<span class="string">"@mipmap/launch_image"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">layer-list</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>可在<code>res</code>-&gt;<code>values</code>目录下新建<code>colors.xml</code>文件,在colors.xml文件中配置颜色</p>
-<p>colors.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">color</span> <span class="attr">name</span>=<span class="string">"my_color"</span>&gt;</span>#deecec<span class="tag">&lt;/<span class="name">color</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h5 id="IOS"><a href="#IOS" class="headerlink" title="IOS"></a>IOS</h5><p>修改<code>ios</code>-&gt;<code>Runner</code>-&gt;<code>Assest.xcassets</code>-&gt;<code>LaunchImage.imageset</code>目录下对应<code>LaunchImage@xx.png</code>的图片即可</p>
-<h1 id="三、修改应用名称"><a href="#三、修改应用名称" class="headerlink" title="三、修改应用名称"></a>三、修改应用名称</h1><h5 id="Android-1"><a href="#Android-1" class="headerlink" title="Android"></a>Android</h5><p>修改<code>AndroidManifest.xml</code> -&gt; <code>application</code>节点下<code>label</code>属性为我们想要的名称</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android:label="you_name"</span><br></pre></td></tr></table></figure>
-<h5 id="IOS-1"><a href="#IOS-1" class="headerlink" title="IOS"></a>IOS</h5><p>修改<code>ios</code>-&gt;<code>Runner</code>-&gt;<code>info.plist</code> 中<code>CFBundleName</code>对应的value为我们想要的名称</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleName<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>you_name<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:app_sharing_store/common/utils/screen.dart'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MerchantListPage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  MerchantListPage(&#123;Key key&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _MerchantListPageState createState() &#123;</span><br><span class="line">    <span class="keyword">return</span> _MerchantListPageState();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_MerchantListPageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">MerchantListPage</span>&gt; </span>&#123;</span><br><span class="line">  <span class="built_in">bool</span> isSelected = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Function</span> tap() &#123;</span><br><span class="line">    setState(() &#123;</span><br><span class="line">      isSelected = !isSelected;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">        appBar: AppBar(</span><br><span class="line">          title: Text(<span class="string">'123'</span>),</span><br><span class="line">        ),</span><br><span class="line">        body: Stack(</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            <span class="comment">///底部的数据列表</span></span><br><span class="line">            Align(</span><br><span class="line">              child: Container(</span><br><span class="line">                margin: EdgeInsets.only(</span><br><span class="line">                  top: setHeight(<span class="number">60</span>),</span><br><span class="line">                ),</span><br><span class="line">                child: ListView.builder(</span><br><span class="line">                  itemCount: <span class="number">30</span>,</span><br><span class="line">                  itemBuilder: (BuildContext context, <span class="built_in">int</span> index) &#123;</span><br><span class="line">                    <span class="keyword">return</span> ListTile(</span><br><span class="line">                      title: Text(<span class="string">'title <span class="subst">$index</span>'</span>),</span><br><span class="line">                    );</span><br><span class="line">                  &#125;,</span><br><span class="line">                ),</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">            Align(</span><br><span class="line">              child: Column(</span><br><span class="line">                children: &lt;Widget&gt;[</span><br><span class="line">                  _buildHead(),</span><br><span class="line">                  AnimatedContainer(</span><br><span class="line">                    height: isSelected ? setHeight(<span class="number">150</span>) : <span class="number">0</span>,</span><br><span class="line">                    color: Colors.white,</span><br><span class="line">                    duration: <span class="built_in">Duration</span>(milliseconds: <span class="number">300</span>),</span><br><span class="line">                    curve: Curves.linearToEaseOut,</span><br><span class="line">                    child: Wrap(</span><br><span class="line">                      children: &lt;Widget&gt;[</span><br><span class="line">                        ListTile(</span><br><span class="line">                          title: Text(<span class="string">'area'</span>),</span><br><span class="line">                          trailing: Icon(Icons.done),</span><br><span class="line">                        ),</span><br><span class="line">                        ListTile(</span><br><span class="line">                          title: Text(<span class="string">'area'</span>),</span><br><span class="line">                          trailing: Icon(Icons.done),</span><br><span class="line">                        ),</span><br><span class="line">                        ListTile(</span><br><span class="line">                          title: Text(<span class="string">'area'</span>),</span><br><span class="line">                          trailing: Icon(Icons.done),</span><br><span class="line">                        ),</span><br><span class="line">                      ],</span><br><span class="line">                    ),</span><br><span class="line">                  ),</span><br><span class="line">                  isSelected</span><br><span class="line">                      ? Expanded(</span><br><span class="line">                          child: GestureDetector(</span><br><span class="line">                            child: Container(</span><br><span class="line">                              color: Colors.black54,</span><br><span class="line">                            ),</span><br><span class="line">                            onTap: tap,</span><br><span class="line">                          ),</span><br><span class="line">                        )</span><br><span class="line">                      : Container()</span><br><span class="line">                ],</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">          ],</span><br><span class="line">        ));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">///顶部的三层选项</span></span><br><span class="line">  Container _buildHead() &#123;</span><br><span class="line">    <span class="keyword">return</span> Container(</span><br><span class="line">      height: setHeight(<span class="number">60</span>),</span><br><span class="line">      color: Colors.white,</span><br><span class="line">      child: Row(</span><br><span class="line">        mainAxisAlignment: MainAxisAlignment.spaceAround,</span><br><span class="line">        children: &lt;Widget&gt;[</span><br><span class="line">          GestureDetector(</span><br><span class="line">            child: Row(</span><br><span class="line">              children: &lt;Widget&gt;[Text(<span class="string">'区域'</span>), Icon(Icons.keyboard_arrow_down)],</span><br><span class="line">            ),</span><br><span class="line">            onTap: tap,</span><br><span class="line">          ),</span><br><span class="line">          GestureDetector(</span><br><span class="line">            child: Row(</span><br><span class="line">              children: &lt;Widget&gt;[Text(<span class="string">'类型'</span>), Icon(Icons.keyboard_arrow_down)],</span><br><span class="line">            ),</span><br><span class="line">            onTap: tap,</span><br><span class="line">          ),</span><br><span class="line">          GestureDetector(</span><br><span class="line">            child: Row(</span><br><span class="line">              children: &lt;Widget&gt;[Text(<span class="string">'排序'</span>), Icon(Icons.keyboard_arrow_down)],</span><br><span class="line">            ),</span><br><span class="line">            onTap: tap,</span><br><span class="line">          ),</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果图如下</p>
+<p><img src="/img/selector.gif" width="40%"></p>
 
       
 
@@ -310,7 +271,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/25/Flutter设置App图标-启动图和修改应用名称/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/08/09/Flutter可伸缩的顶部子菜单Demo/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -324,18 +285,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/07/25/Flutter应用瘦身-混淆和打包/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/08/09/Flutter隐式动画/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Flutter应用瘦身,混淆和打包
+          Flutter隐式动画
         
       </div>
     </a>
   
   
-    <a href="/2020/07/25/Fltuter设置App图标-启动图和修改应用名称/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Flutter设置App图标,启动页和修改应用名称</div>
+    <a href="/2020/07/25/Flutter应用瘦身-混淆和打包/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Flutter应用瘦身,混淆和打包</div>
       <i class="icon-circle-right"></i>
     </a>
   
